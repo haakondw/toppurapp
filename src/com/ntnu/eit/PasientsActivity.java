@@ -10,9 +10,9 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.ntnu.eit.pasient.model.Pasient;
-import com.ntnu.eit.pasient.model.PasientsListAdapter;
-import com.ntnu.eit.pasient.service.PasientService;
+import com.ntnu.eit.pasients.model.Pasient;
+import com.ntnu.eit.pasients.model.PasientsListAdapter;
+import com.ntnu.eit.pasients.service.PasientService;
 
 public class PasientsActivity extends Activity {
 
