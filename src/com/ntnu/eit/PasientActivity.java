@@ -1,10 +1,6 @@
 package com.ntnu.eit;
 
-import com.ntnu.eit.common.model.Pasient;
-import com.ntnu.eit.common.service.PasientService;
-
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Bitmap.Config;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -21,6 +17,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.ntnu.eit.common.model.Pasient;
+import com.ntnu.eit.common.service.ServiceFactory;
 
 public class PasientActivity extends FragmentActivity {
 
@@ -141,7 +140,7 @@ public class PasientActivity extends FragmentActivity {
 			// Create a new TextView and set its text to the fragment's section
 			// number argument value.
 			int section = getArguments().getInt(ARG_SECTION_NUMBER);
-			Pasient pasient = PasientService.getPasientById(getArguments().getInt(ARG_PASIENT_ID));
+			Pasient pasient = ServiceFactory.getInstance().getPasientService().getPasientById(getArguments().getInt(ARG_PASIENT_ID));
 			
 			switch (section) {
 			case 1:

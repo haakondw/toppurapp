@@ -11,7 +11,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ntnu.eit.common.model.Pasient;
-import com.ntnu.eit.common.service.PasientService;
+import com.ntnu.eit.common.service.ServiceFactory;
 import com.ntnu.eit.pasients.model.PasientsListAdapter;
 
 public class PasientsActivity extends Activity {
@@ -26,7 +26,7 @@ public class PasientsActivity extends Activity {
 		setContentView(R.layout.activity_pasients);
 		
 		//Data
-		pasients = PasientService.getPasients(null, null);
+		pasients = ServiceFactory.getInstance().getPasientService().getPasients(null, null);
 		
 		//View
 		ListView listView = (ListView) findViewById(R.id.pasientList);
