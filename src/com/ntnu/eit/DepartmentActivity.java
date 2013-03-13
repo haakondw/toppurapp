@@ -7,9 +7,8 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.ListView;
 
-import com.ntnu.eit.department.model.Department;
+import com.ntnu.eit.common.model.Department;
 import com.ntnu.eit.department.model.DepartmentListAdapter;
-import com.ntnu.eit.department.model.DepartmentTestImpl;
 
 public class DepartmentActivity extends Activity {
 
@@ -22,11 +21,11 @@ public class DepartmentActivity extends Activity {
 		ListView listView = (ListView) findViewById(R.id.departmentList);
 		listView.setAdapter(new DepartmentListAdapter(this, R.layout.department_row, 
 													new Department[]{
-				new DepartmentTestImpl("Department 1"),
-				new DepartmentTestImpl("Department 2"),
-				new DepartmentTestImpl("Department 3"),
-				new DepartmentTestImpl("Department 4"),
-				new DepartmentTestImpl("Department 5")
+				new Department("Department 1"),
+				new Department("Department 2"),
+				new Department("Department 3"),
+				new Department("Department 4"),
+				new Department("Department 5")
 													}));
 	}
 

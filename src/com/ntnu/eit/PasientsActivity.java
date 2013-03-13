@@ -10,9 +10,9 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.ntnu.eit.pasients.model.Pasient;
+import com.ntnu.eit.common.model.Pasient;
+import com.ntnu.eit.common.service.PasientService;
 import com.ntnu.eit.pasients.model.PasientsListAdapter;
-import com.ntnu.eit.pasients.service.PasientService;
 
 public class PasientsActivity extends Activity {
 
@@ -22,6 +22,7 @@ public class PasientsActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
 		setContentView(R.layout.activity_pasients);
 		
 		//Data
@@ -43,11 +44,12 @@ public class PasientsActivity extends Activity {
 		String pasientName = ((TextView)(view.findViewById(R.id.pasientName))).getText().toString();
 		
 		for (Pasient pasient : pasients) {
-			if(pasient.getName().equalsIgnoreCase(pasientName)){
+			String temp = pasient.getFirstName() + ", " + pasient.getLastName();
+			if(temp.equalsIgnoreCase(pasientName)){
 				//Start Pasient activity
 				Intent intent = new Intent(this, PasientActivity.class);
 				
-				intent.putExtra(PasientActivity.PASIENT_NAME_TAG, pasient.getName());
+				intent.putExtra(PasientActivity.PASIENT_ID_TAG, pasient.getId());
 				startActivity(intent);
 			}
 		}

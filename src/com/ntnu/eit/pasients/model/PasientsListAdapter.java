@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ntnu.eit.R;
+import com.ntnu.eit.common.model.Pasient;
 
 public class PasientsListAdapter extends ArrayAdapter<Pasient>{
 
@@ -45,7 +46,7 @@ public class PasientsListAdapter extends ArrayAdapter<Pasient>{
         }
         
         Pasient pasient = data[position];
-        holder.nameView.setText(pasient.getName());
+        holder.nameView.setText(pasient.getFirstName() + ", " + pasient.getLastName());
         holder.pictureView.setImageBitmap(pasient.getPicture());
         
         //TODO

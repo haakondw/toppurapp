@@ -1,5 +1,12 @@
 package com.ntnu.eit;
 
+import com.ntnu.eit.common.model.Pasient;
+import com.ntnu.eit.common.service.PasientService;
+
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Bitmap.Config;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -7,14 +14,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
-
-import com.ntnu.eit.pasients.model.Pasient;
 
 public class PasientActivity extends FragmentActivity {
 
@@ -32,12 +38,14 @@ public class PasientActivity extends FragmentActivity {
 	 * The {@link ViewPager} that will host the section contents.
 	 */
 	ViewPager mViewPager;
+
+	private int pasientId;
 	
 	/**
 	 * EXTRAS
 	 */
-	public static final String PASIENT_NAME_TAG = "PASIENT_NAME_TAG";
-
+	public static final String PASIENT_ID_TAG = "PASIENT_ID_TAG";
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -46,7 +54,7 @@ public class PasientActivity extends FragmentActivity {
 		Log.d("EiT", getClass().getSimpleName() + " onCreate()");
 		
 		//Starting
-		String pasient = (String) getIntent().getExtras().getSerializable(PASIENT_NAME_TAG);
+		pasientId = getIntent().getExtras().getInt(PASIENT_ID_TAG);
 
 		// Create the adapter that will return a fragment for each of the three
 		// primary sections of the app.
@@ -62,6 +70,10 @@ public class PasientActivity extends FragmentActivity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.activity_pasient, menu);
 		return true;
+	}
+	
+	public void onSubmit(View view){
+		Log.d("EiT", "onSubmit()");
 	}
 
 	/**
@@ -81,8 +93,10 @@ public class PasientActivity extends FragmentActivity {
 			// below) with the page number as its lone argument.
 			Fragment fragment = new DummySectionFragment();
 			
+			
 			Bundle args = new Bundle();
 			args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, position + 1);
+			args.putInt(DummySectionFragment.ARG_PASIENT_ID, pasientId);
 			fragment.setArguments(args);
 			return fragment;
 		}
@@ -97,11 +111,11 @@ public class PasientActivity extends FragmentActivity {
 		public CharSequence getPageTitle(int position) {
 			switch (position) {
 			case 0:
-				return getString(R.string.title_section1).toUpperCase();
+				return "History";
 			case 1:
-				return getString(R.string.title_section2).toUpperCase();
+				return "Tasks";
 			case 2:
-				return getString(R.string.title_section3).toUpperCase();
+				return "About";
 			}
 			return null;
 		}
@@ -117,29 +131,47 @@ public class PasientActivity extends FragmentActivity {
 		 * fragment.
 		 */
 		public static final String ARG_SECTION_NUMBER = "section_number";
+		public static final String ARG_PASIENT_ID = "pasient_id";
 
 		public DummySectionFragment() {
 		}
-
+		
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 			// Create a new TextView and set its text to the fragment's section
 			// number argument value.
 			int section = getArguments().getInt(ARG_SECTION_NUMBER);
+			Pasient pasient = PasientService.getPasientById(getArguments().getInt(ARG_PASIENT_ID));
 			
-			Log.d("EiT", "Showing section " + section);
-			
-//			switch (section) {
-//			case 1:
-//				return inflater.inflate(R.layout.pasient_section_one, container);
-//			case 2:
-//				return inflater.inflate(R.layout.pasient_section_two, container);
-//			case 3:
-//				return inflater.inflate(R.layout.pasient_section_three, container);
-//			}
-			TextView textView = new TextView(getActivity());
-			textView.setText("Tetx " + Integer.toString(section));
-			return textView;
+			switch (section) {
+			case 1:
+				return inflater.inflate(R.layout.pasient_section_one, container, false);
+			case 2:
+				//Init
+				View view = inflater.inflate(R.layout.pasient_section_two, container, false);
+				
+				//Setting data
+				TextView name = (TextView) view.findViewById(R.id.pasientName);
+				TextView department = (TextView) view.findViewById(R.id.pasientDepartment);
+				ImageView imageView = (ImageView) view.findViewById(R.id.pasientImage);
+				View notification = (View) view.findViewById(R.id.pasientNotofication);
+				ListView listView = (ListView)view.findViewById(R.id.pasientTaskList);
+				
+				listView.setBackgroundColor(Color.BLACK);
+				notification.setBackgroundColor(Color.RED);
+				name.setText(pasient.getFirstName() + ", " + pasient.getLastName());
+				department.setText(pasient.getDepartment().getName());
+				
+				
+				imageView.setImageBitmap(Bitmap.createBitmap(100, 100, Config.RGB_565));
+				imageView.setBackgroundColor(Color.BLUE);
+				
+				return view;
+			case 3:
+				return inflater.inflate(R.layout.pasient_section_three, container, false);
+			}
+
+			return null;
 		}
 	}
 
