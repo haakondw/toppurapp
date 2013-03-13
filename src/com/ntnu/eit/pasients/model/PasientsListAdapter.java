@@ -2,6 +2,8 @@ package com.ntnu.eit.pasients.model;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.BitmapFactory;
+import android.graphics.BitmapFactory.Options;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,13 +17,13 @@ import com.ntnu.eit.common.model.Pasient;
 public class PasientsListAdapter extends ArrayAdapter<Pasient>{
 
 	private Context context;
-	private Pasient[] data;
+	private Pasient[] pasients;
 	private int textViewResourceId;
 
-	public PasientsListAdapter(Context context, int textViewResourceId, Pasient[] data) {
-		super(context, textViewResourceId, data);
+	public PasientsListAdapter(Context context, int textViewResourceId, Pasient[] pasients) {
+		super(context, textViewResourceId, pasients);
 		
-		this.data = data;
+		this.pasients = pasients;
 		this.context = context;
 		this.textViewResourceId = textViewResourceId;
 	}
@@ -45,9 +47,11 @@ public class PasientsListAdapter extends ArrayAdapter<Pasient>{
             holder = (PasientHolder)row.getTag();
         }
         
-        Pasient pasient = data[position];
-        holder.nameView.setText(pasient.getFirstName() + ", " + pasient.getLastName());
-        holder.pictureView.setImageBitmap(pasient.getPicture());
+        Pasient pasient = pasients[position];
+        holder.nameView.setText(pasient.getFirstname() + ", " + pasient.getLastname());
+        
+        Options options = new Options();
+        //holder.pictureView.setImageBitmap(BitmapFactory.decodeByteArray(pasient.getPicture(), pasient.getPictureOffset(), pasient.getPicture().length, options));
         
         //TODO
         //Set clock text
@@ -56,11 +60,9 @@ public class PasientsListAdapter extends ArrayAdapter<Pasient>{
         return row;
     } 
     
-    static class PasientHolder
-    {
+    static class PasientHolder{
         TextView nameView;
         TextView clockView;
         ImageView pictureView;
     }
-
 }

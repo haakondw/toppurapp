@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.ntnu.eit.common.model.Department;
 import com.ntnu.eit.common.model.Pasient;
 import com.ntnu.eit.common.service.ServiceFactory;
 
@@ -158,8 +159,10 @@ public class PasientActivity extends FragmentActivity {
 				
 				listView.setBackgroundColor(Color.BLACK);
 				notification.setBackgroundColor(Color.RED);
-				name.setText(pasient.getFirstName() + ", " + pasient.getLastName());
-				department.setText(pasient.getDepartment().getName());
+				name.setText(pasient.getFirstname() + ", " + pasient.getLastname());
+				
+				Department temp = ServiceFactory.getInstance().getDepartmentService().getDepartmentById(pasient.getDepartmentID());
+				department.setText(temp.getName());
 				
 				
 				imageView.setImageBitmap(Bitmap.createBitmap(100, 100, Config.RGB_565));

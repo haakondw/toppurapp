@@ -1,46 +1,55 @@
 package com.ntnu.eit.common.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Task {
+public class Task implements Serializable{
 
-	private final int id;
-	private final Medicine medicine;
-	private final Date date;
-	private final Pasient pasient;
-	private final String dosage;
-	private final MedicineForm form;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1241151504752949838L;
+	private int taskID;
+	private Date timestamp;
+	private String dosage;
 
-	public Task(int id, Medicine medicine, Date date, Pasient pasient, String dosage, MedicineForm form) {
-		this.id = id;
-		this.medicine = medicine;
-		this.date = date;
-		this.pasient = pasient;
+	public Task(){}
+
+	public Task(int taskID, Date timestamp, String dosage) {
+		this.taskID = taskID;
+		this.timestamp = timestamp;
 		this.dosage = dosage;
-		this.form = form;
 	}
 
-	public int getId() {
-		return id;
+	public int getTaskID(){
+		return taskID;
 	}
 
-	public Medicine getMedicine() {
-		return medicine;
+	public void setTaskID(int taskID){
+		this.taskID = taskID;
 	}
 
-	public Date getDate() {
-		return date;
+	public Date getTimestamp(){
+		return timestamp;
 	}
 
-	public Pasient getPasient() {
-		return pasient;
+	public void setTimestamp(Date timestamp){
+		this.timestamp = timestamp;
 	}
 
-	public String getDosage() {
+	public String getDosage(){
 		return dosage;
 	}
 
-	public MedicineForm getForm() {
-		return form;
+	public void getDosage(String dosage){
+		this.dosage = dosage;
 	}
+
+	@Override
+	public String toString(){
+		return "Task [taskID=" + taskID + ", timestamp=" + timestamp
+				+ ", dosage=" + dosage + "]";
+	}
+
+
 }

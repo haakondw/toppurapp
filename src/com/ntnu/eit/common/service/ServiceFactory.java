@@ -7,12 +7,20 @@ public class ServiceFactory {
 	
 	//Services
 	private PasientService pasientService;
+	private DepartmentService departmentService;
 	
 	public PasientService getPasientService(){
 		if(pasientService == null){
 			pasientService = new PasientServiceTestImpl();
 		}
 		return pasientService;
+	}
+	
+	public DepartmentService getDepartmentService(){
+		if(departmentService == null){
+			departmentService = new DepartmentServiceTestImpl();
+		}
+		return departmentService;
 	}
 	
 	public static ServiceFactory getInstance(){

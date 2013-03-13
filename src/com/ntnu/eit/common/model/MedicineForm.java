@@ -1,14 +1,34 @@
 package com.ntnu.eit.common.model;
 
-public class MedicineForm {
+import java.io.Serializable;
 
-	private final String form;
+public class MedicineForm implements Serializable{
 
-	public MedicineForm(String form) {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7859719947157585234L;
+	private String form;
+
+	public MedicineForm(){}
+
+	public MedicineForm(String form){
 		this.form = form;
 	}
 
-	public String getForm() {
+	public String getForm(){
 		return form;
 	}
+
+	public void setForm(String form){
+		this.form = form;
+	}
+
+	@Override
+	public String toString() {
+		return "MedicineForm [form=" + form + "]";
+	}
+
+
+
 }

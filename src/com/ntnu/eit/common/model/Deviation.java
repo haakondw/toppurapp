@@ -1,34 +1,54 @@
 package com.ntnu.eit.common.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Deviation {
+public class Deviation implements Serializable {
 
-	private final int id;
-	private final Pasient pasient;
-	private final String description;
-	private final Date date;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7187470425856282891L;
+	private int deviationID;
+	private String description;
+	private Date timestamp;
 
-	public Deviation(int id, Pasient pasient, String description, Date date) {
-		this.id = id;
-		this.pasient = pasient;
+	public Deviation(){}
+
+	public Deviation(int deviationID, String description, Date timestamp){
+		this.deviationID = deviationID;
 		this.description = description;
-		this.date = date;
+		this.timestamp = timestamp;
 	}
 
-	public int getId() {
-		return id;
+	public int getDeviationID(){
+		return deviationID;
 	}
 
-	public Pasient getPasient() {
-		return pasient;
+	public void setDeviationID(int deviationID){
+		this.deviationID = deviationID;
 	}
 
-	public String getDescription() {
+	public String getDescription(){
 		return description;
 	}
 
-	public Date getDate() {
-		return date;
+	public void setDescription(String description){
+		this.description = description;
+	}
+
+	public Date getTimestamp(){
+		return timestamp;
+	}
+
+	public void setTimestamp(Date timestamp){
+		this.timestamp = timestamp;
+	}
+
+	@Override
+	public String toString(){
+		return "Deviation [deviationID=" + deviationID 
+				+ ", description=" + description 
+				+ ", timestamp=" + timestamp + "]";
 	}
 }

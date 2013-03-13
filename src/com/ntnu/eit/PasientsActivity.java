@@ -1,7 +1,5 @@
 package com.ntnu.eit;
 
-import java.util.List;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,13 +14,18 @@ import com.ntnu.eit.pasients.model.PasientsListAdapter;
 
 public class PasientsActivity extends Activity {
 
+	//Activity Params
+	public static final String DEPARTMENTS_INDICES = "depIndices";
+	
 	//Data
-	private List<Pasient> pasients;
+	private Pasient[] pasients;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		//Super
 		super.onCreate(savedInstanceState);
 		
+		//This
 		setContentView(R.layout.activity_pasients);
 		
 		//Data
@@ -30,7 +33,7 @@ public class PasientsActivity extends Activity {
 		
 		//View
 		ListView listView = (ListView) findViewById(R.id.pasientList);
-		listView.setAdapter(new PasientsListAdapter(this, R.layout.pasients_row, pasients.toArray(new Pasient[pasients.size()])));
+		listView.setAdapter(new PasientsListAdapter(this, R.layout.pasients_row, pasients));
 	}
 
 	@Override
@@ -44,12 +47,12 @@ public class PasientsActivity extends Activity {
 		String pasientName = ((TextView)(view.findViewById(R.id.pasientName))).getText().toString();
 		
 		for (Pasient pasient : pasients) {
-			String temp = pasient.getFirstName() + ", " + pasient.getLastName();
+			String temp = pasient.getFirstname() + ", " + pasient.getLastname();
 			if(temp.equalsIgnoreCase(pasientName)){
 				//Start Pasient activity
 				Intent intent = new Intent(this, PasientActivity.class);
 				
-				intent.putExtra(PasientActivity.PASIENT_ID_TAG, pasient.getId());
+				intent.putExtra(PasientActivity.PASIENT_ID_TAG, pasient.getPasientID());
 				startActivity(intent);
 			}
 		}

@@ -1,20 +1,41 @@
 package com.ntnu.eit.common.model;
 
-public class Medicine {
+import java.io.Serializable;
 
-	private final int id;
-	private final String name;
+public class Medicine implements Serializable {
 
-	public Medicine(int id, String name) {
-		this.id = id;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1557058877058892787L;
+	private int medicineID;
+	private String name;
+
+	public Medicine(){}
+
+	public Medicine(int medicineID, String name){
+		this.medicineID = medicineID;
 		this.name = name;
 	}
 
-	public int getId() {
-		return id;
+	public int getMedicineID(){
+		return medicineID;
 	}
 
-	public String getName() {
+	public void setMedicineID(int medicineID){
+		this.medicineID = medicineID;
+	}
+
+	public String getName(){
 		return name;
+	}
+
+	public void setName(String name){
+		this.name = name;
+	}
+
+	@Override
+	public String toString(){
+		return "Medicine [medicineID=" + medicineID + ", name=" + name + "]";
 	}
 }
