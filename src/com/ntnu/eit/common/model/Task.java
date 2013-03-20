@@ -14,15 +14,17 @@ public class Task implements Serializable{
 	private int medicineFormId;
 	private Date timestamp;
 	private String dosage;
+	private boolean executed;
 
 	public Task(){}
 
-	public Task(int taskID, int medicineId, int medicineFormId, Date timestamp, String dosage) {
+	public Task(int taskID, int medicineId, int medicineFormId, Date timestamp, String dosage, boolean executed) {
 		this.taskID = taskID;
 		this.medicineId = medicineId;
 		this.medicineFormId = medicineFormId;
 		this.timestamp = timestamp;
 		this.dosage = dosage;
+		this.executed = executed;
 	}
 
 	public int getTaskID(){
@@ -64,12 +66,18 @@ public class Task implements Serializable{
 	public void getDosage(String dosage){
 		this.dosage = dosage;
 	}
+	
+	public boolean isExecuted(){
+		return executed;
+	}
+	
+	public void setExecuted(boolean executed){
+		this.executed = executed;
+	}
 
 	@Override
 	public String toString(){
 		return "Task [taskID=" + taskID + ", timestamp=" + timestamp
 				+ ", dosage=" + dosage + "]";
 	}
-
-
 }

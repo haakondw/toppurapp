@@ -6,4 +6,6 @@ public interface TaskService {
 
 	public Task[] getTasks(int pasientId);
 	
+	public void setExecutedTasks(int[] indices);
+	
 }

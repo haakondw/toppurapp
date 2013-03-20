@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.ntnu.eit.R;
@@ -44,6 +45,7 @@ public class PasientTaskListAdapter extends ArrayAdapter<Task>{
             holder.medicineForm = (TextView) row.findViewById(R.id.pasient_task_medicine_form);
             holder.dosage = (TextView) row.findViewById(R.id.pasient_task_medicine_dosage);
             holder.time = (TextView) row.findViewById(R.id.pasient_task_time);
+            holder.executed = (CheckBox) row.findViewById(R.id.pasient_task_checkbox);
             
             row.setTag(holder);
         }else{
@@ -66,6 +68,9 @@ public class PasientTaskListAdapter extends ArrayAdapter<Task>{
         //Time
         holder.time.setText(task.getTimestamp().toString());
         
+        //Executed
+        holder.executed.setChecked(task.isExecuted());
+        
         return row;
     } 
     
@@ -74,5 +79,6 @@ public class PasientTaskListAdapter extends ArrayAdapter<Task>{
         TextView medicineForm;
         TextView dosage;
         TextView time;
+        CheckBox executed;
     }
 }
