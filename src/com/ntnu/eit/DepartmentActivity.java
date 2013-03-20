@@ -36,6 +36,11 @@ public class DepartmentActivity extends Activity {
 		return true;
 	}
 	
+	public void onDepartmentRowClick(View view){
+		CheckBox checkBox = (CheckBox) view.findViewById(R.id.departmentCheckBox);
+		checkBox.setChecked(!checkBox.isChecked());
+	}
+	
 	public void onNextClicked(View view){
 		//Finding selected departments
 		List<Integer> indices = new ArrayList<Integer>();

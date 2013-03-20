@@ -27,6 +27,18 @@
     </TextView>
     
     <TextView 
+        android:id="@+id/pasientDepartment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/pasientImage"
+        android:layout_below="@id/pasientName"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:textIsSelectable="true"
+        android:textSize="15sp">
+    </TextView>
+    
+    <TextView 
         android:id="@+id/pasientClock"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

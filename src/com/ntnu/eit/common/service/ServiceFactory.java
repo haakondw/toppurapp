@@ -8,6 +8,9 @@ public class ServiceFactory {
 	//Services
 	private PasientService pasientService;
 	private DepartmentService departmentService;
+	private TaskService taskService;
+	private MedicineService medicineService;
+	private MedicineFormService medicineFormService;
 	
 	public PasientService getPasientService(){
 		if(pasientService == null){
@@ -21,6 +24,27 @@ public class ServiceFactory {
 			departmentService = new DepartmentServiceTestImpl();
 		}
 		return departmentService;
+	}
+	
+	public TaskService getTaskService(){
+		if(taskService == null){
+			taskService = new TaskServiceTestImpl();
+		}
+		return taskService;
+	}
+	
+	public MedicineService getMedicineService(){
+		if(medicineService == null){
+			medicineService = new MedicineServiceTestImpl();
+		}
+		return medicineService;
+	}
+	
+	public MedicineFormService getMedicineFormService(){
+		if(medicineFormService == null){
+			medicineFormService = new MedicineFormServiceTestImpl();
+		}
+		return medicineFormService;
 	}
 	
 	public static ServiceFactory getInstance(){

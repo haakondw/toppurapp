@@ -1,7 +1,11 @@
 package com.ntnu.eit;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,13 +18,16 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ntnu.eit.common.model.Department;
 import com.ntnu.eit.common.model.Pasient;
+import com.ntnu.eit.common.model.Task;
 import com.ntnu.eit.common.service.ServiceFactory;
+import com.ntnu.eit.pasient.model.PasientTaskListAdapter;
 
 public class PasientActivity extends FragmentActivity {
 
@@ -49,9 +56,9 @@ public class PasientActivity extends FragmentActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_pasient);
 		
-		Log.d("EiT", getClass().getSimpleName() + " onCreate()");
+		//This
+		setContentView(R.layout.activity_pasient);
 		
 		//Starting
 		pasientId = getIntent().getExtras().getInt(PASIENT_ID_TAG);
@@ -63,6 +70,8 @@ public class PasientActivity extends FragmentActivity {
 		// Set up the ViewPager with the sections adapter.
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 		mViewPager.setAdapter(mSectionsPagerAdapter);
+		
+		mViewPager.setCurrentItem(1);
 	}
 
 	@Override
@@ -88,11 +97,7 @@ public class PasientActivity extends FragmentActivity {
 
 		@Override
 		public Fragment getItem(int position) {
-			// getItem is called to instantiate the fragment for the given page.
-			// Return a DummySectionFragment (defined as a static inner class
-			// below) with the page number as its lone argument.
 			Fragment fragment = new DummySectionFragment();
-			
 			
 			Bundle args = new Bundle();
 			args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, position + 1);
@@ -145,30 +150,69 @@ public class PasientActivity extends FragmentActivity {
 			
 			switch (section) {
 			case 1:
-				return inflater.inflate(R.layout.pasient_section_one, container, false);
+				//Init
+				View section1view = inflater.inflate(R.layout.pasient_section_one, container, false);
+				ListView taskHistory = (ListView)section1view.findViewById(R.id.pasient_task_history_list);
+				
+				//Task history
+				//Task list
+				Task[] historyTasks = ServiceFactory.getInstance().getTaskService().getTasks(pasient.getPasientID());
+				List<Task> historyTasksTemp = new ArrayList<Task>();
+				long histNow = System.currentTimeMillis();
+				for (int i = 0; i < historyTasks.length; i++) {
+					if(historyTasks[i].getTimestamp().getTime() < histNow){
+						historyTasksTemp.add(historyTasks[i]);
+					}
+				}
+				
+				historyTasks = historyTasksTemp.toArray(new Task[historyTasksTemp.size()]);
+				taskHistory.setAdapter(new PasientTaskListAdapter(getActivity(), R.layout.pasient_task_row, historyTasks));
+				
+				return section1view;
 			case 2:
 				//Init
-				View view = inflater.inflate(R.layout.pasient_section_two, container, false);
+				View section2view = inflater.inflate(R.layout.pasient_section_two, container, false);
 				
-				//Setting data
-				TextView name = (TextView) view.findViewById(R.id.pasientName);
-				TextView department = (TextView) view.findViewById(R.id.pasientDepartment);
-				ImageView imageView = (ImageView) view.findViewById(R.id.pasientImage);
-				View notification = (View) view.findViewById(R.id.pasientNotofication);
-				ListView listView = (ListView)view.findViewById(R.id.pasientTaskList);
+				//Getting views
+				TextView name = (TextView) section2view.findViewById(R.id.pasientName);
+				TextView department = (TextView) section2view.findViewById(R.id.pasientDepartment);
+				ImageView imageView = (ImageView) section2view.findViewById(R.id.pasientImage);
+				View notification = (View) section2view.findViewById(R.id.pasientNotofication);
+				ListView taskListView = (ListView)section2view.findViewById(R.id.pasientTaskList);
 				
-				listView.setBackgroundColor(Color.BLACK);
+				//Test colors
 				notification.setBackgroundColor(Color.RED);
+				
+				//Task list
+				Task[] tasks = ServiceFactory.getInstance().getTaskService().getTasks(pasient.getPasientID());
+				List<Task> temp = new ArrayList<Task>();
+				long now = System.currentTimeMillis();
+				for (int i = 0; i < tasks.length; i++) {
+					if(tasks[i].getTimestamp().getTime() >= now){
+						temp.add(tasks[i]);
+					}
+				}
+				
+				tasks = temp.toArray(new Task[temp.size()]);
+				taskListView.setAdapter(new PasientTaskListAdapter(getActivity(), R.layout.pasient_task_row, tasks));
+				
+				//Setting pasient name
 				name.setText(pasient.getFirstname() + ", " + pasient.getLastname());
 				
-				Department temp = ServiceFactory.getInstance().getDepartmentService().getDepartmentById(pasient.getDepartmentID());
-				department.setText(temp.getName());
+				//Setting department
+				Department deptemp = ServiceFactory.getInstance().getDepartmentService().getDepartmentById(pasient.getDepartmentID());
+				department.setText(deptemp.getName());
 				
+				//Setting picture
+				if(pasient.getPicture() == null){					
+					imageView.setImageBitmap(Bitmap.createBitmap(100, 100, Config.RGB_565));
+					imageView.setBackgroundColor(Color.BLUE);
+				}else{
+					imageView.setImageBitmap(BitmapFactory.decodeByteArray(pasient.getPicture(), pasient.getPictureOffset(), pasient.getPicture().length));
+					imageView.setBackgroundColor(Color.BLUE);
+				}
 				
-				imageView.setImageBitmap(Bitmap.createBitmap(100, 100, Config.RGB_565));
-				imageView.setBackgroundColor(Color.BLUE);
-				
-				return view;
+				return section2view;
 			case 3:
 				return inflater.inflate(R.layout.pasient_section_three, container, false);
 			}
@@ -177,4 +221,8 @@ public class PasientActivity extends FragmentActivity {
 		}
 	}
 
+	public void onTaskClick(View view){
+		CheckBox checkBox = (CheckBox) view.findViewById(R.id.pasient_task_checkbox);
+		checkBox.setChecked(!checkBox.isChecked());
+	}
 }

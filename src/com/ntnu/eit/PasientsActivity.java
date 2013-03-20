@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.ntnu.eit.common.model.Department;
 import com.ntnu.eit.common.model.Pasient;
 import com.ntnu.eit.common.service.ServiceFactory;
 import com.ntnu.eit.pasients.model.PasientsListAdapter;
@@ -25,11 +26,18 @@ public class PasientsActivity extends Activity {
 		//Super
 		super.onCreate(savedInstanceState);
 		
-		//This
+		//Params
+		int[] is = getIntent().getExtras().getIntArray(DEPARTMENTS_INDICES);
+		Department[] departments = new Department[is.length];
+		for (int i = 0; i < departments.length; i++) {
+			departments[i] = ServiceFactory.getInstance().getDepartmentService().getDepartmentById(is[i]);
+		}
+		
+		//ThispasientId
 		setContentView(R.layout.activity_pasients);
 		
 		//Data
-		pasients = ServiceFactory.getInstance().getPasientService().getPasients(null, null);
+		pasients = ServiceFactory.getInstance().getPasientService().getPasients(null, departments);
 		
 		//View
 		ListView listView = (ListView) findViewById(R.id.pasientList);
