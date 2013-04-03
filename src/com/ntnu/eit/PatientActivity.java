@@ -359,7 +359,7 @@ public class PatientActivity extends FragmentActivity {
 					imageView.setImageBitmap(Bitmap.createBitmap(100, 100, Config.RGB_565));
 					imageView.setBackgroundColor(Color.BLUE);
 				}else{
-					imageView.setImageBitmap(BitmapFactory.decodeByteArray(pasient.getPicture(), pasient.getPictureOffset(), pasient.getPicture().length));
+					imageView.setImageBitmap(BitmapFactory.decodeByteArray(pasient.getPicture(), 0, pasient.getPicture().length));
 					imageView.setBackgroundColor(Color.BLUE);
 				}
 				

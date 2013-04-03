@@ -21,6 +21,7 @@ import com.ntnu.eit.common.model.Department;
 import com.ntnu.eit.common.model.Patient;
 import com.ntnu.eit.common.model.Task;
 import com.ntnu.eit.common.service.ServiceFactory;
+import com.ntnu.eit.pasients.service.PatientPictureUpdaterService;
 
 public class PatientsListAdapter extends ArrayAdapter<Patient>{
 
@@ -64,14 +65,8 @@ public class PatientsListAdapter extends ArrayAdapter<Patient>{
         Department department = ServiceFactory.getInstance().getDepartmentService().getDepartmentById(pasient.getDepartmentID());
         holder.departmentView.setText(department.getName());
         
-        if(pasient.getPicture() == null){
-        	//Set black picture
-        	holder.pictureView.setImageBitmap(Bitmap.createBitmap(100, 100, Config.RGB_565));
-        	
-        }else{        	
-	        Options options = new Options();
-	        holder.pictureView.setImageBitmap(BitmapFactory.decodeByteArray(pasient.getPicture(), pasient.getPictureOffset(), pasient.getPicture().length, options));
-        }
+        //Setting picture
+        PatientPictureUpdaterService.setPictureForPatient(context, holder.pictureView, pasient.getPatientID());
         
         //Set clock text
         Task[] tasks = ServiceFactory.getInstance().getTaskService().getTasks(pasient.getPatientID());

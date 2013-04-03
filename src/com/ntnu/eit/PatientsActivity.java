@@ -43,7 +43,7 @@ public class PatientsActivity extends Activity {
 		setContentView(R.layout.activity_patients);
 		
 		//Data
-		pasients = ServiceFactory.getInstance().getPatientService().getPatients(departments);
+		pasients = ServiceFactory.getInstance().getPatientService().getPatients(this, departments);
 		
 		//View
 		listView = (ListView) findViewById(R.id.pasientList);
