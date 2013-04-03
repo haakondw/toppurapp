@@ -12,6 +12,6 @@ public class UserView extends RelativeLayout{
 		//Super
 		super(context, attrs);
 		
-		addView(inflate(context, R.layout.logged_in_user_view, this));
+//		addView(inflate(context, R.layout.logged_in_user_view, this));
 	}
 }

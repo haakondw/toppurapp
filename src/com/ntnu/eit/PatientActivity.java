@@ -26,12 +26,12 @@ import android.widget.TextView;
 import com.ntnu.eit.common.dialog.ConfirmationDialog;
 import com.ntnu.eit.common.dialog.ConfirmationDialog.ConfirmationDialogListener;
 import com.ntnu.eit.common.model.Department;
-import com.ntnu.eit.common.model.Pasient;
+import com.ntnu.eit.common.model.Patient;
 import com.ntnu.eit.common.model.Task;
 import com.ntnu.eit.common.service.ServiceFactory;
-import com.ntnu.eit.pasient.model.PasientTaskListAdapter;
+import com.ntnu.eit.pasient.model.PatientTaskListAdapter;
 
-public class PasientActivity extends FragmentActivity {
+public class PatientActivity extends FragmentActivity {
 
 	/**
 	 * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -49,7 +49,7 @@ public class PasientActivity extends FragmentActivity {
 	ViewPager mViewPager;
 
 	private int pasientId;
-	private static Pasient pasient;
+	private static Patient pasient;
 	private static Task[] historyTasks, tasks;
 	
 	/**
@@ -62,14 +62,14 @@ public class PasientActivity extends FragmentActivity {
 		super.onCreate(savedInstanceState);
 		
 		//This
-		setContentView(R.layout.activity_pasient);
+		setContentView(R.layout.activity_patient);
 		
 		//Starting
 		pasientId = getIntent().getExtras().getInt(PASIENT_ID_TAG);
-		pasient = ServiceFactory.getInstance().getPasientService().getPasientById(pasientId);
+		pasient = ServiceFactory.getInstance().getPatientService().getPatientById(pasientId);
 		
 		//Filtering tasks
-		Task[] tasks = ServiceFactory.getInstance().getTaskService().getTasks(pasient.getPasientID());
+		Task[] tasks = ServiceFactory.getInstance().getTaskService().getTasks(pasient.getPatientID());
 		List<Task> temp1 = new ArrayList<Task>();
 		List<Task> temp2 = new ArrayList<Task>();
 		for (int i = 0; i < tasks.length; i++) {
@@ -79,11 +79,11 @@ public class PasientActivity extends FragmentActivity {
 				temp2.add(tasks[i]);
 			}
 		}
-		PasientActivity.tasks = temp2.toArray(new Task[temp2.size()]);
-		PasientActivity.historyTasks = temp1.toArray(new Task[temp1.size()]);
+		PatientActivity.tasks = temp2.toArray(new Task[temp2.size()]);
+		PatientActivity.historyTasks = temp1.toArray(new Task[temp1.size()]);
 		
 		//Debug
-		Log.i("EiT", "Starting PasientActivity with pasient: " + pasientId);
+		Log.i("EiT", "Starting PatientActivity with pasient: " + pasientId);
 
 		// Create the adapter that will return a fragment for each of the three
 		// primary sections of the app.
@@ -150,7 +150,7 @@ public class PasientActivity extends FragmentActivity {
 				dialog.dismiss();
 				
 				//Destroying activity
-				PasientActivity.this.finish();
+				PatientActivity.this.finish();
 			}
 			
 			@Override
@@ -211,13 +211,13 @@ public class PasientActivity extends FragmentActivity {
 					dialog.dismiss();
 					
 					//Destroying activity
-					PasientActivity.this.finish();
+					PatientActivity.this.finish();
 				}
 				
 				@Override
 				public void onCancel(ConfirmationDialog dialog) {
 					dialog.dismiss();
-					PasientActivity.this.finish();
+					PatientActivity.this.finish();
 				}
 			}).show();
 		}else{
@@ -325,15 +325,15 @@ public class PasientActivity extends FragmentActivity {
 			switch (section) {
 			case 1:
 				//Init
-				View section1view = inflater.inflate(R.layout.pasient_section_one, container, false);
+				View section1view = inflater.inflate(R.layout.patient_section_one, container, false);
 				ListView taskHistory = (ListView)section1view.findViewById(R.id.pasient_task_history_list);
 				
-				taskHistory.setAdapter(new PasientTaskListAdapter(getActivity(), R.layout.pasient_task_row, historyTasks));
+				taskHistory.setAdapter(new PatientTaskListAdapter(getActivity(), R.layout.patient_task_row, historyTasks));
 				
 				return section1view;
 			case 2:
 				//Init
-				View section2view = inflater.inflate(R.layout.pasient_section_two, container, false);
+				View section2view = inflater.inflate(R.layout.patient_section_two, container, false);
 				
 				//Getting views
 				TextView name = (TextView) section2view.findViewById(R.id.pasientName);
@@ -345,7 +345,7 @@ public class PasientActivity extends FragmentActivity {
 				//Test colors
 				notification.setBackgroundColor(Color.RED);
 				
-				taskListView.setAdapter(new PasientTaskListAdapter(getActivity(), R.layout.pasient_task_row, tasks));
+				taskListView.setAdapter(new PatientTaskListAdapter(getActivity(), R.layout.patient_task_row, tasks));
 				
 				//Setting pasient name
 				name.setText(pasient.getFirstname() + ", " + pasient.getLastname());
@@ -365,7 +365,7 @@ public class PasientActivity extends FragmentActivity {
 				
 				return section2view;
 			case 3:
-				return inflater.inflate(R.layout.pasient_section_three, container, false);
+				return inflater.inflate(R.layout.patient_section_three, container, false);
 			}
 
 			return null;

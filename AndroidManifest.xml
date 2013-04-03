@@ -28,11 +28,11 @@
             android:label="@string/title_activity_department" >
         </activity>
         <activity
-            android:name="com.ntnu.eit.PasientsActivity"
+            android:name="com.ntnu.eit.PatientsActivity"
             android:label="@string/title_activity_pasient" >
         </activity>
         <activity
-            android:name="com.ntnu.eit.PasientActivity"
+            android:name="com.ntnu.eit.PatientActivity"
             android:label="@string/title_activity_pasient" >
         </activity>
         <activity

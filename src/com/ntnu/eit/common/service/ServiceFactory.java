@@ -6,16 +6,16 @@ public class ServiceFactory {
 	private static ServiceFactory instance;
 	
 	//Services
-	private PasientService pasientService;
+	private PatientService pasientService;
 	private DepartmentService departmentService;
 	private TaskService taskService;
 	private MedicineService medicineService;
 	private MedicineFormService medicineFormService;
 	private AuthenticationService authenticationService;
 	
-	public PasientService getPasientService(){
+	public PatientService getPatientService(){
 		if(pasientService == null){
-			pasientService = new PasientServiceTestImpl();
+			pasientService = new PatientServiceTestImpl();
 		}
 		return pasientService;
 	}

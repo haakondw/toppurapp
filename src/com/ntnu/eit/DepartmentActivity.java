@@ -67,7 +67,7 @@ public class DepartmentActivity extends Activity {
 			Toast.makeText(this, "Please select departments", Toast.LENGTH_SHORT).show();
 		}else{
 			//Init
-			Intent intent = new Intent(this, PasientsActivity.class);
+			Intent intent = new Intent(this, PatientsActivity.class);
 			
 			//Creating param
 			int[] temp = new int[indices.size()];
@@ -75,7 +75,7 @@ public class DepartmentActivity extends Activity {
 				temp[i] = indices.get(i).intValue();
 			}
 			
-			intent.putExtra(PasientsActivity.DEPARTMENTS_INDICES, temp);
+			intent.putExtra(PatientsActivity.DEPARTMENTS_INDICES, temp);
 			
 			startActivity(intent);
 		}

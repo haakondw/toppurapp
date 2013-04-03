@@ -19,14 +19,14 @@ import com.ntnu.eit.common.model.MedicineForm;
 import com.ntnu.eit.common.model.Task;
 import com.ntnu.eit.common.service.ServiceFactory;
 
-public class PasientTaskListAdapter extends ArrayAdapter<Task>{
+public class PatientTaskListAdapter extends ArrayAdapter<Task>{
 
 	private Context context;
 	private int textViewResourceId;
 	private Task[] tasks;
 	private SimpleDateFormat format;
 
-	public PasientTaskListAdapter(Context context, int textViewResourceId, Task[] tasks) {
+	public PatientTaskListAdapter(Context context, int textViewResourceId, Task[] tasks) {
 		//Super
 		super(context, textViewResourceId, tasks);
 		

@@ -9,7 +9,6 @@ import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapFactory.Options;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,21 +18,21 @@ import android.widget.TextView;
 
 import com.ntnu.eit.R;
 import com.ntnu.eit.common.model.Department;
-import com.ntnu.eit.common.model.Pasient;
+import com.ntnu.eit.common.model.Patient;
 import com.ntnu.eit.common.model.Task;
 import com.ntnu.eit.common.service.ServiceFactory;
 
-public class PasientsListAdapter extends ArrayAdapter<Pasient>{
+public class PatientsListAdapter extends ArrayAdapter<Patient>{
 
 	private Context context;
-	private Pasient[] pasients;
+	private Patient[] patients;
 	private int textViewResourceId;
 	private SimpleDateFormat format;
 
-	public PasientsListAdapter(Context context, int textViewResourceId, Pasient[] pasients) {
+	public PatientsListAdapter(Context context, int textViewResourceId, Patient[] pasients) {
 		super(context, textViewResourceId, pasients);
 		
-		this.pasients = pasients;
+		this.patients = pasients;
 		this.context = context;
 		this.textViewResourceId = textViewResourceId;
 		format = new SimpleDateFormat("HH:mm", Locale.getDefault());
@@ -59,7 +58,7 @@ public class PasientsListAdapter extends ArrayAdapter<Pasient>{
             holder = (PasientHolder)row.getTag();
         }
         
-        Pasient pasient = pasients[position];
+        Patient pasient = patients[position];
         holder.nameView.setText(pasient.getFirstname() + ", " + pasient.getLastname());
         
         Department department = ServiceFactory.getInstance().getDepartmentService().getDepartmentById(pasient.getDepartmentID());
@@ -75,7 +74,7 @@ public class PasientsListAdapter extends ArrayAdapter<Pasient>{
         }
         
         //Set clock text
-        Task[] tasks = ServiceFactory.getInstance().getTaskService().getTasks(pasient.getPasientID());
+        Task[] tasks = ServiceFactory.getInstance().getTaskService().getTasks(pasient.getPatientID());
         if(tasks.length > 0){
         	for (int i = 0; i < tasks.length; i++) {
 				if(!tasks[i].isExecuted()){	

@@ -9,11 +9,11 @@ import android.view.View;
 import android.widget.ListView;
 
 import com.ntnu.eit.common.model.Department;
-import com.ntnu.eit.common.model.Pasient;
+import com.ntnu.eit.common.model.Patient;
 import com.ntnu.eit.common.service.ServiceFactory;
-import com.ntnu.eit.pasients.model.PasientsListAdapter;
+import com.ntnu.eit.pasients.model.PatientsListAdapter;
 
-public class PasientsActivity extends Activity {
+public class PatientsActivity extends Activity {
 
 	//Activity Params
 	public static final String DEPARTMENTS_INDICES = "depIndices";
@@ -22,7 +22,7 @@ public class PasientsActivity extends Activity {
 	private ListView listView;
 	
 	//Data
-	private Pasient[] pasients;
+	private Patient[] pasients;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -40,14 +40,14 @@ public class PasientsActivity extends Activity {
 		}
 		
 		//ThispasientId
-		setContentView(R.layout.activity_pasients);
+		setContentView(R.layout.activity_patients);
 		
 		//Data
-		pasients = ServiceFactory.getInstance().getPasientService().getPasients(null, departments);
+		pasients = ServiceFactory.getInstance().getPatientService().getPatients(departments);
 		
 		//View
 		listView = (ListView) findViewById(R.id.pasientList);
-		listView.setAdapter(new PasientsListAdapter(this, R.layout.pasients_row, pasients));
+		listView.setAdapter(new PatientsListAdapter(this, R.layout.patients_row, pasients));
 	}
 	
 	@Override
@@ -66,18 +66,18 @@ public class PasientsActivity extends Activity {
 		return true;
 	}
 
-	public void onPasientClick(View view){
+	public void onPatientClick(View view){
 		int count = listView.getAdapter().getCount();
 		for (int i = 0; i < count; i++) {
 			View child = listView.getChildAt(i);
 			
 			if(child == view){
-				Pasient pasient = (Pasient) listView.getAdapter().getItem(i);
+				Patient pasient = (Patient) listView.getAdapter().getItem(i);
 				
-				//Start Pasient activity
-				Intent intent = new Intent(this, PasientActivity.class);
+				//Start Patient activity
+				Intent intent = new Intent(this, PatientActivity.class);
 				
-				intent.putExtra(PasientActivity.PASIENT_ID_TAG, pasient.getPasientID());
+				intent.putExtra(PatientActivity.PASIENT_ID_TAG, pasient.getPatientID());
 				startActivity(intent);
 			}
 		}
