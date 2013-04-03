@@ -36,6 +36,6 @@ public class Department implements Serializable{
 
 	@Override
 	public String toString() {
-		return "Pasient [departmentID=" + departmentID + ", name=" + name + "]";
+		return "Patient [departmentID=" + departmentID + ", name=" + name + "]";
 	}
 }

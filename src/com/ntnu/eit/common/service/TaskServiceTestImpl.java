@@ -64,7 +64,7 @@ public class TaskServiceTestImpl implements TaskService{
 		Task[] tasks = new Task[10];
 		for (int i = 0; i < tasks.length; i++) {
 			long t = System.currentTimeMillis() + 3600000*(i+1) - 3600000*4 + 60000;
-			tasks[i] = new Task(pasientId*10 + i, 1, 1, new Date(t), "dosage", false);
+			tasks[i] = new Task(pasientId*10 + i, 1, "ABC", new Date(t), "dosage", false);
 		}
 		
 		//Adding data

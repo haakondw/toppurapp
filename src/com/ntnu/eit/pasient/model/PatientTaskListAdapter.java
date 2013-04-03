@@ -15,7 +15,6 @@ import android.widget.TextView;
 
 import com.ntnu.eit.R;
 import com.ntnu.eit.common.model.Medicine;
-import com.ntnu.eit.common.model.MedicineForm;
 import com.ntnu.eit.common.model.Task;
 import com.ntnu.eit.common.service.ServiceFactory;
 
@@ -66,8 +65,7 @@ public class PatientTaskListAdapter extends ArrayAdapter<Task>{
         holder.medicine.setText("Medicine: " + medicine.getName());
 
         //Medicine form text
-        MedicineForm medicineForm = ServiceFactory.getInstance().getMedicineFormService().getMedicineForm(task.getMedicineFormId());
-        holder.medicineForm.setText("Medicine Form: " + medicineForm.getForm());
+        holder.medicineForm.setText("Medicine Form: " + task.getMedicineForm());
         
         //Dosage
         holder.dosage.setText("Dosage: " + task.getDosage());

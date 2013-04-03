@@ -11,17 +11,17 @@ public class Task implements Serializable{
 	private static final long serialVersionUID = -1241151504752949838L;
 	private int taskID;
 	private int medicineId;
-	private int medicineFormId;
+	private String medicineForm;
 	private Date timestamp;
 	private String dosage;
 	private boolean executed;
 
 	public Task(){}
 
-	public Task(int taskID, int medicineId, int medicineFormId, Date timestamp, String dosage, boolean executed) {
+	public Task(int taskID, int medicineId, String medicineForm, Date timestamp, String dosage, boolean executed) {
 		this.taskID = taskID;
 		this.medicineId = medicineId;
-		this.medicineFormId = medicineFormId;
+		this.medicineForm = medicineForm;
 		this.timestamp = timestamp;
 		this.dosage = dosage;
 		this.executed = executed;
@@ -43,12 +43,12 @@ public class Task implements Serializable{
 		this.medicineId = medicineId;
 	}
 	
-	public int getMedicineFormId(){
-		return medicineFormId;
+	public String getMedicineForm(){
+		return medicineForm;
 	}
 	
-	public void setMedicineFormId(int medicineFormId){
-		this.medicineFormId = medicineFormId;
+	public void setMedicineFormId(String medicineForm){
+		this.medicineForm = medicineForm;
 	}
 
 	public Date getTimestamp(){
