@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    
+    <EditTextPreference 
+        android:key="login_settings_server_config"
+        android:title="Server Name"
+        android:summary="Server name og IP address"
+        android:dialogTitle="Server settings"
+        android:dialogMessage="Enter server name/IP"
+        />
+    
+</PreferenceScreen>

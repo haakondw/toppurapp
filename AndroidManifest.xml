@@ -35,6 +35,10 @@
             android:name="com.ntnu.eit.PasientActivity"
             android:label="@string/title_activity_pasient" >
         </activity>
+        <activity
+            android:name="com.ntnu.eit.LoginSettingsActivity"
+            android:label="@string/title_activity_login_settings" >
+        </activity>
     </application>
 
 </manifest>

@@ -4,7 +4,7 @@ import android.util.SparseArray;
 
 import com.ntnu.eit.common.model.Department;
 import com.ntnu.eit.common.model.Pasient;
-import com.ntnu.eit.login.model.User;
+import com.ntnu.eit.common.model.User;
 
 public class PasientServiceTestImpl implements PasientService{
 	

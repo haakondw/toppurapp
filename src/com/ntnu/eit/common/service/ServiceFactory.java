@@ -11,6 +11,7 @@ public class ServiceFactory {
 	private TaskService taskService;
 	private MedicineService medicineService;
 	private MedicineFormService medicineFormService;
+	private AuthenticationService authenticationService;
 	
 	public PasientService getPasientService(){
 		if(pasientService == null){
@@ -45,6 +46,14 @@ public class ServiceFactory {
 			medicineFormService = new MedicineFormServiceTestImpl();
 		}
 		return medicineFormService;
+	}
+	
+	public AuthenticationService getAuthenticationService(){
+		if(authenticationService == null){
+			authenticationService = new AuthenticationServiceTestImpl(); 
+		}
+		
+		return authenticationService;
 	}
 	
 	public static ServiceFactory getInstance(){
