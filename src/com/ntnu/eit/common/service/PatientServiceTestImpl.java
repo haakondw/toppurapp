@@ -1,13 +1,8 @@
 package com.ntnu.eit.common.service;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.util.Log;
 import android.util.SparseArray;
 
-import com.ntnu.eit.R;
 import com.ntnu.eit.common.model.Department;
 import com.ntnu.eit.common.model.Patient;
 
@@ -25,7 +20,7 @@ public class PatientServiceTestImpl implements PatientService{
 		if(pasients == null){			
 			pasientsSparse = new SparseArray<Patient>();
 			
-			int end = (int) (Math.random()*50);
+			int end = (int) (Math.random()*50) + 1;
 			pasients = new Patient[end];
 			
 			for(int i = 0; i < end; i++){				
