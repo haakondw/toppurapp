@@ -3,10 +3,10 @@ package com.ntnu.eit;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.ntnu.eit.common.model.Department;
 import com.ntnu.eit.common.model.Pasient;
@@ -18,6 +18,9 @@ public class PasientsActivity extends Activity {
 	//Activity Params
 	public static final String DEPARTMENTS_INDICES = "depIndices";
 	
+	//View
+	private ListView listView;
+	
 	//Data
 	private Pasient[] pasients;
 
@@ -25,6 +28,9 @@ public class PasientsActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		//Super
 		super.onCreate(savedInstanceState);
+		
+		//Log
+		Log.i("EiT", getClass().getSimpleName() + ".onCreate()");
 		
 		//Params
 		int[] is = getIntent().getExtras().getIntArray(DEPARTMENTS_INDICES);
@@ -40,8 +46,17 @@ public class PasientsActivity extends Activity {
 		pasients = ServiceFactory.getInstance().getPasientService().getPasients(null, departments);
 		
 		//View
-		ListView listView = (ListView) findViewById(R.id.pasientList);
+		listView = (ListView) findViewById(R.id.pasientList);
 		listView.setAdapter(new PasientsListAdapter(this, R.layout.pasients_row, pasients));
+	}
+	
+	@Override
+	protected void onResume() {
+		//Super
+		super.onResume();
+		
+		//Refreshing rows due to updating clock
+		listView.invalidateViews();
 	}
 
 	@Override
@@ -52,11 +67,13 @@ public class PasientsActivity extends Activity {
 	}
 
 	public void onPasientClick(View view){
-		String pasientName = ((TextView)(view.findViewById(R.id.pasientName))).getText().toString();
-		
-		for (Pasient pasient : pasients) {
-			String temp = pasient.getFirstname() + ", " + pasient.getLastname();
-			if(temp.equalsIgnoreCase(pasientName)){
+		int count = listView.getAdapter().getCount();
+		for (int i = 0; i < count; i++) {
+			View child = listView.getChildAt(i);
+			
+			if(child == view){
+				Pasient pasient = (Pasient) listView.getAdapter().getItem(i);
+				
 				//Start Pasient activity
 				Intent intent = new Intent(this, PasientActivity.class);
 				

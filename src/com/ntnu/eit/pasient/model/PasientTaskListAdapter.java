@@ -1,7 +1,11 @@
 package com.ntnu.eit.pasient.model;
 
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +24,7 @@ public class PasientTaskListAdapter extends ArrayAdapter<Task>{
 	private Context context;
 	private int textViewResourceId;
 	private Task[] tasks;
+	private SimpleDateFormat format;
 
 	public PasientTaskListAdapter(Context context, int textViewResourceId, Task[] tasks) {
 		//Super
@@ -29,6 +34,7 @@ public class PasientTaskListAdapter extends ArrayAdapter<Task>{
 		this.context = context;
 		this.textViewResourceId = textViewResourceId;
 		this.tasks = tasks;
+		format = new SimpleDateFormat("HH:mm", Locale.getDefault());
 	}
 	
 	@Override
@@ -46,6 +52,7 @@ public class PasientTaskListAdapter extends ArrayAdapter<Task>{
             holder.dosage = (TextView) row.findViewById(R.id.pasient_task_medicine_dosage);
             holder.time = (TextView) row.findViewById(R.id.pasient_task_time);
             holder.executed = (CheckBox) row.findViewById(R.id.pasient_task_checkbox);
+            holder.background = (ViewGroup) row;
             
             row.setTag(holder);
         }else{
@@ -66,7 +73,17 @@ public class PasientTaskListAdapter extends ArrayAdapter<Task>{
         holder.dosage.setText("Dosage: " + task.getDosage());
         
         //Time
-        holder.time.setText(task.getTimestamp().toString());
+        long now = System.currentTimeMillis();
+        holder.time.setText(format.format(task.getTimestamp()));
+        if(task.getTimestamp().getTime() < now && !task.isExecuted()){
+        	int alpha = (int) (((now-task.getTimestamp().getTime())/(1000*60*60) + 1)*50);
+        	
+        	if(alpha > 255){
+        		alpha = 255;
+        	}
+        	
+        	holder.background.setBackgroundColor(Color.argb(alpha, 255, 0, 0));
+        }
         
         //Executed
         holder.executed.setChecked(task.isExecuted());
@@ -75,6 +92,7 @@ public class PasientTaskListAdapter extends ArrayAdapter<Task>{
     } 
     
     static class PasientTaskHolder{
+    	ViewGroup background;
         TextView medicine;
         TextView medicineForm;
         TextView dosage;

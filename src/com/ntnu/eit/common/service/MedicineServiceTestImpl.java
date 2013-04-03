@@ -27,6 +27,6 @@ public class MedicineServiceTestImpl implements MedicineService{
 	
 	@Override
 	public Medicine getMedicine(int id) {
-		return medicines[(int) (Math.random()*medicines.length)];
+		return medicines[id];
 	}
 }

@@ -17,6 +17,6 @@ public class MedicineFormServiceTestImpl implements MedicineFormService{
 	
 	@Override
 	public MedicineForm getMedicineForm(int id) {
-		return medicineForms[(int) (Math.random()*medicineForms.length)];
+		return medicineForms[id];
 	}
 }

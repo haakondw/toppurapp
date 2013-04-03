@@ -23,6 +23,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.ntnu.eit.common.dialog.ConfirmationDialog;
+import com.ntnu.eit.common.dialog.ConfirmationDialog.ConfirmationDialogListener;
 import com.ntnu.eit.common.model.Department;
 import com.ntnu.eit.common.model.Pasient;
 import com.ntnu.eit.common.model.Task;
@@ -47,6 +49,8 @@ public class PasientActivity extends FragmentActivity {
 	ViewPager mViewPager;
 
 	private int pasientId;
+	private static Pasient pasient;
+	private static Task[] historyTasks, tasks;
 	
 	/**
 	 * EXTRAS
@@ -62,6 +66,24 @@ public class PasientActivity extends FragmentActivity {
 		
 		//Starting
 		pasientId = getIntent().getExtras().getInt(PASIENT_ID_TAG);
+		pasient = ServiceFactory.getInstance().getPasientService().getPasientById(pasientId);
+		
+		//Filtering tasks
+		Task[] tasks = ServiceFactory.getInstance().getTaskService().getTasks(pasient.getPasientID());
+		List<Task> temp1 = new ArrayList<Task>();
+		List<Task> temp2 = new ArrayList<Task>();
+		for (int i = 0; i < tasks.length; i++) {
+			if(tasks[i].isExecuted()){
+				temp1.add(tasks[i]);
+			}else{
+				temp2.add(tasks[i]);
+			}
+		}
+		PasientActivity.tasks = temp2.toArray(new Task[temp2.size()]);
+		PasientActivity.historyTasks = temp1.toArray(new Task[temp1.size()]);
+		
+		//Debug
+		Log.i("EiT", "Starting PasientActivity with pasient: " + pasientId);
 
 		// Create the adapter that will return a fragment for each of the three
 		// primary sections of the app.
@@ -81,10 +103,163 @@ public class PasientActivity extends FragmentActivity {
 		return true;
 	}
 	
-	public void onSubmit(View view){
-		Log.d("EiT", "onSubmit()");
+	public void onTasksSubmit(View view){
+		ConfirmationDialog.create(this, "Confirm submission", new ConfirmationDialogListener() {
+			@Override
+			public void onConfirm(ConfirmationDialog dialog) {
+				//Init
+				ListView listView = (ListView) findViewById(R.id.pasientTaskList);
+				List<Integer> indices = new ArrayList<Integer>();
+				List<Boolean> checked = new ArrayList<Boolean>();
+
+				//Checking tasks
+				int count = listView.getAdapter().getCount();
+				for (int i = 0; i < count; i++) {
+					Task task = (Task) listView.getAdapter().getItem(i);
+					ViewGroup viewGroup = (ViewGroup) listView.getChildAt(i);
+					boolean temp = ((CheckBox)viewGroup.findViewById(R.id.pasient_task_checkbox)).isChecked();
+					
+					indices.add(task.getTaskID());
+					checked.add(temp);
+				}
+
+				//Checking history tasks
+				listView = (ListView) findViewById(R.id.pasient_task_history_list);
+				count = listView.getAdapter().getCount();
+				for (int i = 0; i < count; i++) {
+					Task task = (Task) listView.getAdapter().getItem(i);
+					ViewGroup viewGroup = (ViewGroup) listView.getChildAt(i);
+					boolean temp = ((CheckBox)viewGroup.findViewById(R.id.pasient_task_checkbox)).isChecked();
+					
+					indices.add(task.getTaskID());
+					checked.add(temp);
+				}
+				
+				//Creating temp array, and setting tasks as executed
+				int[] array = new int[indices.size()];
+				boolean[] array2 = new boolean[checked.size()];
+				for (int i = 0; i < array.length; i++) {
+					array[i] = indices.get(i);
+					array2[i] = checked.get(i);
+				}
+				
+				//Updating
+				ServiceFactory.getInstance().getTaskService().setExecutedTasks(pasientId, array, array2);
+				
+				//Dialog
+				dialog.dismiss();
+				
+				//Destroying activity
+				PasientActivity.this.finish();
+			}
+			
+			@Override
+			public void onCancel(ConfirmationDialog dialog) {
+				dialog.dismiss();
+			}
+		}).show();
+	}
+	
+	@Override
+	public void onBackPressed() {
+		Task[] changes = getChanges();
+		
+		if(changes.length > 0){			
+			ConfirmationDialog.create(this, "There exists changes", "Exit", "Submit changes", new ConfirmationDialogListener() {
+				@Override
+				public void onConfirm(ConfirmationDialog dialog) {
+					//Init
+					ListView listView = (ListView) findViewById(R.id.pasientTaskList);
+					List<Integer> indices = new ArrayList<Integer>();
+					List<Boolean> checked = new ArrayList<Boolean>();
+					
+					//Checking tasks
+					int count = listView.getAdapter().getCount();
+					for (int i = 0; i < count; i++) {
+						Task task = (Task) listView.getAdapter().getItem(i);
+						ViewGroup viewGroup = (ViewGroup) listView.getChildAt(i);
+						boolean temp = ((CheckBox)viewGroup.findViewById(R.id.pasient_task_checkbox)).isChecked();
+						
+						indices.add(task.getTaskID());
+						checked.add(temp);
+					}
+					
+					//Checking history tasks
+					listView = (ListView) findViewById(R.id.pasient_task_history_list);
+					count = listView.getAdapter().getCount();
+					for (int i = 0; i < count; i++) {
+						Task task = (Task) listView.getAdapter().getItem(i);
+						ViewGroup viewGroup = (ViewGroup) listView.getChildAt(i);
+						boolean temp = ((CheckBox)viewGroup.findViewById(R.id.pasient_task_checkbox)).isChecked();
+						
+						indices.add(task.getTaskID());
+						checked.add(temp);
+					}
+					
+					//Creating temp array, and setting tasks as executed
+					int[] array = new int[indices.size()];
+					boolean[] array2 = new boolean[checked.size()];
+					for (int i = 0; i < array.length; i++) {
+						array[i] = indices.get(i);
+						array2[i] = checked.get(i);
+					}
+					
+					//Updating
+					ServiceFactory.getInstance().getTaskService().setExecutedTasks(pasientId, array, array2);
+					
+					//Dialog
+					dialog.dismiss();
+					
+					//Destroying activity
+					PasientActivity.this.finish();
+				}
+				
+				@Override
+				public void onCancel(ConfirmationDialog dialog) {
+					dialog.dismiss();
+					PasientActivity.this.finish();
+				}
+			}).show();
+		}else{
+			super.onBackPressed();
+		}
 	}
 
+	private Task[] getChanges(){
+		//Checking history tasks
+		List<Task> tasks = new ArrayList<Task>();
+		ListView listView = (ListView) findViewById(R.id.pasient_task_history_list);
+		int count = listView.getAdapter().getCount();
+		
+		for (int i = 0; i < count; i++) {
+			ViewGroup child = (ViewGroup) listView.getChildAt(i);
+			Task task = (Task) listView.getAdapter().getItem(i);
+			
+			boolean isChecked = ((CheckBox)child.findViewById(R.id.pasient_task_checkbox)).isChecked();
+			
+			if(isChecked != task.isExecuted()){
+				tasks.add(task);
+			}
+		}
+		
+		//Checking tasks
+		listView = (ListView) findViewById(R.id.pasientTaskList);
+		count = listView.getAdapter().getCount();
+		
+		for (int i = 0; i < count; i++) {
+			ViewGroup child = (ViewGroup) listView.getChildAt(i);
+			Task task = (Task) listView.getAdapter().getItem(i);
+			
+			boolean isChecked = ((CheckBox)child.findViewById(R.id.pasient_task_checkbox)).isChecked();
+			
+			if(isChecked != task.isExecuted()){
+				tasks.add(task);
+			}
+		}
+		
+		return tasks.toArray(new Task[tasks.size()]);
+	}
+	
 	/**
 	 * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
 	 * one of the sections/tabs/pages.
@@ -146,7 +321,6 @@ public class PasientActivity extends FragmentActivity {
 			// Create a new TextView and set its text to the fragment's section
 			// number argument value.
 			int section = getArguments().getInt(ARG_SECTION_NUMBER);
-			Pasient pasient = ServiceFactory.getInstance().getPasientService().getPasientById(getArguments().getInt(ARG_PASIENT_ID));
 			
 			switch (section) {
 			case 1:
@@ -154,18 +328,6 @@ public class PasientActivity extends FragmentActivity {
 				View section1view = inflater.inflate(R.layout.pasient_section_one, container, false);
 				ListView taskHistory = (ListView)section1view.findViewById(R.id.pasient_task_history_list);
 				
-				//Task history
-				//Task list
-				Task[] historyTasks = ServiceFactory.getInstance().getTaskService().getTasks(pasient.getPasientID());
-				List<Task> historyTasksTemp = new ArrayList<Task>();
-				long histNow = System.currentTimeMillis();
-				for (int i = 0; i < historyTasks.length; i++) {
-					if(historyTasks[i].getTimestamp().getTime() < histNow){
-						historyTasksTemp.add(historyTasks[i]);
-					}
-				}
-				
-				historyTasks = historyTasksTemp.toArray(new Task[historyTasksTemp.size()]);
 				taskHistory.setAdapter(new PasientTaskListAdapter(getActivity(), R.layout.pasient_task_row, historyTasks));
 				
 				return section1view;
@@ -183,17 +345,6 @@ public class PasientActivity extends FragmentActivity {
 				//Test colors
 				notification.setBackgroundColor(Color.RED);
 				
-				//Task list
-				Task[] tasks = ServiceFactory.getInstance().getTaskService().getTasks(pasient.getPasientID());
-				List<Task> temp = new ArrayList<Task>();
-				long now = System.currentTimeMillis();
-				for (int i = 0; i < tasks.length; i++) {
-					if(tasks[i].getTimestamp().getTime() >= now){
-						temp.add(tasks[i]);
-					}
-				}
-				
-				tasks = temp.toArray(new Task[temp.size()]);
 				taskListView.setAdapter(new PasientTaskListAdapter(getActivity(), R.layout.pasient_task_row, tasks));
 				
 				//Setting pasient name

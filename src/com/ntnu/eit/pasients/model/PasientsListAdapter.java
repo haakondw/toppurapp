@@ -1,11 +1,15 @@
 package com.ntnu.eit.pasients.model;
 
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapFactory.Options;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +20,7 @@ import android.widget.TextView;
 import com.ntnu.eit.R;
 import com.ntnu.eit.common.model.Department;
 import com.ntnu.eit.common.model.Pasient;
+import com.ntnu.eit.common.model.Task;
 import com.ntnu.eit.common.service.ServiceFactory;
 
 public class PasientsListAdapter extends ArrayAdapter<Pasient>{
@@ -23,6 +28,7 @@ public class PasientsListAdapter extends ArrayAdapter<Pasient>{
 	private Context context;
 	private Pasient[] pasients;
 	private int textViewResourceId;
+	private SimpleDateFormat format;
 
 	public PasientsListAdapter(Context context, int textViewResourceId, Pasient[] pasients) {
 		super(context, textViewResourceId, pasients);
@@ -30,6 +36,7 @@ public class PasientsListAdapter extends ArrayAdapter<Pasient>{
 		this.pasients = pasients;
 		this.context = context;
 		this.textViewResourceId = textViewResourceId;
+		format = new SimpleDateFormat("HH:mm", Locale.getDefault());
 	}
 
     @Override
@@ -67,9 +74,16 @@ public class PasientsListAdapter extends ArrayAdapter<Pasient>{
 	        holder.pictureView.setImageBitmap(BitmapFactory.decodeByteArray(pasient.getPicture(), pasient.getPictureOffset(), pasient.getPicture().length, options));
         }
         
-        //TODO
         //Set clock text
-        holder.clockView.setText("Clock");
+        Task[] tasks = ServiceFactory.getInstance().getTaskService().getTasks(pasient.getPasientID());
+        if(tasks.length > 0){
+        	for (int i = 0; i < tasks.length; i++) {
+				if(!tasks[i].isExecuted()){	
+					holder.clockView.setText(format.format(tasks[i].getTimestamp()));
+					break;
+				}
+			}
+        }
         
         return row;
     } 

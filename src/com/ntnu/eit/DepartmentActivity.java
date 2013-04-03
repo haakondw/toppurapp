@@ -6,6 +6,7 @@ import java.util.List;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +22,13 @@ public class DepartmentActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		//Super
 		super.onCreate(savedInstanceState);
+		
+		//Log
+		Log.i("EiT", getClass().getSimpleName() + ".onCreate()");
+		
+		//This
 		setContentView(R.layout.activity_department);
 		
 		//Departments
