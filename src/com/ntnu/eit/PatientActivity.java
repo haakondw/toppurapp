@@ -225,10 +225,16 @@ public class PatientActivity extends FragmentActivity {
 					for (int i = 0; i < count; i++) {
 						Task task = (Task) listView.getAdapter().getItem(i);
 						ViewGroup viewGroup = (ViewGroup) listView.getChildAt(i);
-						boolean temp = ((CheckBox)viewGroup.findViewById(R.id.pasient_task_checkbox)).isChecked();
 						
-						indices.add(task.getTaskID());
-						checked.add(temp);
+						if(viewGroup != null){			
+							CheckBox box = (CheckBox)viewGroup.findViewById(R.id.pasient_task_checkbox);
+							if(box != null){								
+								boolean temp = box.isChecked();
+								
+								indices.add(task.getTaskID());
+								checked.add(temp);
+							}
+						}
 					}
 					
 					//Checking history tasks

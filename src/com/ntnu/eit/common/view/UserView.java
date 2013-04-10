@@ -1,7 +1,6 @@
 package com.ntnu.eit.common.view;
 
 import android.content.Context;
-import android.graphics.Canvas;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.widget.RelativeLayout;
