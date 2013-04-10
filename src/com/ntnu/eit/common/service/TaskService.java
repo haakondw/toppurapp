@@ -14,6 +14,6 @@ public interface TaskService {
 	
 	public void setExecutedTasks(int pasientId, int[] indices, boolean[] isExecuted);
 	
-	public void updateTaskList(ArrayList<Task> tasks);
+	public void setTaskList(ArrayList<Task> tasks);
 	
 }

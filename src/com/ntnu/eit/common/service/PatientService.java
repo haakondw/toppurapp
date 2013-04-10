@@ -15,7 +15,9 @@ public interface PatientService{
 	
 	public byte[] getPatientPicture(Context context, int id);
 
-	public void updatePatientList(ArrayList<Patient> patients);
+	public void setPatientList(ArrayList<Patient> patients);
+	
+	public void setPatientPicture(int patientId, byte[] picture);
 	
 	
 }

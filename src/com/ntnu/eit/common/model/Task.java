@@ -10,7 +10,7 @@ public class Task implements Serializable{
 	 */
 	private static final long serialVersionUID = -1241151504752949838L;
 	private int taskID;
-	private int medicineId;
+	private int medicineId; //TODO change to just medicineName, medicine table has no other attributes
 	private String medicineForm;
 	private Date timestamp;
 	private String dosage;

@@ -13,7 +13,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
-import android.text.format.Time;
 import android.util.Log;
 
 /**
@@ -21,14 +20,11 @@ import android.util.Log;
  * server.
  */
 public class TaskClient extends AsyncTask<Void, Integer, ArrayList<Object>> {
-	private final static String IP = "http://rutatkak.no";
+	private final static String IP = "rutatkak.no";
 	private final static int PORT = 31111;
 	private TaskSocketObject tso = null;
 	private ArrayList<Task> tasks = null;
 	private TaskService ts;
-
-	/* PID of patient, if update if from PatientActivity */
-	private String patientId;
 
 	/* Adapters to notify */
 	ArrayList<Object> adapters;
@@ -48,11 +44,10 @@ public class TaskClient extends AsyncTask<Void, Integer, ArrayList<Object>> {
 	 * @param patientId The patient ID
 	 * @param executedTasks Tasks that has been checked as executed on the client side (in order to update the server database).
 	 */
-	public TaskClient(TaskSocketObject tso, ArrayList<Object> adapters, Context context, String patientId, ArrayList<Integer> executedTasks) {
+	public TaskClient(TaskSocketObject tso, ArrayList<Object> adapters, Context context, ArrayList<Integer> executedTasks) {
 		this.tso = tso;
 		this.adapters = adapters;
 		this.context = context;
-		this.patientId = patientId;
 		this.ts = ServiceFactory.getInstance().getTaskService();
 	}
 
@@ -76,8 +71,8 @@ public class TaskClient extends AsyncTask<Void, Integer, ArrayList<Object>> {
 	}
 
 	/**
-	 * This method does the communication with the server over a socket. It
-	 * retrieves the wanted objects from the server.
+	 * This method does the communication with the server over a socket. 
+	 * It retrieves the wanted objects from the server.
 	 */
 	@Override
 	protected ArrayList<Object> doInBackground(Void... params) {
@@ -149,7 +144,7 @@ public class TaskClient extends AsyncTask<Void, Integer, ArrayList<Object>> {
 			Log.e("Client", "tasksLength: " + tasks.size());
 			
 			/* update task list*/
-			ts.updateTaskList(tasks);
+			ts.setTaskList(tasks);
 
 			/* Notify adapter(s) that the data has changed */
 //			if (adapters != null) {

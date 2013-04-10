@@ -19,7 +19,7 @@ import android.util.Log;
  * retrieving data from the server.
  */
 public class PatientClient extends AsyncTask<Void, Integer, ArrayList<Object>>{
-	private final static String IP = "http://rutatkak.no";
+	private final static String IP = "rutatkak.no";
 	private final static int PORT = 31111;
 	private PatientSocketObject pso = null;
 	private ArrayList<Patient> patients = null;
@@ -41,8 +41,6 @@ public class PatientClient extends AsyncTask<Void, Integer, ArrayList<Object>>{
 	 * @param adapters, the adapters which should be notified that their data has changed.
 	 * @param context, the context from the calling activity.
 	 * 
-	 * The constructor also clears the list Overview.patients, to prevent the list to contain
-	 * objects in case of a communication failure.
 	 */
 	public PatientClient(PatientSocketObject pso, ArrayList<Object> adapters, Context context) {
 		this.pso = pso;
@@ -154,7 +152,7 @@ public class PatientClient extends AsyncTask<Void, Integer, ArrayList<Object>>{
 		
 		/* update patient list */
 		if (patients != null && !patients.isEmpty()) {
-			ps.updatePatientList(patients);
+			ps.setPatientList(patients);
 		}
 		
 //		for(Object a : adapters){

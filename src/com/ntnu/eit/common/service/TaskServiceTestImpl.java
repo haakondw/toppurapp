@@ -74,7 +74,7 @@ public class TaskServiceTestImpl implements TaskService{
 	}
 	
 	@Override
-	public void updateTaskList(ArrayList<Task> tasks){
+	public void setTaskList(ArrayList<Task> tasks){
 		this.tasks = new Task[tasks.size()];
 		tasks.toArray(this.tasks);
 	}

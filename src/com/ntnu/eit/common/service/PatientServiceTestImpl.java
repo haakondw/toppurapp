@@ -1,5 +1,7 @@
 package com.ntnu.eit.common.service;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
 import android.content.Context;
@@ -7,6 +9,8 @@ import android.util.SparseArray;
 
 import com.ntnu.eit.common.model.Department;
 import com.ntnu.eit.common.model.Patient;
+import com.ntnu.eit.socket.PictureClient;
+import com.ntnu.eit.socket.PictureSocketObject;
 
 public class PatientServiceTestImpl implements PatientService{
 	
@@ -55,9 +59,57 @@ public class PatientServiceTestImpl implements PatientService{
 		return bs;
 	}
 	
+	private void fetchPatientPicture(Patient patient, ArrayList<Object> adapters) throws NoSuchAlgorithmException{
+		PictureSocketObject pso = new PictureSocketObject(patient.getPatientID());
+		if(patient.getPicture() != null && patient.getPicture().length > 0){
+				MessageDigest md = MessageDigest.getInstance("MD5");
+				byte[] checksum = md.digest(patient.getPicture());
+				pso.setLastChecksum(checksum);
+		}
+		PictureClient pc = new PictureClient(pso, adapters);
+		//TODO execute pictureclient
+		
+	}
+	
 	@Override
-	public void updatePatientList(ArrayList<Patient> patients){
-		this.patients = new Patient[patients.size()];
-		patients.toArray(this.patients);
+	public void setPatientList(ArrayList<Patient> patients){
+		ArrayList<Patient> temp = new ArrayList<Patient>();
+		boolean updated;
+		
+		for(Patient p : patients){
+			updated = false;
+			for(int i=0; i<this.patients.length; i++){
+				if(p.getPatientID() == this.patients[i].getPatientID()){
+					this.patients[i].setFirstname(p.getFirstname());
+					this.patients[i].setLastname(p.getLastname());
+					this.patients[i].setPictureOffset(p.getPictureOffset());
+					this.patients[i].setSocialSecurityNumber(p.getSocialSecurityNumber());
+					updated = true;
+					break;
+				}
+			}
+			if(!updated){
+				temp.add(p);
+			}
+		}
+		
+		Patient[] newPatientList = new Patient[this.patients.length+temp.size()];
+
+		System.arraycopy(this.patients, 0, newPatientList, 0, this.patients.length);
+		Patient[] patientsToAdd = new Patient[temp.size()];
+		temp.toArray(patientsToAdd);
+		System.arraycopy(patientsToAdd, 0, newPatientList, this.patients.length, patientsToAdd.length);
+		
+		this.patients = new Patient[newPatientList.length];
+		System.arraycopy(newPatientList, 0, patients, 0, newPatientList.length);
+	}
+	
+	@Override
+	public void setPatientPicture(int patientId, byte[] picture){
+		for(Patient p : patients){
+			if(p.getPatientID() == patientId){
+				p.setPicture(picture);
+			}
+		}
 	}
 }
