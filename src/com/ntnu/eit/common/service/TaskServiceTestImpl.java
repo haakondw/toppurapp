@@ -1,5 +1,6 @@
 package com.ntnu.eit.common.service;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import android.util.SparseArray;
@@ -9,6 +10,7 @@ import com.ntnu.eit.common.model.Task;
 public class TaskServiceTestImpl implements TaskService{
 
 	private SparseArray<Task[]> pasientTasks;
+	private Task[] tasks;
 	
 	@Override
 	public Task[] getTasks(int pasientId) {
@@ -70,4 +72,11 @@ public class TaskServiceTestImpl implements TaskService{
 		//Adding data
 		pasientTasks.put(pasientId, tasks);
 	}
+	
+	@Override
+	public void updateTaskList(ArrayList<Task> tasks){
+		this.tasks = new Task[tasks.size()];
+		tasks.toArray(this.tasks);
+	}
+
 }

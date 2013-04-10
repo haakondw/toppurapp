@@ -1,5 +1,7 @@
 package com.ntnu.eit.common.service;
 
+import java.util.ArrayList;
+
 import android.content.Context;
 
 import com.ntnu.eit.common.model.Department;
@@ -12,5 +14,8 @@ public interface PatientService{
 	public Patient getPatientById(int id);
 	
 	public byte[] getPatientPicture(Context context, int id);
+
+	public void updatePatientList(ArrayList<Patient> patients);
+	
 	
 }

@@ -1,5 +1,7 @@
 package com.ntnu.eit.common.service;
 
+import java.util.ArrayList;
+
 import android.content.Context;
 import android.util.SparseArray;
 
@@ -13,26 +15,27 @@ public class PatientServiceTestImpl implements PatientService{
 
 	//TEST DATA
 	private SparseArray<Patient> pasientsSparse;
-	private Patient[] pasients;
+	private Patient[] patients;
 	
+
 	@Override
 	public Patient[] getPatients(Context context, Department[] departments) {
-		if(pasients == null){			
+		if(patients == null){			
 			pasientsSparse = new SparseArray<Patient>();
 			
 			int end = (int) (Math.random()*50) + 1;
-			pasients = new Patient[end];
+			patients = new Patient[end];
 			
 			for(int i = 0; i < end; i++){				
 				String firstname = firstNames[(int) (Math.random()*firstNames.length)];
 				String lastname = lastNames[(int) (Math.random()*lastNames.length)];
 				Patient pasient = new Patient(i, departments[(int) (Math.random()*departments.length)].getDepartmentID(), "", firstname, lastname);
 				pasientsSparse.put(i, pasient);
-				pasients[i] = pasient;
+				patients[i] = pasient;
 			}
 		}
 
-		return pasients;
+		return patients;
 	}
 
 	@Override
@@ -50,5 +53,11 @@ public class PatientServiceTestImpl implements PatientService{
 			bs[i] = (byte) (i%100);
 		}
 		return bs;
+	}
+	
+	@Override
+	public void updatePatientList(ArrayList<Patient> patients){
+		this.patients = new Patient[patients.size()];
+		patients.toArray(this.patients);
 	}
 }
