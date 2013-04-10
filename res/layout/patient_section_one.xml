@@ -4,13 +4,19 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
     
+    <com.ntnu.eit.common.view.UserView 
+        android:id="@+id/patient_user_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"/>
+    
     <ListView
         android:id="@+id/pasient_task_history_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_marginTop="25dp"
-		android:layout_alignParentTop="true">
+		android:layout_below="@id/patient_user_view">
     </ListView>
 </RelativeLayout>

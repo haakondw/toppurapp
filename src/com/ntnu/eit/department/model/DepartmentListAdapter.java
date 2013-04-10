@@ -40,14 +40,14 @@ public class DepartmentListAdapter extends ArrayAdapter<Department>{
             holder.txtTitle = (TextView) row.findViewById(R.id.departmentName);
             holder.checkBox = (CheckBox) row.findViewById(R.id.departmentCheckBox);
             
-            //Text size
-    		int size = PreferenceManager.getDefaultSharedPreferences(context).getInt("text_size", 50);
-    		holder.txtTitle.setTextSize(50*size/100);
-            
             row.setTag(holder);
         }else{
             holder = (DepartmentHolder)row.getTag();
         }
+        
+        //Text size
+        int size = PreferenceManager.getDefaultSharedPreferences(context).getInt("text_size", 50);
+        holder.txtTitle.setTextSize(50*size/100);
         
         Department department = data[position];
         holder.txtTitle.setText(department.getName());

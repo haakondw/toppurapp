@@ -51,16 +51,16 @@ public class PatientsListAdapter extends ArrayAdapter<Patient>{
             holder.clockView = (TextView) row.findViewById(R.id.pasientClock);
             holder.pictureView = (ImageView) row.findViewById(R.id.pasientImage);
             
-            //Text size
-    		int size = PreferenceManager.getDefaultSharedPreferences(context).getInt("text_size", 50);
-    		holder.nameView.setTextSize(50*size/100);
-    		holder.clockView.setTextSize(50*size/100);
-    		holder.departmentView.setTextSize(20*size/100);
-            
             row.setTag(holder);
         }else{
             holder = (PasientHolder)row.getTag();
         }
+        
+        //Text size
+        int size = PreferenceManager.getDefaultSharedPreferences(context).getInt("text_size", 50);
+        holder.nameView.setTextSize(50*size/100);
+        holder.clockView.setTextSize(50*size/100);
+        holder.departmentView.setTextSize(30*size/100);
         
         Patient pasient = patients[position];
         holder.nameView.setText(pasient.getFirstname() + ", " + pasient.getLastname());

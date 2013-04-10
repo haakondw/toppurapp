@@ -54,17 +54,17 @@ public class PatientTaskListAdapter extends ArrayAdapter<Task>{
             holder.executed = (CheckBox) row.findViewById(R.id.pasient_task_checkbox);
             holder.background = (ViewGroup) row;
             
-            //Text size
-    		int size = PreferenceManager.getDefaultSharedPreferences(context).getInt("text_size", 50);
-    		holder.medicine.setTextSize(30*size/100);
-    		holder.medicineForm.setTextSize(30*size/100);
-    		holder.dosage.setTextSize(30*size/100);
-    		holder.time.setTextSize(30*size/100);
-            
             row.setTag(holder);
         }else{
             holder = (PasientTaskHolder)row.getTag();
         }
+        
+        //Text size
+        int size = PreferenceManager.getDefaultSharedPreferences(context).getInt("text_size", 50);
+        holder.medicine.setTextSize(30*size/100);
+        holder.medicineForm.setTextSize(30*size/100);
+        holder.dosage.setTextSize(30*size/100);
+        holder.time.setTextSize(30*size/100);
         
         Task task = tasks[position];
         

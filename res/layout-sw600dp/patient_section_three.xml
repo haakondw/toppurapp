@@ -1,8 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
     
+    <com.ntnu.eit.common.view.UserView 
+        android:id="@+id/patient_user_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"/>
+    
+    <ImageView 
+        android:id="@+id/pasientImage"
+        android:layout_width="200dp"
+        android:layout_height="300dp"
+        android:layout_alignParentLeft="true"
+		android:layout_below="@id/patient_user_view"
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="50dp">    
+    </ImageView>
 
-</LinearLayout>
+</RelativeLayout>

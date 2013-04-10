@@ -3,6 +3,7 @@ package com.ntnu.eit;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
@@ -17,6 +18,7 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -96,6 +98,44 @@ public class PatientActivity extends FragmentActivity {
 		mViewPager.setAdapter(mSectionsPagerAdapter);
 		
 		mViewPager.setCurrentItem(1);
+	}
+	
+	@Override
+	protected void onResume() {
+		//Super
+		super.onResume();
+		
+		//Init
+		int size = PreferenceManager.getDefaultSharedPreferences(this).getInt("text_size", 50);
+		
+		//Name size
+		TextView textView = (TextView) findViewById(R.id.pasientName);
+		if(textView != null){
+			textView.setTextSize(50*size/100);
+		}
+		
+		//Department size
+		textView = (TextView) findViewById(R.id.pasientDepartment);
+		if(textView != null){
+			textView.setTextSize(50*size/100);
+		}
+		
+		//Department size
+		Button submitButton = (Button) findViewById(R.id.pasientSubmitButton);
+		if(submitButton != null){
+			submitButton.setTextSize(50*size/100);
+		}
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.menu_settings:
+			startActivity(new Intent(this, LoginSettingsActivity.class));
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
 	}
 
 	@Override
@@ -358,7 +398,7 @@ public class PatientActivity extends FragmentActivity {
 				
 				//Text size
 				name.setTextSize(50*size/100);
-				department.setTextSize(20*size/100);
+				department.setTextSize(30*size/100);
 				submitButton.setTextSize(50*size/100);
 				
 				//Test colors
@@ -386,7 +426,22 @@ public class PatientActivity extends FragmentActivity {
 				
 				return section2view;
 			case 3:
-				return inflater.inflate(R.layout.patient_section_three, container, false);
+				//Init
+				View section3view = inflater.inflate(R.layout.patient_section_three, container, false);
+				
+				//Picture
+				ImageView imageView2 = (ImageView) section3view.findViewById(R.id.pasientImage);
+				if(imageView2 != null){					
+					if(pasient.getPicture() == null){					
+						imageView2.setImageBitmap(Bitmap.createBitmap(100, 100, Config.RGB_565));
+						imageView2.setBackgroundColor(Color.BLUE);
+					}else{
+						imageView2.setImageBitmap(BitmapFactory.decodeByteArray(pasient.getPicture(), 0, pasient.getPicture().length));
+						imageView2.setBackgroundColor(Color.BLUE);
+					}
+				}
+				
+				return section3view;
 			}
 
 			return null;

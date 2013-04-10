@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -51,6 +52,17 @@ public class DepartmentActivity extends Activity {
 	}
 
 	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.menu_settings:
+			startActivity(new Intent(this, LoginSettingsActivity.class));
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
+
+	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.activity_department, menu);
 		return true;
@@ -73,8 +85,8 @@ public class DepartmentActivity extends Activity {
 			Department Department = (Department) listView.getAdapter().getItem(i);
 			ViewGroup row = (ViewGroup) listView.getChildAt(i);
 			
-			if(row != null){		
-				CheckBox box = (CheckBox)row.getChildAt(1);
+			if(row != null){
+				CheckBox box = (CheckBox)row.findViewById(R.id.departmentCheckBox);
 				if(box != null){					
 					boolean isChecked = box.isChecked();
 					
