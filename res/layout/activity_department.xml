@@ -8,14 +8,6 @@
         android:id="@+id/department_user_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-    
-    <ListView
-        android:layout_below="@id/department_user_view"
-        android:id="@+id/departmentList"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="10dp" >
-    </ListView>
 
     <Button
         android:id="@+id/departmentNextButton"
@@ -28,5 +20,13 @@
         android:layout_marginRight="15dp"
         android:layout_marginBottom="15dp">
    </Button>
+    
+    <ListView
+        android:id="@+id/departmentList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/department_user_view"
+        android:layout_above="@id/departmentNextButton">
+    </ListView>
 
 </RelativeLayout>

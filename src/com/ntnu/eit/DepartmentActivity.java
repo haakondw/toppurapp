@@ -72,10 +72,16 @@ public class DepartmentActivity extends Activity {
 		for(int i = 0; i < listView.getAdapter().getCount(); i++){
 			Department Department = (Department) listView.getAdapter().getItem(i);
 			ViewGroup row = (ViewGroup) listView.getChildAt(i);
-			boolean isChecked = ((CheckBox)row.getChildAt(1)).isChecked();
 			
-			if(isChecked){				
-				indices.add(Department.getDepartmentID());
+			if(row != null){		
+				CheckBox box = (CheckBox)row.getChildAt(1);
+				if(box != null){					
+					boolean isChecked = box.isChecked();
+					
+					if(isChecked){				
+						indices.add(Department.getDepartmentID());
+					}
+				}
 			}
 		}
 		
