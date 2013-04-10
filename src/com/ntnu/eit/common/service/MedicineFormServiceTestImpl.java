@@ -5,14 +5,12 @@ import com.ntnu.eit.common.model.MedicineForm;
 public class MedicineFormServiceTestImpl implements MedicineFormService{
 
 	MedicineForm[] medicineForms = {
-			new MedicineForm("Pill"),
-			new MedicineForm("Liquid"),
-			new MedicineForm("Spray"),
-			new MedicineForm("Drop"),
-			new MedicineForm("Injection"),
-			new MedicineForm("Lotion"),
-			new MedicineForm("Suppository"),
-			new MedicineForm("Ointment")
+			new MedicineForm("Pille"),
+			new MedicineForm("Flytende"),
+			new MedicineForm("Injeksjon"),
+			new MedicineForm("Krem"),
+			new MedicineForm("Stikkpille"),
+			new MedicineForm("Salve")
 	};
 	
 	@Override
