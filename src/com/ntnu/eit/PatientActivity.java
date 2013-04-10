@@ -374,12 +374,14 @@ public class PatientActivity extends FragmentActivity {
 				department.setText(deptemp.getName());
 				
 				//Setting picture
-				if(pasient.getPicture() == null){					
-					imageView.setImageBitmap(Bitmap.createBitmap(100, 100, Config.RGB_565));
-					imageView.setBackgroundColor(Color.BLUE);
-				}else{
-					imageView.setImageBitmap(BitmapFactory.decodeByteArray(pasient.getPicture(), 0, pasient.getPicture().length));
-					imageView.setBackgroundColor(Color.BLUE);
+				if(imageView != null){					
+					if(pasient.getPicture() == null){					
+						imageView.setImageBitmap(Bitmap.createBitmap(100, 100, Config.RGB_565));
+						imageView.setBackgroundColor(Color.BLUE);
+					}else{
+						imageView.setImageBitmap(BitmapFactory.decodeByteArray(pasient.getPicture(), 0, pasient.getPicture().length));
+						imageView.setBackgroundColor(Color.BLUE);
+					}
 				}
 				
 				return section2view;
@@ -391,6 +393,11 @@ public class PatientActivity extends FragmentActivity {
 		}
 	}
 
+
+	public void onTaskClick2(View view){
+		onTaskClick2((View) view.getParent());
+	}
+	
 	public void onTaskClick(View view){
 		CheckBox checkBox = (CheckBox) view.findViewById(R.id.pasient_task_checkbox);
 		checkBox.setChecked(!checkBox.isChecked());
