@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,14 +36,21 @@ public class PatientTaskListAdapter extends ArrayAdapter<Task>{
 		this.textViewResourceId = textViewResourceId;
 		this.tasks = tasks;
 		format = new SimpleDateFormat("HH:mm", Locale.getDefault());
+		
+		Log.d("EiT", "Init TaskAdapter with " + tasks.length + " tasks");
 	}
 	
 	@Override
     public View getView(int position, View convertView, ViewGroup parent) {
-    	View row = convertView;
+    	Log.d("EiT", "getView(Pos = " + position + ")");
+		
+		View row = convertView;
     	PasientTaskHolder holder = null;
+        Task task = tasks[position];
         
         if(row == null){
+        	Log.d("EiT", "Row " + position + " is null");
+        	
             LayoutInflater inflater = ((Activity)context).getLayoutInflater();
             row = inflater.inflate(textViewResourceId, parent, false);
             
@@ -53,6 +61,9 @@ public class PatientTaskListAdapter extends ArrayAdapter<Task>{
             holder.time = (TextView) row.findViewById(R.id.pasient_task_time);
             holder.executed = (CheckBox) row.findViewById(R.id.pasient_task_checkbox);
             holder.background = (ViewGroup) row;
+            
+            //Executed
+            holder.executed.setChecked(task.isExecuted());
             
             row.setTag(holder);
         }else{
@@ -65,8 +76,6 @@ public class PatientTaskListAdapter extends ArrayAdapter<Task>{
         holder.medicineForm.setTextSize(30*size/100);
         holder.dosage.setTextSize(30*size/100);
         holder.time.setTextSize(30*size/100);
-        
-        Task task = tasks[position];
         
         //Medicine text
         Medicine medicine = ServiceFactory.getInstance().getMedicineService().getMedicine(task.getMedicineId());
@@ -90,9 +99,6 @@ public class PatientTaskListAdapter extends ArrayAdapter<Task>{
         	
         	holder.background.setBackgroundColor(Color.argb(alpha, 255, 0, 0));
         }
-        
-        //Executed
-        holder.executed.setChecked(task.isExecuted());
         
         return row;
     } 

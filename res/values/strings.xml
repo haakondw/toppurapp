@@ -2,12 +2,13 @@
 <resources>
 
     <string name="app_name">EiT</string>
-    <string name="title_activity_department">DepartmentActivity</string>
-    <string name="menu_settings">Settings</string>
+	<string name="title_activity_login">Log in</string>
+    <string name="title_activity_department">Avdelinger</string>
+    <string name="title_activity_pasient">Pasient</string>
+    <string name="menu_settings">Innstillinger</string>
     <string name="hello_world">Hello world!</string>
-    <string name="title_activity_pasient">PasientActivity</string>
-    <string name="title_section1">Section 1</string>
-    <string name="title_section2">Section 2</string>
-    <string name="title_section3">Section 3</string>
-
+    <string name="title_section1">Historikk</string>
+    <string name="title_section2">Oppgaver</string>
+    <string name="title_section3">Om pasient</string>
+    
 </resources>

@@ -349,11 +349,11 @@ public class PatientActivity extends FragmentActivity {
 		public CharSequence getPageTitle(int position) {
 			switch (position) {
 			case 0:
-				return "History";
+				return getResources().getText(R.string.title_section1);
 			case 1:
-				return "Tasks";
+				return getResources().getText(R.string.title_section2);
 			case 2:
-				return "About";
+				return getResources().getText(R.string.title_section3);
 			}
 			return null;
 		}

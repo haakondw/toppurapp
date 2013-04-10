@@ -8,8 +8,12 @@ import com.ntnu.eit.common.model.Patient;
 
 public class PatientServiceTestImpl implements PatientService{
 	
-	private String[] firstNames = {"Davit", "Lukas", "Yusif", "Ivan","Noah","Milan","Lucas","Nathan","Jakub","Victor","Harry"};
-	private String[] lastNames = {"SMITH","JOHNSON","WILLIAMS","JONES","BROWN","DAVIS","MILLER","WILSON","MOORE","TAYLOR","ANDERSON"}; 
+	private String[] firstNames = {	"Jonas", "Matias", "Aleksander", "Andreas","Elias",
+									"Christian","Sebastian","Marcus","Sander","Tobias",
+									"Tea","Emma","Sarah","Julie","Ida",
+									"Hanna","Nora","Ingrid","Emilie","Amalie"};
+	private String[] lastNames = {	"Aasen","Amdahl","Asheim","Augdahl","Jagland","Jeppsson",
+									"Kittelsen","Monrad","Otterstad","Solberg","Strandberg", "Tufte"}; 
 
 	//TEST DATA
 	private SparseArray<Patient> pasientsSparse;
