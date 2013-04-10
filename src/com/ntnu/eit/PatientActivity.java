@@ -8,6 +8,7 @@ import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -18,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -117,10 +119,15 @@ public class PatientActivity extends FragmentActivity {
 				for (int i = 0; i < count; i++) {
 					Task task = (Task) listView.getAdapter().getItem(i);
 					ViewGroup viewGroup = (ViewGroup) listView.getChildAt(i);
-					boolean temp = ((CheckBox)viewGroup.findViewById(R.id.pasient_task_checkbox)).isChecked();
 					
-					indices.add(task.getTaskID());
-					checked.add(temp);
+					if(viewGroup != null){						
+						CheckBox box = (CheckBox)viewGroup.findViewById(R.id.pasient_task_checkbox);
+						
+						boolean temp = box.isChecked();
+						
+						indices.add(task.getTaskID());
+						checked.add(temp);
+					}
 				}
 
 				//Checking history tasks
@@ -250,10 +257,15 @@ public class PatientActivity extends FragmentActivity {
 			ViewGroup child = (ViewGroup) listView.getChildAt(i);
 			Task task = (Task) listView.getAdapter().getItem(i);
 			
-			boolean isChecked = ((CheckBox)child.findViewById(R.id.pasient_task_checkbox)).isChecked();
-			
-			if(isChecked != task.isExecuted()){
-				tasks.add(task);
+			if(child != null){				
+				CheckBox box = (CheckBox)child.findViewById(R.id.pasient_task_checkbox);
+				if(box != null){				
+					boolean isChecked = box.isChecked();
+					
+					if(isChecked != task.isExecuted()){
+						tasks.add(task);
+					}
+				}
 			}
 		}
 		
@@ -321,6 +333,7 @@ public class PatientActivity extends FragmentActivity {
 			// Create a new TextView and set its text to the fragment's section
 			// number argument value.
 			int section = getArguments().getInt(ARG_SECTION_NUMBER);
+			int size = PreferenceManager.getDefaultSharedPreferences(inflater.getContext()).getInt("text_size", 50);
 			
 			switch (section) {
 			case 1:
@@ -341,6 +354,12 @@ public class PatientActivity extends FragmentActivity {
 				ImageView imageView = (ImageView) section2view.findViewById(R.id.pasientImage);
 				View notification = (View) section2view.findViewById(R.id.pasientNotofication);
 				ListView taskListView = (ListView)section2view.findViewById(R.id.pasientTaskList);
+				Button submitButton = (Button) section2view.findViewById(R.id.pasientSubmitButton);
+				
+				//Text size
+				name.setTextSize(50*size/100);
+				department.setTextSize(20*size/100);
+				submitButton.setTextSize(50*size/100);
 				
 				//Test colors
 				notification.setBackgroundColor(Color.RED);

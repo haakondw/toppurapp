@@ -65,6 +65,11 @@ public class PatientsActivity extends Activity {
 		getMenuInflater().inflate(R.menu.activity_pasient, menu);
 		return true;
 	}
+	
+
+	public void onPatientClick2(View view){
+		onPatientClick((View) view.getParent());
+	}
 
 	public void onPatientClick(View view){
 		int count = listView.getAdapter().getCount();

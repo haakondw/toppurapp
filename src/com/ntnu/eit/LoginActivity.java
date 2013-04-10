@@ -8,12 +8,14 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -66,7 +68,7 @@ public class LoginActivity extends Activity {
 		mLoginFormView = findViewById(R.id.login_form);
 		mLoginStatusView = findViewById(R.id.login_status);
 		mLoginStatusMessageView = (TextView) findViewById(R.id.login_status_message);
-
+		
 		findViewById(R.id.sign_in_button).setOnClickListener(
 				new View.OnClickListener() {
 					@Override
@@ -74,6 +76,20 @@ public class LoginActivity extends Activity {
 						attemptLogin();
 					}
 				});
+	}
+	
+	@Override
+	protected void onResume() {
+		//Super
+		super.onResume();
+
+		//Text size
+		int size = PreferenceManager.getDefaultSharedPreferences(this).getInt("text_size", 50);
+		mUsernameView.setTextSize(50*size/100);
+		mPasswordView.setTextSize(50*size/100);
+		
+		Button button = (Button) findViewById(R.id.sign_in_button);
+		button.setTextSize(50*size/100);
 	}
 
 	@Override

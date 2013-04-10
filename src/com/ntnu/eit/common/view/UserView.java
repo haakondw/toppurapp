@@ -1,6 +1,7 @@
 package com.ntnu.eit.common.view;
 
 import android.content.Context;
+import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -26,5 +27,10 @@ public class UserView extends RelativeLayout{
 		User user = ServiceFactory.getInstance().getAuthenticationService().getLoggedInUser();
 		firstNameView.setText(user.getFirstname());
 		lastNameView.setText(user.getLastname());
+		
+		//Text Size
+		int size = PreferenceManager.getDefaultSharedPreferences(context).getInt("text_size", 50);
+		firstNameView.setTextSize(50*size/100);
+		lastNameView.setTextSize(50*size/100);
 	}
 }

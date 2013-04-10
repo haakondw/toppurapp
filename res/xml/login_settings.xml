@@ -9,4 +9,10 @@
         android:dialogMessage="Enter server name/IP"
         />
     
+    <com.ntnu.eit.common.preference.SeekBarPreference
+  		android:title="Text Size"
+  		android:key="text_size"
+        android:defaultValue="50"
+  		android:layout="@layout/seekbar_preference"/>
+    
 </PreferenceScreen>

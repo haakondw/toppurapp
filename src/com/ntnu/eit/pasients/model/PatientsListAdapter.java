@@ -5,6 +5,7 @@ import java.util.Locale;
 
 import android.app.Activity;
 import android.content.Context;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,6 +50,12 @@ public class PatientsListAdapter extends ArrayAdapter<Patient>{
             holder.departmentView = (TextView) row.findViewById(R.id.pasientDepartment);
             holder.clockView = (TextView) row.findViewById(R.id.pasientClock);
             holder.pictureView = (ImageView) row.findViewById(R.id.pasientImage);
+            
+            //Text size
+    		int size = PreferenceManager.getDefaultSharedPreferences(context).getInt("text_size", 50);
+    		holder.nameView.setTextSize(50*size/100);
+    		holder.clockView.setTextSize(50*size/100);
+    		holder.departmentView.setTextSize(20*size/100);
             
             row.setTag(holder);
         }else{

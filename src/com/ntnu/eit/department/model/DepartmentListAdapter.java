@@ -2,6 +2,7 @@ package com.ntnu.eit.department.model;
 
 import android.app.Activity;
 import android.content.Context;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +39,10 @@ public class DepartmentListAdapter extends ArrayAdapter<Department>{
             holder = new DepartmentHolder();
             holder.txtTitle = (TextView) row.findViewById(R.id.departmentName);
             holder.checkBox = (CheckBox) row.findViewById(R.id.departmentCheckBox);
+            
+            //Text size
+    		int size = PreferenceManager.getDefaultSharedPreferences(context).getInt("text_size", 50);
+    		holder.txtTitle.setTextSize(50*size/100);
             
             row.setTag(holder);
         }else{

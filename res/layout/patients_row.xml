@@ -11,7 +11,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_centerHorizontal="true"
-        android:contentDescription="TODO">
+        android:contentDescription="TODO"
+        android:onClick="onPatientClick2">
     </ImageView>
     
     <TextView 
@@ -22,8 +23,8 @@
         android:layout_alignParentTop="true"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
-        android:textIsSelectable="true"
-        android:textSize="30sp">
+        android:textIsSelectable="false"
+        android:onClick="onPatientClick2">
     </TextView>
     
     <TextView 
@@ -34,8 +35,8 @@
         android:layout_below="@id/pasientName"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
-        android:textIsSelectable="true"
-        android:textSize="15sp">
+        android:textIsSelectable="false"
+        android:onClick="onPatientClick2">
     </TextView>
     
     <TextView 
@@ -45,8 +46,8 @@
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
         android:layout_marginRight="10dp"
-        android:textSize="25sp"
-        android:textIsSelectable="true">
+        android:textIsSelectable="false"
+        android:onClick="onPatientClick2">
     </TextView>
 
 </RelativeLayout>

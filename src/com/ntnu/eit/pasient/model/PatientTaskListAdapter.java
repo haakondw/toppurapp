@@ -6,6 +6,7 @@ import java.util.Locale;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,6 +53,13 @@ public class PatientTaskListAdapter extends ArrayAdapter<Task>{
             holder.time = (TextView) row.findViewById(R.id.pasient_task_time);
             holder.executed = (CheckBox) row.findViewById(R.id.pasient_task_checkbox);
             holder.background = (ViewGroup) row;
+            
+            //Text size
+    		int size = PreferenceManager.getDefaultSharedPreferences(context).getInt("text_size", 50);
+    		holder.medicine.setTextSize(30*size/100);
+    		holder.medicineForm.setTextSize(30*size/100);
+    		holder.dosage.setTextSize(30*size/100);
+    		holder.time.setTextSize(30*size/100);
             
             row.setTag(holder);
         }else{
