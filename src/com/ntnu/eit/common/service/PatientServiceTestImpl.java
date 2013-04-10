@@ -46,7 +46,7 @@ public class PatientServiceTestImpl implements PatientService{
 		byte[] bs = new byte[100*100*3];
 //		int[] temp = new int[bitmap.getWidth()*bitmap.getHeight()];
 //		bitmap.getPixels(temp, 0, bitmap.getWidth(), 0, 0, bitmap.getWidth(), bitmap.getHeight());
-		for (int i = 0; i < bs.length; i++) {
+		for (int i = 0; i < bs.length; i++){
 			bs[i] = (byte) (i%100);
 		}
 		return bs;
