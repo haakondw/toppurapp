@@ -1,5 +1,6 @@
 package com.ntnu.eit.common.service;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
 import android.content.Context;
@@ -18,6 +19,11 @@ public interface PatientService{
 	public void setPatientList(ArrayList<Patient> patients);
 	
 	public void setPatientPicture(int patientId, byte[] picture);
+	
+	public void updatePatientList(int departmentId, ArrayList<Object> adapters, Context context);
+
+	public void updatePatientPicture(Patient patient, ArrayList<Object> adapters) throws NoSuchAlgorithmException;
+	
 	
 	
 }

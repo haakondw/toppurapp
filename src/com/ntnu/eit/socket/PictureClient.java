@@ -104,6 +104,7 @@ public class PictureClient extends AsyncTask<Void, Integer, ArrayList<Object>> {
 			ps.setPatientPicture(pso.getPatientId(), picture);
 
 			/* Notify adapter(s) that the data has changed */
+			//TODO must be changed to working adapters
 //			if (adapters != null) {
 //				for (Object a : adapters) {
 //					if (a instanceof EventListFilterableAdapter) {

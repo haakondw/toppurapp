@@ -44,7 +44,7 @@ public class TaskClient extends AsyncTask<Void, Integer, ArrayList<Object>> {
 	 * @param patientId The patient ID
 	 * @param executedTasks Tasks that has been checked as executed on the client side (in order to update the server database).
 	 */
-	public TaskClient(TaskSocketObject tso, ArrayList<Object> adapters, Context context, ArrayList<Integer> executedTasks) {
+	public TaskClient(TaskSocketObject tso, ArrayList<Object> adapters, Context context) {
 		this.tso = tso;
 		this.adapters = adapters;
 		this.context = context;
@@ -147,6 +147,7 @@ public class TaskClient extends AsyncTask<Void, Integer, ArrayList<Object>> {
 			ts.setTaskList(tasks);
 
 			/* Notify adapter(s) that the data has changed */
+			//TODO must be changed to working adapters
 //			if (adapters != null) {
 //				for (Object a : adapters) {
 //					if (a instanceof EventListFilterableAdapter) {

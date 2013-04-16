@@ -3,9 +3,12 @@ package com.ntnu.eit.common.service;
 import java.util.ArrayList;
 import java.util.Date;
 
+import android.content.Context;
 import android.util.SparseArray;
 
 import com.ntnu.eit.common.model.Task;
+import com.ntnu.eit.socket.TaskClient;
+import com.ntnu.eit.socket.TaskSocketObject;
 
 public class TaskServiceTestImpl implements TaskService{
 
@@ -78,5 +81,12 @@ public class TaskServiceTestImpl implements TaskService{
 		this.tasks = new Task[tasks.size()];
 		tasks.toArray(this.tasks);
 	}
-
+	
+	@Override
+	public void updateTaskList(int patientId, ArrayList<Integer> executedTasks, ArrayList<Object> adapters, Context context){
+		TaskSocketObject tso = new TaskSocketObject(patientId, executedTasks);
+		TaskClient tc = new TaskClient(tso, adapters, context);
+		tc.execute();
+		
+	}
 }

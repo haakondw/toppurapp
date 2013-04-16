@@ -155,6 +155,7 @@ public class PatientClient extends AsyncTask<Void, Integer, ArrayList<Object>>{
 			ps.setPatientList(patients);
 		}
 		
+		//TODO must be changed to working adapters
 //		for(Object a : adapters){
 //			 if(a instanceof ManagePatientAdapter){
 //				((ManagePatientAdapter) a).notifyDataSetChanged();

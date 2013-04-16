@@ -9,6 +9,8 @@ import android.util.SparseArray;
 
 import com.ntnu.eit.common.model.Department;
 import com.ntnu.eit.common.model.Patient;
+import com.ntnu.eit.socket.PatientClient;
+import com.ntnu.eit.socket.PatientSocketObject;
 import com.ntnu.eit.socket.PictureClient;
 import com.ntnu.eit.socket.PictureSocketObject;
 
@@ -63,17 +65,7 @@ public class PatientServiceTestImpl implements PatientService{
 		return bs;
 	}
 	
-	private void fetchPatientPicture(Patient patient, ArrayList<Object> adapters) throws NoSuchAlgorithmException{
-		PictureSocketObject pso = new PictureSocketObject(patient.getPatientID());
-		if(patient.getPicture() != null && patient.getPicture().length > 0){
-				MessageDigest md = MessageDigest.getInstance("MD5");
-				byte[] checksum = md.digest(patient.getPicture());
-				pso.setLastChecksum(checksum);
-		}
-		PictureClient pc = new PictureClient(pso, adapters);
-		//TODO execute pictureclient
-		
-	}
+	
 	
 	@Override
 	public void setPatientList(ArrayList<Patient> patients){
@@ -115,5 +107,25 @@ public class PatientServiceTestImpl implements PatientService{
 				p.setPicture(picture);
 			}
 		}
+	}
+	
+	@Override
+	public void updatePatientList(int departmentId, ArrayList<Object> adapters, Context context){
+		PatientSocketObject pso = new PatientSocketObject(departmentId);
+		PatientClient pc = new PatientClient(pso, adapters, context);
+		pc.execute();
+		//TODO maybe start update of pictures here? happy threading!
+	}
+	
+	@Override
+	public void updatePatientPicture(Patient patient, ArrayList<Object> adapters) throws NoSuchAlgorithmException{
+		PictureSocketObject pso = new PictureSocketObject(patient.getPatientID());
+		if(patient.getPicture() != null && patient.getPicture().length > 0){
+				MessageDigest md = MessageDigest.getInstance("MD5");
+				byte[] checksum = md.digest(patient.getPicture());
+				pso.setLastChecksum(checksum);
+		}
+		PictureClient pc = new PictureClient(pso, adapters);
+		pc.execute();
 	}
 }
