@@ -24,6 +24,4 @@ public interface PatientService{
 
 	public void updatePatientPicture(Patient patient, ArrayList<Object> adapters) throws NoSuchAlgorithmException;
 	
-	
-	
 }
