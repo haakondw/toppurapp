@@ -157,6 +157,9 @@ public class PatientActivity extends FragmentActivity {
 		case R.id.menu_settings:
 			startActivity(new Intent(this, LoginSettingsActivity.class));
 			return true;
+		case R.id.logout:
+			finish();
+			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
@@ -165,7 +168,7 @@ public class PatientActivity extends FragmentActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.activity_pasient, menu);
+		getMenuInflater().inflate(R.menu.activity_common, menu);
 		return true;
 	}
 	

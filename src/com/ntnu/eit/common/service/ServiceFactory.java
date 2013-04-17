@@ -62,4 +62,8 @@ public class ServiceFactory {
 		}
 		return instance;
 	}
+	
+	public static void finallize(){
+		instance = null;
+	}
 }

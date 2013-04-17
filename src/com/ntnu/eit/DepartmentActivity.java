@@ -84,7 +84,7 @@ public class DepartmentActivity extends Activity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.activity_department, menu);
+		getMenuInflater().inflate(R.menu.activity_common, menu);
 		return true;
 	}
 	

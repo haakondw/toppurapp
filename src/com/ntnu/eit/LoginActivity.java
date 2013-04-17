@@ -96,16 +96,22 @@ public class LoginActivity extends Activity {
 	}
 
 	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		ServiceFactory.finallize();
+	}
+	
+	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
-		getMenuInflater().inflate(R.menu.activity_login, menu);
+		getMenuInflater().inflate(R.menu.activity_common, menu);
 		return true;
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case R.id.login_menu_settings:
+		case R.id.menu_settings:
 			startActivity(new Intent(this, LoginSettingsActivity.class));
 			return true;
 		default:
