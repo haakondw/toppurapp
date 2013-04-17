@@ -142,8 +142,12 @@ public class PatientActivity extends FragmentActivity {
 		
 		//Department size
 		Button submitButton = (Button) findViewById(R.id.pasientSubmitButton);
+		Button deviationButton = (Button) findViewById(R.id.pasientRegisterDeviationButton);
 		if(submitButton != null){
 			submitButton.setTextSize(50*size/100);
+		}
+		if(deviationButton != null){
+			deviationButton.setTextSize(50*size/100);
 		}
 	}
 

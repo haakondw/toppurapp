@@ -14,9 +14,9 @@
         android:id="@+id/deviation_patient_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="28dp"
+        android:layout_below="@id/patient_user_view"
         android:text="Pasient: "
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
@@ -24,9 +24,19 @@
         android:id="@+id/deviation_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView1"
+        android:layout_below="@id/deviation_patient_name"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp" />
+        android:layout_marginTop="10dp" />
+
+    <Button
+        android:id="@+id/deviation_register_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:text="Registrer" 
+        android:onClick="onDeviationSubmition"/>
 
     <EditText
         android:id="@+id/deviation_message"
@@ -34,21 +44,12 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/timePicker1"
+        android:layout_below="@id/deviation_time"
         android:layout_marginTop="27dp"
-        android:ems="10" >
+        android:layout_above="@id/deviation_register_button"
+        android:ems="10">
 
         <requestFocus />
     </EditText>
-
-    <Button
-        android:id="@+id/deviation_register_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/editText1"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="34dp"
-        android:text="Registrer" 
-        android:onClick="onDeviationSubmition"/>
 
 </RelativeLayout>
