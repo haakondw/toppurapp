@@ -8,7 +8,6 @@ import com.ntnu.eit.R;
 import com.ntnu.eit.common.model.Department;
 import com.ntnu.eit.common.model.Patient;
 import com.ntnu.eit.common.service.DepartmentService;
-import com.ntnu.eit.common.service.PatientService;
 import com.ntnu.eit.common.service.ServiceFactory;
 
 import android.app.AlertDialog;
@@ -16,14 +15,13 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
-import android.preference.PreferenceManager;
 import android.util.Log;
 /**
  * This class is an asynchronous class, designated to 
  * retrieving data from the server.
  */
 public class DepartmentClient extends AsyncTask<Void, Integer, ArrayList<Object>>{
-	private static String IP; //TODO change to global param?
+	private static String IP;
 	private final static int PORT = 31111;
 	private DepartmentSocketObject dso = null;
 	private ArrayList<Department> departments = null;
@@ -150,7 +148,7 @@ public class DepartmentClient extends AsyncTask<Void, Integer, ArrayList<Object>
 	protected void onPostExecute(ArrayList<Object> objects) {
 		if (showErrorDialog)errorDialog.show();
 		for (Object o : objects) {
-			if (o instanceof Patient) {
+			if (o instanceof Department) {
 				Department d = (Department) o;
 				departments.add(d);
 			}

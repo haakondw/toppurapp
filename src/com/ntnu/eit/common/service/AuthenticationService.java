@@ -13,6 +13,8 @@ public interface AuthenticationService {
 	public User getLoggedInUser();
 	
 	public boolean isLoggedIn();
+
+	public void setUser(User u);
 	
 	public String getHost();
 	

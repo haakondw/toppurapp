@@ -42,6 +42,13 @@ public class AuthenticationServiceTestImpl implements AuthenticationService{
 		return user != null;
 	}
 
+	
+	@Override
+	public void setUser(User u){
+		this.user = u;
+	}
+
+
 	@Override
 	public String getHost() {
 		return host;

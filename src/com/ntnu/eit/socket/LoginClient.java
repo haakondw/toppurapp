@@ -5,8 +5,8 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 import com.ntnu.eit.R;
-import com.ntnu.eit.common.model.Patient;
-import com.ntnu.eit.common.service.PatientService;
+import com.ntnu.eit.common.model.User;
+import com.ntnu.eit.common.service.AuthenticationService;
 import com.ntnu.eit.common.service.ServiceFactory;
 
 import android.app.AlertDialog;
@@ -14,17 +14,18 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.util.Log;
 /**
  * This class is an asynchronous class, designated to 
  * retrieving data from the server.
  */
-public class PatientClient extends AsyncTask<Void, Integer, ArrayList<Object>>{
+public class LoginClient extends AsyncTask<Void, Integer, ArrayList<Object>>{
 	private static String IP;
 	private final static int PORT = 31111;
-	private PatientSocketObject pso = null;
-	private ArrayList<Patient> patients = null;
-	private PatientService ps;
+	private LoginSocketObject lso = null;
+	private AuthenticationService as;
+	private User user = null;
 	
 	/* adapters to notify */
 	ArrayList<Object> adapters;
@@ -37,18 +38,18 @@ public class PatientClient extends AsyncTask<Void, Integer, ArrayList<Object>>{
 	
 	/**
 	 * 
-	 * @param pso, an object of the class PatientSocketObject, which implies to the server that
-	 * 				the client wants to retrieve patients.
+	 * @param lso, an object of the class LoginSocketObject, which implies to the server that
+	 * 				the client wants to retrieve login confirmation.
 	 * @param adapters, the adapters which should be notified that their data has changed.
 	 * @param context, the context from the calling activity.
 	 * 
 	 */
-	public PatientClient(PatientSocketObject pso, ArrayList<Object> adapters, Context context) {
-		this.pso = pso;
+	public LoginClient(LoginSocketObject lso, ArrayList<Object> adapters, Context context) {
+		this.lso = lso;
 		this.adapters = adapters;
 		this.context = context;
-		this.ps = ServiceFactory.getInstance().getPatientService();
-		IP = ServiceFactory.getInstance().getAuthenticationService().getHost();
+		this.as = ServiceFactory.getInstance().getAuthenticationService();
+		IP = PreferenceManager.getDefaultSharedPreferences(context).getString("login_settings_server_config", "");
 	}
 
 	/**
@@ -61,8 +62,9 @@ public class PatientClient extends AsyncTask<Void, Integer, ArrayList<Object>>{
 			errorDialog = new AlertDialog.Builder(context).create();
 			errorDialog.setTitle(context.getString(R.string.warning));
 			errorDialog.setMessage(context.getString(R.string.conncetion_failed));
-			
+						
 			errorDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "OK", new DialogInterface.OnClickListener() {
+	
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					Log.d("EiT", "Dismissing error dialog");
@@ -98,22 +100,21 @@ public class PatientClient extends AsyncTask<Void, Integer, ArrayList<Object>>{
 			Log.e("Client","Created New Socket");
 			in = new ObjectInputStream(s.getInputStream());
 			out = new ObjectOutputStream(s.getOutputStream());
-			patients = new ArrayList<Patient>();
-			out.writeObject(pso);
+			out.writeObject(lso);
 			out.flush();
 			Object o = in.readObject();
 			if (o instanceof ArrayList) {
-				patients = new ArrayList<Patient>();
 			    ArrayList<Object> list = (ArrayList<Object>)o;
 			    for (Object object : list) {
-					if (object instanceof Patient) {
-					    Patient p = (Patient) object;
-					    objects.add(p);
+					if (object instanceof User) {
+					    User u = (User) object;
+					    objects.add(u);
 					}
 			    }
 		    } 		   
 	    }
 	    catch (Exception e) {
+	    	e.printStackTrace();
 	    	if (context != null) {
 	    		/**
 				 * If communication with the server failed, the error dialog
@@ -147,15 +148,15 @@ public class PatientClient extends AsyncTask<Void, Integer, ArrayList<Object>>{
 	protected void onPostExecute(ArrayList<Object> objects) {
 		if (showErrorDialog)errorDialog.show();
 		for (Object o : objects) {
-			if (o instanceof Patient) {
-				Patient p = (Patient) o;
-				patients.add(p);
+			if (o instanceof User) {
+				User u = (User) o;
+				user = u;
 			}
 		}
 		
 		/* update patient list */
-		if (patients != null && !patients.isEmpty()) {
-			ps.setPatientList(patients);
+		if (user != null) {
+			as.setUser(user);
 		}
 		
 		//TODO must be changed to working adapters
