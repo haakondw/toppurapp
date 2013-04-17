@@ -4,8 +4,11 @@ import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import com.ntnu.eit.R;
 import com.ntnu.eit.common.model.Department;
 import com.ntnu.eit.common.model.Patient;
+import com.ntnu.eit.common.model.User;
+import com.ntnu.eit.common.service.AuthenticationService;
 import com.ntnu.eit.common.service.DepartmentService;
 import com.ntnu.eit.common.service.ServiceFactory;
 
@@ -20,12 +23,12 @@ import android.util.Log;
  * This class is an asynchronous class, designated to 
  * retrieving data from the server.
  */
-public class DepartmentClient extends AsyncTask<Void, Integer, ArrayList<Object>>{
-	private static String IP;
+public class LoginClient extends AsyncTask<Void, Integer, ArrayList<Object>>{
+	private static String IP; //TODO change to global param?
 	private final static int PORT = 31111;
-	private DepartmentSocketObject dso = null;
-	private ArrayList<Department> departments = null;
-	private DepartmentService ds;
+	private LoginSocketObject lso = null;
+	private AuthenticationService as;
+	private User user = null;
 	
 	/* adapters to notify */
 	ArrayList<Object> adapters;
@@ -38,17 +41,17 @@ public class DepartmentClient extends AsyncTask<Void, Integer, ArrayList<Object>
 	
 	/**
 	 * 
-	 * @param pso, an object of the class PatientSocketObject, which implies to the server that
-	 * 				the client wants to retrieve patients.
+	 * @param lso, an object of the class LoginSocketObject, which implies to the server that
+	 * 				the client wants to retrieve login confirmation.
 	 * @param adapters, the adapters which should be notified that their data has changed.
 	 * @param context, the context from the calling activity.
 	 * 
 	 */
-	public DepartmentClient(DepartmentSocketObject dso, ArrayList<Object> adapters, Context context) {
-		this.dso = dso;
+	public LoginClient(LoginSocketObject lso, ArrayList<Object> adapters, Context context) {
+		this.lso = lso;
 		this.adapters = adapters;
 		this.context = context;
-		this.ds = ServiceFactory.getInstance().getDepartmentService();
+		this.as = ServiceFactory.getInstance().getAuthenticationService();
 		IP = PreferenceManager.getDefaultSharedPreferences(context).getString("login_settings_server_config", "");
 	}
 
@@ -58,10 +61,10 @@ public class DepartmentClient extends AsyncTask<Void, Integer, ArrayList<Object>
 	 */
 	public void onPreExecute(){
 		if(context != null){
-			dialog = ProgressDialog.show(context, "context.getString(R.string.please_wait)", "context.getString(R.string.connecting)");
+			dialog = ProgressDialog.show(context, context.getString(R.string.please_wait), context.getString(R.string.connecting));
 			errorDialog = new AlertDialog.Builder(context).create();
-			errorDialog.setTitle("context.getString(R.string.warning)");
-			errorDialog.setMessage("context.getString(R.string.conncetion_failed)");
+			errorDialog.setTitle(context.getString(R.string.warning));
+			errorDialog.setMessage(context.getString(R.string.conncetion_failed));
 						
 			errorDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "OK", new DialogInterface.OnClickListener() {
 	
@@ -100,16 +103,15 @@ public class DepartmentClient extends AsyncTask<Void, Integer, ArrayList<Object>
 			Log.e("Client","Created New Socket");
 			in = new ObjectInputStream(s.getInputStream());
 			out = new ObjectOutputStream(s.getOutputStream());
-			departments = new ArrayList<Department>();
-			out.writeObject(dso);
+			out.writeObject(lso);
 			out.flush();
 			Object o = in.readObject();
 			if (o instanceof ArrayList) {
 			    ArrayList<Object> list = (ArrayList<Object>)o;
 			    for (Object object : list) {
-					if (object instanceof Department) {
-					    Department d = (Department) object;
-					    objects.add(d);
+					if (object instanceof User) {
+					    User u = (User) object;
+					    objects.add(u);
 					}
 			    }
 		    } 		   
@@ -149,15 +151,15 @@ public class DepartmentClient extends AsyncTask<Void, Integer, ArrayList<Object>
 	protected void onPostExecute(ArrayList<Object> objects) {
 		if (showErrorDialog)errorDialog.show();
 		for (Object o : objects) {
-			if (o instanceof Department) {
-				Department d = (Department) o;
-				departments.add(d);
+			if (o instanceof User) {
+				User u = (User) o;
+				user = u;
 			}
 		}
 		
 		/* update patient list */
-		if (departments != null && !departments.isEmpty()) {
-			ds.setDepartmentList(departments);
+		if (user != null) {
+			as.setUser(user);
 		}
 		
 		//TODO must be changed to working adapters

@@ -40,4 +40,9 @@ public class AuthenticationServiceTestImpl implements AuthenticationService{
 	public boolean isLoggedIn() {
 		return user != null;
 	}
+	
+	@Override
+	public void setUser(User u){
+		this.user = u;
+	}
 }
