@@ -24,8 +24,15 @@ public class PatientsActivity extends Activity {
 		@Override
 		public void run() {
 			ArrayList<Object> adapters = new ArrayList<Object>();
+			ArrayList<Integer> list = new ArrayList<Integer>();
+			
+			for (int i = 0; i < departments.length; i++) {
+				list.add(departments[i]);
+			}
+			
 			adapters.add(adapter);
-			ServiceFactory.getInstance().getPatientService().updatePatientList(1, adapters, PatientsActivity.this);
+			
+			ServiceFactory.getInstance().getPatientService().updatePatientList(list, adapters, PatientsActivity.this);
 		}
 	};
 	
@@ -38,6 +45,7 @@ public class PatientsActivity extends Activity {
 	//Data
 	private Patient[] pasients;
 	private PatientsListAdapter adapter;
+	private int[] departments;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -51,10 +59,10 @@ public class PatientsActivity extends Activity {
 		Log.i("EiT", getClass().getSimpleName() + ".onCreate()");
 		
 		//Params
-		int[] is = getIntent().getExtras().getIntArray(DEPARTMENTS_INDICES);
-		Department[] departments = new Department[is.length];
+		departments = getIntent().getExtras().getIntArray(DEPARTMENTS_INDICES);
+		Department[] departments = new Department[this.departments.length];
 		for (int i = 0; i < departments.length; i++) {
-			departments[i] = ServiceFactory.getInstance().getDepartmentService().getDepartmentById(is[i]);
+			departments[i] = ServiceFactory.getInstance().getDepartmentService().getDepartmentById(departments[i].getDepartmentID());
 		}
 		
 		//ThispasientId

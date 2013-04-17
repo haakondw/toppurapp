@@ -64,12 +64,12 @@ public class DepartmentClient extends AsyncTask<Void, Integer, ArrayList<Object>
 			errorDialog.setTitle("context.getString(R.string.warning)");
 			errorDialog.setMessage("context.getString(R.string.conncetion_failed)");
 						
-			errorDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+			errorDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "OK", new DialogInterface.OnClickListener() {
 	
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
+					Log.d("EiT", "Dismissing error dialog");
 					dialog.dismiss();
-//					DepartmentClient.this.errorDialog.dismiss();
 				}
 			});
 		}

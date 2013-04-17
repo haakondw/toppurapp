@@ -9,6 +9,7 @@ import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -364,6 +365,31 @@ public class PatientActivity extends FragmentActivity {
 	 * displays dummy text.
 	 */
 	public static class DummySectionFragment extends Fragment {
+
+		private PatientTaskListAdapter historyAdapter;
+		private PatientTaskListAdapter tasksAdapter;
+		
+		private Thread thread;
+		private Runnable runnable = new Runnable() {
+			@Override
+			public void run() {
+				Looper.prepare();
+				ArrayList<Object> adapters = new ArrayList<Object>();
+				int section = getArguments().getInt(ARG_SECTION_NUMBER);
+				ArrayList<Integer> executedTasks = new ArrayList<Integer>();
+				
+				switch (section) {
+				case 1:
+					adapters.add(historyAdapter);
+					break;
+				case 2:
+					adapters.add(tasksAdapter);
+					break;
+				}
+				ServiceFactory.getInstance().getTaskService().updateTaskList(pasient.getPatientID(), executedTasks, adapters, DummySectionFragment.this.getActivity());
+			}
+		};
+		
 		/**
 		 * The fragment argument representing the section number for this
 		 * fragment.
@@ -372,6 +398,8 @@ public class PatientActivity extends FragmentActivity {
 		public static final String ARG_PASIENT_ID = "pasient_id";
 
 		public DummySectionFragment() {
+			thread = new Thread(runnable);
+			thread.start();
 		}
 		
 		@Override
@@ -387,7 +415,8 @@ public class PatientActivity extends FragmentActivity {
 				View section1view = inflater.inflate(R.layout.patient_section_one, container, false);
 				ListView taskHistory = (ListView)section1view.findViewById(R.id.pasient_task_history_list);
 				
-				taskHistory.setAdapter(new PatientTaskListAdapter(getActivity(), R.layout.patient_task_row, historyTasks));
+				historyAdapter = new PatientTaskListAdapter(getActivity(), R.layout.patient_task_row, historyTasks);
+				taskHistory.setAdapter(historyAdapter);
 				
 				return section1view;
 			case 2:
@@ -409,8 +438,9 @@ public class PatientActivity extends FragmentActivity {
 				
 				//Test colors
 				notification.setBackgroundColor(Color.RED);
-				
-				taskListView.setAdapter(new PatientTaskListAdapter(getActivity(), R.layout.patient_task_row, tasks));
+
+				tasksAdapter = new PatientTaskListAdapter(getActivity(), R.layout.patient_task_row, tasks);
+				taskListView.setAdapter(tasksAdapter);
 				
 				//Setting pasient name
 				name.setText(pasient.getFirstname() + ", " + pasient.getLastname());
