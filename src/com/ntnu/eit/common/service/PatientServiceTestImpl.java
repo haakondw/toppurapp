@@ -110,8 +110,8 @@ public class PatientServiceTestImpl implements PatientService{
 	}
 	
 	@Override
-	public void updatePatientList(int departmentId, ArrayList<Object> adapters, Context context){
-		PatientSocketObject pso = new PatientSocketObject(departmentId);
+	public void updatePatientList(ArrayList<Integer> departmentIds, ArrayList<Object> adapters, Context context){
+		PatientSocketObject pso = new PatientSocketObject(departmentIds);
 		PatientClient pc = new PatientClient(pso, adapters, context);
 		pc.execute();
 		//TODO maybe start update of pictures here? happy threading!

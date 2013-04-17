@@ -20,7 +20,7 @@ public interface PatientService{
 	
 	public void setPatientPicture(int patientId, byte[] picture);
 	
-	public void updatePatientList(int departmentId, ArrayList<Object> adapters, Context context);
+	public void updatePatientList(ArrayList<Integer> departmentIds, ArrayList<Object> adapters, Context context);
 
 	public void updatePatientPicture(Patient patient, ArrayList<Object> adapters, Context context) throws NoSuchAlgorithmException;
 	

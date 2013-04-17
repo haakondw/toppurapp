@@ -1,23 +1,24 @@
 package com.ntnu.eit.socket;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+
+import com.ntnu.eit.common.model.Department;
 
 
 public class PatientSocketObject implements Serializable{
   
 
 	private static final long serialVersionUID = 5936434774692547982L;
-	private int departmentId;
-	public PatientSocketObject(int departmentId) {
-		this.departmentId = departmentId;
-
-		
+	private ArrayList<Integer> departmentIds;
+	public PatientSocketObject(ArrayList<Integer> departmentId) {
+		this.departmentIds = departmentIds;
 	}
-	public void setDepartmentId(int departmentId){
-		this.departmentId = departmentId;
+	public void setDepartmentIds(ArrayList<Integer> departmentIds){
+		this.departmentIds = departmentIds;
 	}
-	public int getDepartmentId(){
-		return departmentId;
+	public ArrayList<Integer> getDepartmentIds(){
+		return departmentIds;
 	}
 
     
