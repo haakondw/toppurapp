@@ -5,11 +5,8 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 import com.ntnu.eit.R;
-import com.ntnu.eit.common.model.Department;
-import com.ntnu.eit.common.model.Patient;
 import com.ntnu.eit.common.model.User;
 import com.ntnu.eit.common.service.AuthenticationService;
-import com.ntnu.eit.common.service.DepartmentService;
 import com.ntnu.eit.common.service.ServiceFactory;
 
 import android.app.AlertDialog;
@@ -24,7 +21,7 @@ import android.util.Log;
  * retrieving data from the server.
  */
 public class LoginClient extends AsyncTask<Void, Integer, ArrayList<Object>>{
-	private static String IP; //TODO change to global param?
+	private static String IP;
 	private final static int PORT = 31111;
 	private LoginSocketObject lso = null;
 	private AuthenticationService as;

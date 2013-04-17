@@ -4,17 +4,12 @@ import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 
-import com.ntnu.eit.common.model.Task;
 import com.ntnu.eit.common.service.PatientService;
 import com.ntnu.eit.common.service.ServiceFactory;
-import com.ntnu.eit.common.service.TaskService;
 
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.AsyncTask;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
 /**

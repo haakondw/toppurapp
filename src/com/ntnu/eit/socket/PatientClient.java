@@ -14,7 +14,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
-import android.preference.PreferenceManager;
 import android.util.Log;
 /**
  * This class is an asynchronous class, designated to 
