@@ -176,7 +176,7 @@ public class PatientActivity extends FragmentActivity {
 	}
 	
 	public void onTasksSubmit(View view){
-		ConfirmationDialog.create(this, "Confirm submission", new ConfirmationDialogListener() {
+		ConfirmationDialog.create(this, "Bekreft signering", new ConfirmationDialogListener() {
 			@Override
 			public void onConfirm(ConfirmationDialog dialog) {
 				//Init
@@ -242,7 +242,7 @@ public class PatientActivity extends FragmentActivity {
 		Task[] changes = getChanges();
 		
 		if(changes.length > 0){			
-			ConfirmationDialog.create(this, "There exists changes", "Exit", "Submit changes", new ConfirmationDialogListener() {
+			ConfirmationDialog.create(this, "Det finnes usignerte endringer", "Gå tilbake", "Signer endringer", new ConfirmationDialogListener() {
 				@Override
 				public void onConfirm(ConfirmationDialog dialog) {
 					//Init

@@ -18,10 +18,10 @@ public class DepartmentServiceTestImpl implements DepartmentService{
 			if(ServiceFactory.getInstance().getAuthenticationService().isDebug()){
 				departments = new Department[5];
 				departments[0] = new Department(1, "Avdeling A");
-				departments[1] = new Department(1, "Avdeling B");
-				departments[2] = new Department(1, "Avdeling C");
-				departments[3] = new Department(1, "Avdeling D");
-				departments[4] = new Department(1, "Avdeling E");
+				departments[1] = new Department(2, "Avdeling B");
+				departments[2] = new Department(3, "Avdeling C");
+				departments[3] = new Department(4, "Avdeling D");
+				departments[4] = new Department(5, "Avdeling E");
 			}else{				
 				departments = new Department[0];
 			}

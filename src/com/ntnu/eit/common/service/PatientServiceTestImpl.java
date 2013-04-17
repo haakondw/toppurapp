@@ -5,6 +5,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.util.Log;
 import android.util.SparseArray;
 
 import com.ntnu.eit.common.model.Department;
@@ -34,13 +35,13 @@ public class PatientServiceTestImpl implements PatientService{
 			if(ServiceFactory.getInstance().getAuthenticationService().isDebug()){				
 				pasientsSparse = new SparseArray<Patient>();
 				
-				int end = (int) (Math.random()*50) + 1;
+				int end = 10;
 				patients = new Patient[end];
 				
 				for(int i = 0; i < end; i++){				
 					String firstname = firstNames[(int) (Math.random()*firstNames.length)];
 					String lastname = lastNames[(int) (Math.random()*lastNames.length)];
-					Patient pasient = new Patient(i, departments[(int) (Math.random()*departments.length)].getDepartmentID(), "", firstname, lastname);
+					Patient pasient = new Patient(i, departments[i/6].getDepartmentID(), "", firstname, lastname);
 					pasientsSparse.put(i, pasient);
 					patients[i] = pasient;
 				}

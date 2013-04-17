@@ -20,7 +20,7 @@ public class ConfirmationDialog extends Dialog implements android.view.View.OnCl
 	}
 	
 	public static ConfirmationDialog create(Context context, String title, ConfirmationDialogListener listener){
-		return create(context, title, "Cancel", "Confirm", listener);
+		return create(context, title, "Avbryt", "OK", listener);
 	}
 	
 	public static ConfirmationDialog create(Context context, String title, String cancelTxt, String confirmTxt, ConfirmationDialogListener listener){

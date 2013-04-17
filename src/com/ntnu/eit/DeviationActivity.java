@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -49,12 +50,17 @@ public class DeviationActivity extends Activity {
 		textView.setText("Pasient: " + patient.getFirstname() + ", " + patient.getLastname());
 		textView.setTextSize(50*size/100);
 		
+		//EditText
+		EditText editText = (EditText) findViewById(R.id.deviation_message);
+		editText.setTextSize(50*size/100);
+		
 		//Button
 		Button button = (Button) findViewById(R.id.deviation_register_button);
 		button.setTextSize(50*size/100);
 
 		//Time
 		TimePicker timePicker = (TimePicker) findViewById(R.id.deviation_time);
+		timePicker.setIs24HourView(true);
 		int hour = (int) (System.currentTimeMillis() % (1000*24));
 		int minute = (int) (System.currentTimeMillis() % (1000*60));
 		timePicker.setCurrentHour(hour);
