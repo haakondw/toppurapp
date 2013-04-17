@@ -9,20 +9,34 @@ import com.ntnu.eit.socket.DepartmentClient;
 import com.ntnu.eit.socket.DepartmentSocketObject;
 
 public class DepartmentServiceTestImpl implements DepartmentService{
+	
 	private Department[] departments;
 
 	@Override
 	public Department[] getDepartments() {
 		if(departments == null){
-			departments = new Department[0];
+			if(ServiceFactory.getInstance().getAuthenticationService().isDebug()){
+				departments = new Department[5];
+				departments[0] = new Department(1, "Avdeling A");
+				departments[1] = new Department(1, "Avdeling B");
+				departments[2] = new Department(1, "Avdeling C");
+				departments[3] = new Department(1, "Avdeling D");
+				departments[4] = new Department(1, "Avdeling E");
+			}else{				
+				departments = new Department[0];
+			}
 		}
-		
 		return departments;
 	}
 
 	@Override
-	public Department getDepartmentById(int id) {		
-		return departments[id];
+	public Department getDepartmentById(int id) {
+		for (int i = 0; i < departments.length; i++) {
+			if(departments[i].getDepartmentID() == id){
+				return departments[i];
+			}
+		}
+		return null;
 	}
 
 	@Override

@@ -42,7 +42,7 @@ public class PictureClient extends AsyncTask<Void, Integer, ArrayList<Object>> {
 		this.pso = pso;
 		this.adapters = adapters;
 		this.ps = ServiceFactory.getInstance().getPatientService();
-		IP = PreferenceManager.getDefaultSharedPreferences(context).getString("login_settings_server_config", "");
+		IP = ServiceFactory.getInstance().getAuthenticationService().getHost();
 	}
 
 	protected void onPreExecute() {

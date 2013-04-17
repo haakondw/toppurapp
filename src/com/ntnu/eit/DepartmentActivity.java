@@ -55,7 +55,9 @@ public class DepartmentActivity extends Activity {
 		listView.setAdapter(adapter);
 		
 		//Run
-		runOnUiThread(runnable);
+		if(!ServiceFactory.getInstance().getAuthenticationService().isDebug()){			
+			runOnUiThread(runnable);
+		}
 	}
 	
 	@Override

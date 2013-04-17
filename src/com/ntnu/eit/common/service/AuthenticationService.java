@@ -14,4 +14,9 @@ public interface AuthenticationService {
 	
 	public boolean isLoggedIn();
 	
+	public String getHost();
+	
+	public void setHost(String host);
+	
+	public boolean isDebug();
 }

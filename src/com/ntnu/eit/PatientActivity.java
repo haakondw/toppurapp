@@ -114,8 +114,10 @@ public class PatientActivity extends FragmentActivity {
 		mViewPager.setAdapter(mSectionsPagerAdapter);
 		
 		mViewPager.setCurrentItem(1);
-		
-		runOnUiThread(runnable);
+
+		if(!ServiceFactory.getInstance().getAuthenticationService().isDebug()){			
+			runOnUiThread(runnable);
+		}
 	}
 	
 	@Override

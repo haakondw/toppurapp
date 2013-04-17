@@ -58,7 +58,7 @@ public class PatientsActivity extends Activity {
 		departments = getIntent().getExtras().getIntArray(DEPARTMENTS_INDICES);
 		Department[] departments = new Department[this.departments.length];
 		for (int i = 0; i < departments.length; i++) {
-			departments[i] = ServiceFactory.getInstance().getDepartmentService().getDepartmentById(departments[i].getDepartmentID());
+			departments[i] = ServiceFactory.getInstance().getDepartmentService().getDepartmentById(this.departments[i]);
 		}
 		
 		//ThispasientId
@@ -73,7 +73,9 @@ public class PatientsActivity extends Activity {
 		listView.setAdapter(adapter);
 		
 		//Thread
-		runOnUiThread(runnable);
+		if(!ServiceFactory.getInstance().getAuthenticationService().isDebug()){			
+			runOnUiThread(runnable);
+		}
 	}
 	
 	@Override

@@ -49,7 +49,7 @@ public class PatientClient extends AsyncTask<Void, Integer, ArrayList<Object>>{
 		this.adapters = adapters;
 		this.context = context;
 		this.ps = ServiceFactory.getInstance().getPatientService();
-		IP = PreferenceManager.getDefaultSharedPreferences(context).getString("login_settings_server_config", "");
+		IP = ServiceFactory.getInstance().getAuthenticationService().getHost();
 	}
 
 	/**
