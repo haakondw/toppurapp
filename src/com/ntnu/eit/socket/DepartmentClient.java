@@ -4,6 +4,7 @@ import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import com.ntnu.eit.R;
 import com.ntnu.eit.common.model.Department;
 import com.ntnu.eit.common.model.Patient;
 import com.ntnu.eit.common.service.DepartmentService;
@@ -59,10 +60,10 @@ public class DepartmentClient extends AsyncTask<Void, Integer, ArrayList<Object>
 	 */
 	public void onPreExecute(){
 		if(context != null){
-			dialog = ProgressDialog.show(context, "context.getString(R.string.please_wait)", "context.getString(R.string.connecting)");
+			dialog = ProgressDialog.show(context,context.getString(R.string.please_wait), context.getString(R.string.connecting));
 			errorDialog = new AlertDialog.Builder(context).create();
-			errorDialog.setTitle("context.getString(R.string.warning)");
-			errorDialog.setMessage("context.getString(R.string.conncetion_failed)");
+			errorDialog.setTitle(context.getString(R.string.warning));
+			errorDialog.setMessage(context.getString(R.string.conncetion_failed));
 						
 			errorDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "OK", new DialogInterface.OnClickListener() {
 				@Override

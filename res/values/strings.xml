@@ -12,4 +12,9 @@
     <string name="title_section3">Om pasient</string>
     <string name="title_activity_deviation">DeviationActivity</string>
 
+    <string name="warning">Feil</string>
+    <string name="connecting">Kobler til</string>
+    <string name="conncetion_failed">Tilkoblings feil</string>
+    <string name="please_wait">Venligst vent</string>
+    
 </resources>
