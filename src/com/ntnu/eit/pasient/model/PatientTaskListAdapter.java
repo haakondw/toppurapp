@@ -1,6 +1,7 @@
 package com.ntnu.eit.pasient.model;
 
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.Locale;
 
 import android.app.Activity;
@@ -24,10 +25,10 @@ public class PatientTaskListAdapter extends ArrayAdapter<Task>{
 
 	private Context context;
 	private int textViewResourceId;
-	private Task[] tasks;
+	private List<Task> tasks;
 	private SimpleDateFormat format;
 
-	public PatientTaskListAdapter(Context context, int textViewResourceId, Task[] tasks) {
+	public PatientTaskListAdapter(Context context, int textViewResourceId, List<Task> tasks) {
 		//Super
 		super(context, textViewResourceId, tasks);
 		
@@ -36,8 +37,6 @@ public class PatientTaskListAdapter extends ArrayAdapter<Task>{
 		this.textViewResourceId = textViewResourceId;
 		this.tasks = tasks;
 		format = new SimpleDateFormat("HH:mm", Locale.getDefault());
-		
-		Log.d("EiT", "Init TaskAdapter with " + tasks.length + " tasks");
 	}
 	
 	@Override
@@ -46,7 +45,7 @@ public class PatientTaskListAdapter extends ArrayAdapter<Task>{
 		
 		View row = convertView;
     	PasientTaskHolder holder = null;
-        Task task = tasks[position];
+        Task task = tasks.get(position);
         
         if(row == null){
         	Log.d("EiT", "Row " + position + " is null");

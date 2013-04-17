@@ -54,7 +54,7 @@ public class PatientActivity extends FragmentActivity {
 
 	private int pasientId;
 	private static Patient pasient;
-	private static Task[] historyTasks, tasks;
+	private static List<Task> tasks, historyTasks;
 	private static PatientTaskListAdapter historyAdapter;
 	private static PatientTaskListAdapter tasksAdapter;
 
@@ -63,9 +63,10 @@ public class PatientActivity extends FragmentActivity {
 		public void run() {
 			ArrayList<Object> adapters = new ArrayList<Object>();
 			ArrayList<Integer> executedTasks = new ArrayList<Integer>();
+			//TODO
 			
-			adapters.add(historyAdapter);
 			adapters.add(tasksAdapter);
+			adapters.add(historyAdapter);
 			ServiceFactory.getInstance().getTaskService().updateTaskList(pasient.getPatientID(), executedTasks, adapters, PatientActivity.this);
 		}
 	};
@@ -84,24 +85,12 @@ public class PatientActivity extends FragmentActivity {
 		
 		//Starting
 		pasientId = getIntent().getExtras().getInt(PASIENT_ID_TAG);
+		tasks = ServiceFactory.getInstance().getTaskService().getTasks(pasientId);
+		historyTasks = ServiceFactory.getInstance().getTaskService().getHistoyTasks(pasientId);
 		pasient = ServiceFactory.getInstance().getPatientService().getPatientById(pasientId);
-		
-		//Filtering tasks
-		List<Task> tasks = ServiceFactory.getInstance().getTaskService().getTasks(pasient.getPatientID());
-		List<Task> temp1 = new ArrayList<Task>();
-		List<Task> temp2 = new ArrayList<Task>();
-		for (int i = 0; i < tasks.size(); i++) {
-			if(tasks.get(i).isExecuted()){
-				temp1.add(tasks.get(i));
-			}else{
-				temp2.add(tasks.get(i));
-			}
-		}
-		PatientActivity.tasks = temp2.toArray(new Task[temp2.size()]);
-		PatientActivity.historyTasks = temp1.toArray(new Task[temp1.size()]);
-		
-		//Debug
-		Log.i("EiT", "Starting PatientActivity with pasient: " + pasientId);
+
+		historyAdapter = new PatientTaskListAdapter(this, R.layout.patient_task_row, historyTasks);
+		tasksAdapter = new PatientTaskListAdapter(this, R.layout.patient_task_row, tasks);
 
 		// Create the adapter that will return a fragment for each of the three
 		// primary sections of the app.
@@ -419,8 +408,6 @@ public class PatientActivity extends FragmentActivity {
 				//Init
 				View section1view = inflater.inflate(R.layout.patient_section_one, container, false);
 				ListView taskHistory = (ListView)section1view.findViewById(R.id.pasient_task_history_list);
-				
-				historyAdapter = new PatientTaskListAdapter(getActivity(), R.layout.patient_task_row, historyTasks);
 				taskHistory.setAdapter(historyAdapter);
 				
 				return section1view;
@@ -443,8 +430,7 @@ public class PatientActivity extends FragmentActivity {
 				
 				//Test colors
 				notification.setBackgroundColor(Color.RED);
-
-				tasksAdapter = new PatientTaskListAdapter(getActivity(), R.layout.patient_task_row, tasks);
+				
 				taskListView.setAdapter(tasksAdapter);
 				
 				//Setting pasient name

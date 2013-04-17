@@ -156,6 +156,7 @@ public class TaskClient extends AsyncTask<Void, Integer, ArrayList<Object>> {
 				for (Object a : adapters) {
 					if (a instanceof PatientTaskListAdapter) {
 						((PatientTaskListAdapter) a).notifyDataSetChanged();
+						Log.d("EiT", "notifyDataSetChanged");
 					}
 				}
 			}

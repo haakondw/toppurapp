@@ -10,6 +10,8 @@ import com.ntnu.eit.common.model.Task;
 public interface TaskService {
 
 	public List<Task> getTasks(int pasientId);
+
+	public List<Task> getHistoyTasks(int pasientId);
 	
 	public void setExecutedTasks(int pasientId, int[] indices, boolean[] isExecuted);
 	
