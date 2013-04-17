@@ -44,6 +44,9 @@ public class PatientsActivity extends Activity {
 		//Super
 		super.onCreate(savedInstanceState);
 		
+		//Init
+		thread = new Thread(runnable);
+		
 		//Log
 		Log.i("EiT", getClass().getSimpleName() + ".onCreate()");
 		
@@ -65,7 +68,7 @@ public class PatientsActivity extends Activity {
 		listView = (ListView) findViewById(R.id.pasientList);
 		listView.setAdapter(adapter);
 		
-		
+		//Thread
 		thread.start();
 	}
 	
