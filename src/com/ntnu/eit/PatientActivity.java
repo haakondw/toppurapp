@@ -146,6 +146,12 @@ public class PatientActivity extends FragmentActivity {
 		return true;
 	}
 	
+	public void onRegisterDeviation(View view){
+		Intent intent = new Intent(this, DeviationActivity.class);
+		intent.putExtra(DeviationActivity.PARAM_PATIENT_ID, pasientId);
+		startActivity(intent);
+	}
+	
 	public void onTasksSubmit(View view){
 		ConfirmationDialog.create(this, "Confirm submission", new ConfirmationDialogListener() {
 			@Override
