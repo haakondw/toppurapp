@@ -1,5 +1,7 @@
 package com.ntnu.eit;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,6 +18,17 @@ import com.ntnu.eit.pasients.model.PatientsListAdapter;
 
 public class PatientsActivity extends Activity {
 
+	//Thread
+	private Thread thread;
+	private Runnable runnable = new Runnable() {		
+		@Override
+		public void run() {
+			ArrayList<Object> adapters = new ArrayList<Object>();
+			adapters.add(adapter);
+			ServiceFactory.getInstance().getPatientService().updatePatientList(1, adapters, PatientsActivity.this);
+		}
+	};
+	
 	//Activity Params
 	public static final String DEPARTMENTS_INDICES = "depIndices";
 	
@@ -24,6 +37,7 @@ public class PatientsActivity extends Activity {
 	
 	//Data
 	private Patient[] pasients;
+	private PatientsListAdapter adapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +61,12 @@ public class PatientsActivity extends Activity {
 		pasients = ServiceFactory.getInstance().getPatientService().getPatients(this, departments);
 		
 		//View
+		adapter = new PatientsListAdapter(this, R.layout.patients_row, pasients);
 		listView = (ListView) findViewById(R.id.pasientList);
-		listView.setAdapter(new PatientsListAdapter(this, R.layout.patients_row, pasients));
+		listView.setAdapter(adapter);
+		
+		
+		thread.start();
 	}
 	
 	@Override

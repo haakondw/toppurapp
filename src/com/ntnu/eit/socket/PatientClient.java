@@ -13,13 +13,14 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.util.Log;
 /**
  * This class is an asynchronous class, designated to 
  * retrieving data from the server.
  */
 public class PatientClient extends AsyncTask<Void, Integer, ArrayList<Object>>{
-	private final static String IP = "rutatkak.no";
+	private static String IP;
 	private final static int PORT = 31111;
 	private PatientSocketObject pso = null;
 	private ArrayList<Patient> patients = null;
@@ -47,6 +48,7 @@ public class PatientClient extends AsyncTask<Void, Integer, ArrayList<Object>>{
 		this.adapters = adapters;
 		this.context = context;
 		this.ps = ServiceFactory.getInstance().getPatientService();
+		IP = PreferenceManager.getDefaultSharedPreferences(context).getString("login_settings_server_config", "");
 	}
 
 	/**

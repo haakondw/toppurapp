@@ -14,6 +14,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 /**
@@ -21,7 +22,7 @@ import android.util.Log;
  * server.
  */
 public class PictureClient extends AsyncTask<Void, Integer, ArrayList<Object>> {
-	private final static String IP = "rutatkak.no";
+	private static String IP;
 	private final static int PORT = 31111;
 	private PictureSocketObject pso = null;
 	private byte[] picture = null;
@@ -37,10 +38,11 @@ public class PictureClient extends AsyncTask<Void, Integer, ArrayList<Object>> {
 	 * @param adapters The adapters which should be notified that their data
 	 *        has changed.
 	 */
-	public PictureClient(PictureSocketObject pso, ArrayList<Object> adapters) {
+	public PictureClient(PictureSocketObject pso, ArrayList<Object> adapters, Context context) {
 		this.pso = pso;
 		this.adapters = adapters;
 		this.ps = ServiceFactory.getInstance().getPatientService();
+		IP = PreferenceManager.getDefaultSharedPreferences(context).getString("login_settings_server_config", "");
 	}
 
 	protected void onPreExecute() {

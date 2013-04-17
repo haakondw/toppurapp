@@ -22,6 +22,6 @@ public interface PatientService{
 	
 	public void updatePatientList(int departmentId, ArrayList<Object> adapters, Context context);
 
-	public void updatePatientPicture(Patient patient, ArrayList<Object> adapters) throws NoSuchAlgorithmException;
+	public void updatePatientPicture(Patient patient, ArrayList<Object> adapters, Context context) throws NoSuchAlgorithmException;
 	
 }

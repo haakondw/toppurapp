@@ -15,13 +15,14 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.util.Log;
 /**
  * This class is an asynchronous class, designated to 
  * retrieving data from the server.
  */
 public class DepartmentClient extends AsyncTask<Void, Integer, ArrayList<Object>>{
-	private final static String IP = "rutatkak.no"; //TODO change to global param?
+	private static String IP; //TODO change to global param?
 	private final static int PORT = 31111;
 	private DepartmentSocketObject dso = null;
 	private ArrayList<Department> departments = null;
@@ -49,6 +50,7 @@ public class DepartmentClient extends AsyncTask<Void, Integer, ArrayList<Object>
 		this.adapters = adapters;
 		this.context = context;
 		this.ds = ServiceFactory.getInstance().getDepartmentService();
+		IP = PreferenceManager.getDefaultSharedPreferences(context).getString("login_settings_server_config", "");
 	}
 
 	/**
@@ -61,11 +63,13 @@ public class DepartmentClient extends AsyncTask<Void, Integer, ArrayList<Object>
 			errorDialog = new AlertDialog.Builder(context).create();
 			errorDialog.setTitle("context.getString(R.string.warning)");
 			errorDialog.setMessage("context.getString(R.string.conncetion_failed)");
-			errorDialog.setButton("OK", new DialogInterface.OnClickListener() {
+						
+			errorDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
 	
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
-					return;	
+					dialog.dismiss();
+//					DepartmentClient.this.errorDialog.dismiss();
 				}
 			});
 		}
@@ -112,6 +116,7 @@ public class DepartmentClient extends AsyncTask<Void, Integer, ArrayList<Object>
 		    } 		   
 	    }
 	    catch (Exception e) {
+	    	e.printStackTrace();
 	    	if (context != null) {
 	    		/**
 				 * If communication with the server failed, the error dialog

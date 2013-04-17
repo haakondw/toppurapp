@@ -13,6 +13,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 /**
@@ -20,7 +21,7 @@ import android.util.Log;
  * server.
  */
 public class TaskClient extends AsyncTask<Void, Integer, ArrayList<Object>> {
-	private final static String IP = "rutatkak.no";
+	private static String IP;
 	private final static int PORT = 31111;
 	private TaskSocketObject tso = null;
 	private ArrayList<Task> tasks = null;
@@ -49,6 +50,7 @@ public class TaskClient extends AsyncTask<Void, Integer, ArrayList<Object>> {
 		this.adapters = adapters;
 		this.context = context;
 		this.ts = ServiceFactory.getInstance().getTaskService();
+		IP = PreferenceManager.getDefaultSharedPreferences(context).getString("login_settings_server_config", "");
 	}
 
 	/**

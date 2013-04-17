@@ -118,14 +118,14 @@ public class PatientServiceTestImpl implements PatientService{
 	}
 	
 	@Override
-	public void updatePatientPicture(Patient patient, ArrayList<Object> adapters) throws NoSuchAlgorithmException{
+	public void updatePatientPicture(Patient patient, ArrayList<Object> adapters, Context context) throws NoSuchAlgorithmException{
 		PictureSocketObject pso = new PictureSocketObject(patient.getPatientID());
 		if(patient.getPicture() != null && patient.getPicture().length > 0){
 				MessageDigest md = MessageDigest.getInstance("MD5");
 				byte[] checksum = md.digest(patient.getPicture());
 				pso.setLastChecksum(checksum);
 		}
-		PictureClient pc = new PictureClient(pso, adapters);
+		PictureClient pc = new PictureClient(pso, adapters, context);
 		pc.execute();
 	}
 }
