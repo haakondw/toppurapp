@@ -4,6 +4,7 @@ import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import com.ntnu.eit.R;
 import com.ntnu.eit.common.model.Task;
 import com.ntnu.eit.common.service.ServiceFactory;
 import com.ntnu.eit.common.service.TaskService;
@@ -50,7 +51,7 @@ public class TaskClient extends AsyncTask<Void, Integer, ArrayList<Object>> {
 		this.adapters = adapters;
 		this.context = context;
 		this.ts = ServiceFactory.getInstance().getTaskService();
-		IP = PreferenceManager.getDefaultSharedPreferences(context).getString("login_settings_server_config", "");
+		IP = ServiceFactory.getInstance().getAuthenticationService().getHost();
 	}
 
 	/**
@@ -60,13 +61,14 @@ public class TaskClient extends AsyncTask<Void, Integer, ArrayList<Object>> {
 	protected void onPreExecute() {
 		if (context != null) {
 			errorDialog = new AlertDialog.Builder(context).create();
-			errorDialog.setTitle("context.getString(R.string.warning)");
-			errorDialog.setMessage("context.getString(R.string.conncetion_failed)");
-			errorDialog.setButton("OK", new DialogInterface.OnClickListener() {
-
+			errorDialog.setTitle(context.getString(R.string.warning));
+			errorDialog.setMessage(context.getString(R.string.conncetion_failed));
+			
+			errorDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "OK", new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
-					return;
+					Log.d("EiT", "Dismissing error dialog");
+					dialog.dismiss();
 				}
 			});
 		}

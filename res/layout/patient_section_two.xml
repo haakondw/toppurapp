@@ -42,15 +42,32 @@
         android:layout_marginTop="20dp">
     </View>
     
-    <Button 
-        android:id="@+id/pasientSubmitButton"
-        android:layout_width="match_parent"
+    <LinearLayout 
+        android:id="@+id/pasient_button_row"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="5dp"
-        android:text="Submit"
-        android:onClick="onTasksSubmit">
-    </Button>
+        android:orientation="horizontal"
+        android:weightSum="1">        
+		    <Button
+		        android:id="@+id/pasientSubmitButton"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="0.5"
+		        android:text="Submit"
+		        android:onClick="onTasksSubmit">
+		    </Button>
+		    <Button
+		        android:id="@+id/pasientRegisterDeviationButton"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="0.5"
+		        android:text="Registrere Avik"
+		        android:onClick="onRegisterDeviation">
+		    </Button>
+    </LinearLayout>
+    
     
     <ListView
         android:id="@+id/pasientTaskList"
@@ -60,7 +77,7 @@
         android:layout_marginRight="10dp"
         android:layout_marginTop="25dp"
         android:layout_marginBottom="5dp"
-        android:layout_above="@id/pasientSubmitButton"
+        android:layout_above="@id/pasient_button_row"
         android:layout_below="@id/pasientDepartment">
     </ListView>
 </RelativeLayout>

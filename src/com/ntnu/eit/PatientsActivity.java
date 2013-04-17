@@ -19,7 +19,6 @@ import com.ntnu.eit.pasients.model.PatientsListAdapter;
 public class PatientsActivity extends Activity {
 
 	//Thread
-	private Thread thread;
 	private Runnable runnable = new Runnable() {		
 		@Override
 		public void run() {
@@ -52,9 +51,6 @@ public class PatientsActivity extends Activity {
 		//Super
 		super.onCreate(savedInstanceState);
 		
-		//Init
-		thread = new Thread(runnable);
-		
 		//Log
 		Log.i("EiT", getClass().getSimpleName() + ".onCreate()");
 		
@@ -62,7 +58,7 @@ public class PatientsActivity extends Activity {
 		departments = getIntent().getExtras().getIntArray(DEPARTMENTS_INDICES);
 		Department[] departments = new Department[this.departments.length];
 		for (int i = 0; i < departments.length; i++) {
-			departments[i] = ServiceFactory.getInstance().getDepartmentService().getDepartmentById(departments[i].getDepartmentID());
+			departments[i] = ServiceFactory.getInstance().getDepartmentService().getDepartmentById(this.departments[i]);
 		}
 		
 		//ThispasientId
@@ -77,7 +73,9 @@ public class PatientsActivity extends Activity {
 		listView.setAdapter(adapter);
 		
 		//Thread
-		thread.start();
+		if(!ServiceFactory.getInstance().getAuthenticationService().isDebug()){			
+			runOnUiThread(runnable);
+		}
 	}
 	
 	@Override

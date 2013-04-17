@@ -6,7 +6,6 @@ import java.util.List;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
@@ -28,12 +27,10 @@ public class DepartmentActivity extends Activity {
 	private DepartmentListAdapter adapter;
 	
 	//Thread
-	private Thread thread;
 	private Runnable runnable = new Runnable() {
 		@Override
 		public void run() {
 			Log.d("EiT", "Starting Departments update thread");
-			Looper.prepare();
 			ArrayList<Object> adapters = new ArrayList<Object>();
 			adapters.add(adapter);
 			ServiceFactory.getInstance().getDepartmentService().updateDepartmentList(adapters, DepartmentActivity.this);
@@ -44,9 +41,6 @@ public class DepartmentActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		//Super
 		super.onCreate(savedInstanceState);
-		
-		//Init
-		thread = new Thread(runnable);
 		
 		//Log
 		Log.i("EiT", getClass().getSimpleName() + ".onCreate()");
@@ -60,7 +54,10 @@ public class DepartmentActivity extends Activity {
 		ListView listView = (ListView) findViewById(R.id.departmentList);
 		listView.setAdapter(adapter);
 		
-		thread.start();
+		//Run
+		if(!ServiceFactory.getInstance().getAuthenticationService().isDebug()){			
+			runOnUiThread(runnable);
+		}
 	}
 	
 	@Override

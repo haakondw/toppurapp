@@ -16,4 +16,9 @@ public interface AuthenticationService {
 
 	public void setUser(User u);
 	
+	public String getHost();
+	
+	public void setHost(String host);
+	
+	public boolean isDebug();
 }

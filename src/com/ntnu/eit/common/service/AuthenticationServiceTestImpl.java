@@ -8,6 +8,7 @@ import com.ntnu.eit.common.model.User;
 
 public class AuthenticationServiceTestImpl implements AuthenticationService{
 
+	private String host;
 	private User user;
 	
 	@Override
@@ -40,9 +41,26 @@ public class AuthenticationServiceTestImpl implements AuthenticationService{
 	public boolean isLoggedIn() {
 		return user != null;
 	}
+
 	
 	@Override
 	public void setUser(User u){
 		this.user = u;
+	}
+
+
+	@Override
+	public String getHost() {
+		return host;
+	}
+
+	@Override
+	public void setHost(String host) {
+		this.host = host;
+	}
+
+	@Override
+	public boolean isDebug() {
+		return host.equalsIgnoreCase("debug") || host.equalsIgnoreCase("test");
 	}
 }

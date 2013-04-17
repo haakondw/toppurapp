@@ -56,6 +56,21 @@ public class PatientActivity extends FragmentActivity {
 	private int pasientId;
 	private static Patient pasient;
 	private static Task[] historyTasks, tasks;
+	private static PatientTaskListAdapter historyAdapter;
+	private static PatientTaskListAdapter tasksAdapter;
+
+	private Runnable runnable = new Runnable() {
+		@Override
+		public void run() {
+			Looper.prepare();
+			ArrayList<Object> adapters = new ArrayList<Object>();
+			ArrayList<Integer> executedTasks = new ArrayList<Integer>();
+			
+			adapters.add(historyAdapter);
+			adapters.add(tasksAdapter);
+			ServiceFactory.getInstance().getTaskService().updateTaskList(pasient.getPatientID(), executedTasks, adapters, PatientActivity.this);
+		}
+	};
 	
 	/**
 	 * EXTRAS
@@ -99,6 +114,10 @@ public class PatientActivity extends FragmentActivity {
 		mViewPager.setAdapter(mSectionsPagerAdapter);
 		
 		mViewPager.setCurrentItem(1);
+
+		if(!ServiceFactory.getInstance().getAuthenticationService().isDebug()){			
+			runOnUiThread(runnable);
+		}
 	}
 	
 	@Override
@@ -123,8 +142,12 @@ public class PatientActivity extends FragmentActivity {
 		
 		//Department size
 		Button submitButton = (Button) findViewById(R.id.pasientSubmitButton);
+		Button deviationButton = (Button) findViewById(R.id.pasientRegisterDeviationButton);
 		if(submitButton != null){
 			submitButton.setTextSize(50*size/100);
+		}
+		if(deviationButton != null){
+			deviationButton.setTextSize(50*size/100);
 		}
 	}
 
@@ -144,6 +167,12 @@ public class PatientActivity extends FragmentActivity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.activity_pasient, menu);
 		return true;
+	}
+	
+	public void onRegisterDeviation(View view){
+		Intent intent = new Intent(this, DeviationActivity.class);
+		intent.putExtra(DeviationActivity.PARAM_PATIENT_ID, pasientId);
+		startActivity(intent);
 	}
 	
 	public void onTasksSubmit(View view){
@@ -365,30 +394,6 @@ public class PatientActivity extends FragmentActivity {
 	 * displays dummy text.
 	 */
 	public static class DummySectionFragment extends Fragment {
-
-		private PatientTaskListAdapter historyAdapter;
-		private PatientTaskListAdapter tasksAdapter;
-		
-		private Thread thread;
-		private Runnable runnable = new Runnable() {
-			@Override
-			public void run() {
-				Looper.prepare();
-				ArrayList<Object> adapters = new ArrayList<Object>();
-				int section = getArguments().getInt(ARG_SECTION_NUMBER);
-				ArrayList<Integer> executedTasks = new ArrayList<Integer>();
-				
-				switch (section) {
-				case 1:
-					adapters.add(historyAdapter);
-					break;
-				case 2:
-					adapters.add(tasksAdapter);
-					break;
-				}
-				ServiceFactory.getInstance().getTaskService().updateTaskList(pasient.getPatientID(), executedTasks, adapters, DummySectionFragment.this.getActivity());
-			}
-		};
 		
 		/**
 		 * The fragment argument representing the section number for this
@@ -398,8 +403,7 @@ public class PatientActivity extends FragmentActivity {
 		public static final String ARG_PASIENT_ID = "pasient_id";
 
 		public DummySectionFragment() {
-			thread = new Thread(runnable);
-			thread.start();
+			
 		}
 		
 		@Override

@@ -30,18 +30,22 @@ public class PatientServiceTestImpl implements PatientService{
 
 	@Override
 	public Patient[] getPatients(Context context, Department[] departments) {
-		if(patients == null){			
-			pasientsSparse = new SparseArray<Patient>();
-			
-			int end = (int) (Math.random()*50) + 1;
-			patients = new Patient[end];
-			
-			for(int i = 0; i < end; i++){				
-				String firstname = firstNames[(int) (Math.random()*firstNames.length)];
-				String lastname = lastNames[(int) (Math.random()*lastNames.length)];
-				Patient pasient = new Patient(i, departments[(int) (Math.random()*departments.length)].getDepartmentID(), "", firstname, lastname);
-				pasientsSparse.put(i, pasient);
-				patients[i] = pasient;
+		if(patients == null){
+			if(ServiceFactory.getInstance().getAuthenticationService().isDebug()){				
+				pasientsSparse = new SparseArray<Patient>();
+				
+				int end = (int) (Math.random()*50) + 1;
+				patients = new Patient[end];
+				
+				for(int i = 0; i < end; i++){				
+					String firstname = firstNames[(int) (Math.random()*firstNames.length)];
+					String lastname = lastNames[(int) (Math.random()*lastNames.length)];
+					Patient pasient = new Patient(i, departments[(int) (Math.random()*departments.length)].getDepartmentID(), "", firstname, lastname);
+					pasientsSparse.put(i, pasient);
+					patients[i] = pasient;
+				}
+			}else{
+				patients = new Patient[0];
 			}
 		}
 
@@ -50,7 +54,12 @@ public class PatientServiceTestImpl implements PatientService{
 
 	@Override
 	public Patient getPatientById(int id) {
-		return pasientsSparse.get(id);
+		for (int i = 0; i < patients.length; i++) {
+			if(patients[i].getPatientID() == id){
+				return patients[i];
+			}
+		}
+		return null;
 	}
 
 	@Override
