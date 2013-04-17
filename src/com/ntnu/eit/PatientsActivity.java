@@ -19,7 +19,6 @@ import com.ntnu.eit.pasients.model.PatientsListAdapter;
 public class PatientsActivity extends Activity {
 
 	//Thread
-	private Thread thread;
 	private Runnable runnable = new Runnable() {		
 		@Override
 		public void run() {
@@ -52,9 +51,6 @@ public class PatientsActivity extends Activity {
 		//Super
 		super.onCreate(savedInstanceState);
 		
-		//Init
-		thread = new Thread(runnable);
-		
 		//Log
 		Log.i("EiT", getClass().getSimpleName() + ".onCreate()");
 		
@@ -77,7 +73,7 @@ public class PatientsActivity extends Activity {
 		listView.setAdapter(adapter);
 		
 		//Thread
-		thread.start();
+		runOnUiThread(runnable);
 	}
 	
 	@Override

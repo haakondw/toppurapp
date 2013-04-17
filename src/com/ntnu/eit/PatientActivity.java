@@ -56,6 +56,21 @@ public class PatientActivity extends FragmentActivity {
 	private int pasientId;
 	private static Patient pasient;
 	private static Task[] historyTasks, tasks;
+	private static PatientTaskListAdapter historyAdapter;
+	private static PatientTaskListAdapter tasksAdapter;
+
+	private Runnable runnable = new Runnable() {
+		@Override
+		public void run() {
+			Looper.prepare();
+			ArrayList<Object> adapters = new ArrayList<Object>();
+			ArrayList<Integer> executedTasks = new ArrayList<Integer>();
+			
+			adapters.add(historyAdapter);
+			adapters.add(tasksAdapter);
+			ServiceFactory.getInstance().getTaskService().updateTaskList(pasient.getPatientID(), executedTasks, adapters, PatientActivity.this);
+		}
+	};
 	
 	/**
 	 * EXTRAS
@@ -99,6 +114,8 @@ public class PatientActivity extends FragmentActivity {
 		mViewPager.setAdapter(mSectionsPagerAdapter);
 		
 		mViewPager.setCurrentItem(1);
+		
+		runOnUiThread(runnable);
 	}
 	
 	@Override
@@ -371,30 +388,6 @@ public class PatientActivity extends FragmentActivity {
 	 * displays dummy text.
 	 */
 	public static class DummySectionFragment extends Fragment {
-
-		private PatientTaskListAdapter historyAdapter;
-		private PatientTaskListAdapter tasksAdapter;
-		
-		private Thread thread;
-		private Runnable runnable = new Runnable() {
-			@Override
-			public void run() {
-				Looper.prepare();
-				ArrayList<Object> adapters = new ArrayList<Object>();
-				int section = getArguments().getInt(ARG_SECTION_NUMBER);
-				ArrayList<Integer> executedTasks = new ArrayList<Integer>();
-				
-				switch (section) {
-				case 1:
-					adapters.add(historyAdapter);
-					break;
-				case 2:
-					adapters.add(tasksAdapter);
-					break;
-				}
-				ServiceFactory.getInstance().getTaskService().updateTaskList(pasient.getPatientID(), executedTasks, adapters, DummySectionFragment.this.getActivity());
-			}
-		};
 		
 		/**
 		 * The fragment argument representing the section number for this
@@ -404,8 +397,7 @@ public class PatientActivity extends FragmentActivity {
 		public static final String ARG_PASIENT_ID = "pasient_id";
 
 		public DummySectionFragment() {
-			thread = new Thread(runnable);
-			thread.start();
+			
 		}
 		
 		@Override

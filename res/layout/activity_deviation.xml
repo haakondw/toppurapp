@@ -3,6 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".DeviationActivity" >
+    
+    <com.ntnu.eit.common.view.UserView 
+        android:id="@+id/patient_user_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"/>
 
     <TextView
         android:id="@+id/deviation_patient_name"

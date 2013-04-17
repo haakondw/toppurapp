@@ -65,7 +65,6 @@ public class DepartmentClient extends AsyncTask<Void, Integer, ArrayList<Object>
 			errorDialog.setMessage("context.getString(R.string.conncetion_failed)");
 						
 			errorDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "OK", new DialogInterface.OnClickListener() {
-	
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					Log.d("EiT", "Dismissing error dialog");
