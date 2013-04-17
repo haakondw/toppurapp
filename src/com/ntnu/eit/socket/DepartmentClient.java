@@ -9,6 +9,7 @@ import com.ntnu.eit.common.model.Department;
 import com.ntnu.eit.common.model.Patient;
 import com.ntnu.eit.common.service.DepartmentService;
 import com.ntnu.eit.common.service.ServiceFactory;
+import com.ntnu.eit.department.model.DepartmentListAdapter;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -160,12 +161,12 @@ public class DepartmentClient extends AsyncTask<Void, Integer, ArrayList<Object>
 		}
 		
 		//TODO must be changed to working adapters
-//		for(Object a : adapters){
-//			 if(a instanceof ManagePatientAdapter){
-//				((ManagePatientAdapter) a).notifyDataSetChanged();
-//				if(Overview.patients.isEmpty()) AddPatientActivity.showErrorMessage(context);
-//			}
-//		}
+		for(Object a : adapters){
+			 if(a instanceof DepartmentListAdapter){
+				((DepartmentListAdapter) a).notifyDataSetChanged();
+				//if(Overview.patients.isEmpty()) AddPatientActivity.showErrorMessage(context);
+			}
+		}
 		
 		if(context != null && dialog != null) {
 			Log.e("Client","dialog.dismiss()");

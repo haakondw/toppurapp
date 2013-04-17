@@ -8,6 +8,7 @@ import com.ntnu.eit.R;
 import com.ntnu.eit.common.model.Patient;
 import com.ntnu.eit.common.service.PatientService;
 import com.ntnu.eit.common.service.ServiceFactory;
+import com.ntnu.eit.pasients.model.PatientsListAdapter;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -156,15 +157,17 @@ public class PatientClient extends AsyncTask<Void, Integer, ArrayList<Object>>{
 		/* update patient list */
 		if (patients != null && !patients.isEmpty()) {
 			ps.setPatientList(patients);
+		}else{
+			ps.setPatientList(null);
 		}
 		
 		//TODO must be changed to working adapters
-//		for(Object a : adapters){
-//			 if(a instanceof ManagePatientAdapter){
-//				((ManagePatientAdapter) a).notifyDataSetChanged();
+		for(Object a : adapters){
+			 if(a instanceof PatientsListAdapter){
+				((PatientsListAdapter) a).notifyDataSetChanged();
 //				if(Overview.patients.isEmpty()) AddPatientActivity.showErrorMessage(context);
-//			}
-//		}
+			}
+		}
 		
 		if(context != null && dialog != null) {
 			Log.e("Client","dialog.dismiss()");

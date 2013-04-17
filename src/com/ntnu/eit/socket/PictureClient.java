@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import com.ntnu.eit.common.service.PatientService;
 import com.ntnu.eit.common.service.ServiceFactory;
+import com.ntnu.eit.pasients.model.PatientsListAdapter;
 
 
 import android.content.Context;
@@ -102,16 +103,13 @@ public class PictureClient extends AsyncTask<Void, Integer, ArrayList<Object>> {
 
 			/* Notify adapter(s) that the data has changed */
 			//TODO must be changed to working adapters
-//			if (adapters != null) {
-//				for (Object a : adapters) {
-//					if (a instanceof EventListFilterableAdapter) {
-//						((EventListFilterableAdapter) a).notifyDataSetChanged();
-//					}
-//					if(a instanceof EventListPatientFilterableAdapter){
-//						((EventListPatientFilterableAdapter) a).notifyDataSetChanged();
-//					}
-//				}
-//			}
+			if (adapters != null) {
+				for (Object a : adapters) {
+					if (a instanceof PatientsListAdapter) {
+						((PatientsListAdapter) a).notifyDataSetChanged();
+					}
+				}
+			}
 		}
 
 	}

@@ -9,7 +9,6 @@ import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -62,7 +61,6 @@ public class PatientActivity extends FragmentActivity {
 	private Runnable runnable = new Runnable() {
 		@Override
 		public void run() {
-			Looper.prepare();
 			ArrayList<Object> adapters = new ArrayList<Object>();
 			ArrayList<Integer> executedTasks = new ArrayList<Integer>();
 			
@@ -89,14 +87,14 @@ public class PatientActivity extends FragmentActivity {
 		pasient = ServiceFactory.getInstance().getPatientService().getPatientById(pasientId);
 		
 		//Filtering tasks
-		Task[] tasks = ServiceFactory.getInstance().getTaskService().getTasks(pasient.getPatientID());
+		List<Task> tasks = ServiceFactory.getInstance().getTaskService().getTasks(pasient.getPatientID());
 		List<Task> temp1 = new ArrayList<Task>();
 		List<Task> temp2 = new ArrayList<Task>();
-		for (int i = 0; i < tasks.length; i++) {
-			if(tasks[i].isExecuted()){
-				temp1.add(tasks[i]);
+		for (int i = 0; i < tasks.size(); i++) {
+			if(tasks.get(i).isExecuted()){
+				temp1.add(tasks.get(i));
 			}else{
-				temp2.add(tasks[i]);
+				temp2.add(tasks.get(i));
 			}
 		}
 		PatientActivity.tasks = temp2.toArray(new Task[temp2.size()]);

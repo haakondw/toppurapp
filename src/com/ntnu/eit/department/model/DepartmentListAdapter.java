@@ -1,5 +1,7 @@
 package com.ntnu.eit.department.model;
 
+import java.util.List;
+
 import android.app.Activity;
 import android.content.Context;
 import android.preference.PreferenceManager;
@@ -16,10 +18,10 @@ import com.ntnu.eit.common.model.Department;
 public class DepartmentListAdapter extends ArrayAdapter<Department>{
 
 	private Context context;
-	private Department[] data;
+	private List<Department> data;
 	private int textViewResourceId;
 
-	public DepartmentListAdapter(Context context, int textViewResourceId, Department[] data) {
+	public DepartmentListAdapter(Context context, int textViewResourceId, List<Department> data) {
 		super(context, textViewResourceId, data);
 		
 		this.data = data;
@@ -49,7 +51,7 @@ public class DepartmentListAdapter extends ArrayAdapter<Department>{
         int size = PreferenceManager.getDefaultSharedPreferences(context).getInt("text_size", 50);
         holder.txtTitle.setTextSize(50*size/100);
         
-        Department department = data[position];
+        Department department = data.get(position);
         holder.txtTitle.setText(department.getName());
         
         return row;

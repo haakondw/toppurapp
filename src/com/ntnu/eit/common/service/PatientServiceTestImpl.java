@@ -3,9 +3,9 @@ package com.ntnu.eit.common.service;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.List;
 
 import android.content.Context;
-import android.util.Log;
 import android.util.SparseArray;
 
 import com.ntnu.eit.common.model.Department;
@@ -25,28 +25,23 @@ public class PatientServiceTestImpl implements PatientService{
 									"Kittelsen","Monrad","Otterstad","Solberg","Strandberg", "Tufte"}; 
 
 	//TEST DATA
-	private SparseArray<Patient> pasientsSparse;
-	private Patient[] patients;
+	private List<Patient> patients;
 	
 
 	@Override
-	public Patient[] getPatients(Context context, Department[] departments) {
+	public List<Patient> getPatients(Context context, List<Department> departments) {
 		if(patients == null){
-			if(ServiceFactory.getInstance().getAuthenticationService().isDebug()){				
-				pasientsSparse = new SparseArray<Patient>();
+			patients = new ArrayList<Patient>();
+			if(ServiceFactory.getInstance().getAuthenticationService().isDebug()){		
 				
 				int end = 10;
-				patients = new Patient[end];
 				
 				for(int i = 0; i < end; i++){				
 					String firstname = firstNames[(int) (Math.random()*firstNames.length)];
 					String lastname = lastNames[(int) (Math.random()*lastNames.length)];
-					Patient pasient = new Patient(i, departments[i/6].getDepartmentID(), "", firstname, lastname);
-					pasientsSparse.put(i, pasient);
-					patients[i] = pasient;
+					Patient pasient = new Patient(i, departments.get(i/6).getDepartmentID(), "", firstname, lastname);
+					patients.add(pasient);
 				}
-			}else{
-				patients = new Patient[0];
 			}
 		}
 
@@ -55,9 +50,9 @@ public class PatientServiceTestImpl implements PatientService{
 
 	@Override
 	public Patient getPatientById(int id) {
-		for (int i = 0; i < patients.length; i++) {
-			if(patients[i].getPatientID() == id){
-				return patients[i];
+		for (Patient patient: patients) {
+			if(patient.getPatientID() == id){
+				return patient;
 			}
 		}
 		return null;
@@ -75,21 +70,25 @@ public class PatientServiceTestImpl implements PatientService{
 		return bs;
 	}
 	
-	
-	
 	@Override
 	public void setPatientList(ArrayList<Patient> patients){
+		if(patients == null){
+			this.patients.clear();
+			return;
+		}
+			
+		
 		ArrayList<Patient> temp = new ArrayList<Patient>();
 		boolean updated;
 		
 		for(Patient p : patients){
 			updated = false;
-			for(int i=0; i<this.patients.length; i++){
-				if(p.getPatientID() == this.patients[i].getPatientID()){
-					this.patients[i].setFirstname(p.getFirstname());
-					this.patients[i].setLastname(p.getLastname());
-					this.patients[i].setPictureOffset(p.getPictureOffset());
-					this.patients[i].setSocialSecurityNumber(p.getSocialSecurityNumber());
+			for(Patient patient: this.patients){
+				if(p.getPatientID() == patient.getPatientID()){
+					patient.setFirstname(p.getFirstname());
+					patient.setLastname(p.getLastname());
+					patient.setPictureOffset(p.getPictureOffset());
+					patient.setSocialSecurityNumber(p.getSocialSecurityNumber());
 					updated = true;
 					break;
 				}
@@ -99,15 +98,8 @@ public class PatientServiceTestImpl implements PatientService{
 			}
 		}
 		
-		Patient[] newPatientList = new Patient[this.patients.length+temp.size()];
-
-		System.arraycopy(this.patients, 0, newPatientList, 0, this.patients.length);
-		Patient[] patientsToAdd = new Patient[temp.size()];
-		temp.toArray(patientsToAdd);
-		System.arraycopy(patientsToAdd, 0, newPatientList, this.patients.length, patientsToAdd.length);
-		
-		this.patients = new Patient[newPatientList.length];
-		System.arraycopy(newPatientList, 0, patients, 0, newPatientList.length);
+		this.patients.clear();
+		this.patients.addAll(patients);
 	}
 	
 	@Override

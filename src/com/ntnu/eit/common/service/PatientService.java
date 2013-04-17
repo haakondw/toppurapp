@@ -2,6 +2,7 @@ package com.ntnu.eit.common.service;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.List;
 
 import android.content.Context;
 
@@ -10,7 +11,7 @@ import com.ntnu.eit.common.model.Patient;
 
 public interface PatientService{
 	
-	public Patient[] getPatients(Context context, Department[] departments);
+	public List<Patient> getPatients(Context context, List<Department> departments);
 	
 	public Patient getPatientById(int id);
 	

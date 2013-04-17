@@ -1,6 +1,7 @@
 package com.ntnu.eit;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -42,7 +43,7 @@ public class PatientsActivity extends Activity {
 	private ListView listView;
 	
 	//Data
-	private Patient[] pasients;
+	private List<Patient> pasients;
 	private PatientsListAdapter adapter;
 	private int[] departments;
 
@@ -56,9 +57,9 @@ public class PatientsActivity extends Activity {
 		
 		//Params
 		departments = getIntent().getExtras().getIntArray(DEPARTMENTS_INDICES);
-		Department[] departments = new Department[this.departments.length];
-		for (int i = 0; i < departments.length; i++) {
-			departments[i] = ServiceFactory.getInstance().getDepartmentService().getDepartmentById(this.departments[i]);
+		List<Department> departments = new ArrayList<Department>();
+		for (int i = 0; i < this.departments.length; i++) {
+			departments.add(ServiceFactory.getInstance().getDepartmentService().getDepartmentById(this.departments[i]));
 		}
 		
 		//ThispasientId

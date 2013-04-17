@@ -1,10 +1,9 @@
 package com.ntnu.eit.common.service;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.List;
 
 import android.content.Context;
-import android.util.SparseArray;
 
 import com.ntnu.eit.common.model.Task;
 import com.ntnu.eit.socket.TaskClient;
@@ -12,29 +11,20 @@ import com.ntnu.eit.socket.TaskSocketObject;
 
 public class TaskServiceTestImpl implements TaskService{
 
-	private SparseArray<Task[]> pasientTasks;
-	private Task[] tasks;
+	private List<Task> tasks;
 	
 	@Override
-	public Task[] getTasks(int pasientId) {
-		if(pasientTasks == null){
-			pasientTasks = new SparseArray<Task[]>();
-		}
-		
-		//Adding data if not existing
-		if(pasientTasks.get(pasientId) == null){
-			addData(pasientId);
+	public List<Task> getTasks(int pasientId) {
+		if(tasks == null){
+			tasks = new ArrayList<Task>();
 		}
 
 		//Returning existing
-		return pasientTasks.get(pasientId);
+		return tasks;
 	}
 
 	@Override
 	public void setExecutedTasks(int pasientId, int[] indices, boolean[] isExecuted) {
-		//Setting tasks as executed
-		Task[] tasks = pasientTasks.get(pasientId);
-		
 		//Updating
 		for (Task task : tasks) {
 			for (int i = 0; i < indices.length; i++) {
@@ -44,42 +34,12 @@ public class TaskServiceTestImpl implements TaskService{
 				}
 			}
 		}
-		
-		//Updating data
-		pasientTasks.setValueAt(pasientId, tasks);
-	}
-
-	@Override
-	public SparseArray<Task[]> getTasks(int[] pasientIndices) {
-		if(pasientTasks == null){
-			pasientTasks = new SparseArray<Task[]>();
-		}	
-		
-		for (int i = 0; i < pasientIndices.length; i++) {
-			if(pasientTasks.get(pasientIndices[i]) == null){
-				addData(pasientIndices[i]);
-			}
-		}
-		
-		return pasientTasks;
-	}
-	
-	private void addData(int pasientId){
-		//Creating new shit
-		Task[] tasks = new Task[10];
-		for (int i = 0; i < tasks.length; i++) {
-			long t = System.currentTimeMillis() + 3600000*(i+1) - 3600000*4 + 60000;
-			tasks[i] = new Task(pasientId*10 + i, 1, "ABC", new Date(t), "dosage", false);
-		}
-		
-		//Adding data
-		pasientTasks.put(pasientId, tasks);
 	}
 	
 	@Override
-	public void setTaskList(ArrayList<Task> tasks){
-		this.tasks = new Task[tasks.size()];
-		tasks.toArray(this.tasks);
+	public void setTaskList(ArrayList<Task> tasks){		
+		this.tasks.clear();
+		this.tasks.addAll(tasks);
 	}
 	
 	@Override
@@ -87,6 +47,5 @@ public class TaskServiceTestImpl implements TaskService{
 		TaskSocketObject tso = new TaskSocketObject(patientId, executedTasks);
 		TaskClient tc = new TaskClient(tso, adapters, context);
 		tc.execute();
-		
 	}
 }

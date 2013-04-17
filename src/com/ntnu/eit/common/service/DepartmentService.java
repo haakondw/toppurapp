@@ -1,6 +1,7 @@
 package com.ntnu.eit.common.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.content.Context;
 
@@ -8,7 +9,7 @@ import com.ntnu.eit.common.model.Department;
 
 public interface DepartmentService {
 
-	public Department[] getDepartments();
+	public List<Department> getDepartments();
 
 	public Department getDepartmentById(int id);
 	

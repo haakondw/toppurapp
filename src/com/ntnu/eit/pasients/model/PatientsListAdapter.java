@@ -1,6 +1,7 @@
 package com.ntnu.eit.pasients.model;
 
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.Locale;
 
 import android.app.Activity;
@@ -23,11 +24,11 @@ import com.ntnu.eit.pasients.service.PatientPictureUpdaterService;
 public class PatientsListAdapter extends ArrayAdapter<Patient>{
 
 	private Context context;
-	private Patient[] patients;
+	private List<Patient> patients;
 	private int textViewResourceId;
 	private SimpleDateFormat format;
 
-	public PatientsListAdapter(Context context, int textViewResourceId, Patient[] pasients) {
+	public PatientsListAdapter(Context context, int textViewResourceId, List<Patient> pasients) {
 		super(context, textViewResourceId, pasients);
 		
 		this.patients = pasients;
@@ -62,7 +63,7 @@ public class PatientsListAdapter extends ArrayAdapter<Patient>{
         holder.clockView.setTextSize(50*size/100);
         holder.departmentView.setTextSize(30*size/100);
         
-        Patient pasient = patients[position];
+        Patient pasient = patients.get(position);
         holder.nameView.setText(pasient.getFirstname() + ", " + pasient.getLastname());
         
         Department department = ServiceFactory.getInstance().getDepartmentService().getDepartmentById(pasient.getDepartmentID());
@@ -72,11 +73,11 @@ public class PatientsListAdapter extends ArrayAdapter<Patient>{
         PatientPictureUpdaterService.setPictureForPatient(context, holder.pictureView, pasient.getPatientID());
         
         //Set clock text
-        Task[] tasks = ServiceFactory.getInstance().getTaskService().getTasks(pasient.getPatientID());
-        if(tasks.length > 0){
-        	for (int i = 0; i < tasks.length; i++) {
-				if(!tasks[i].isExecuted()){	
-					holder.clockView.setText(format.format(tasks[i].getTimestamp()));
+        List<Task> tasks = ServiceFactory.getInstance().getTaskService().getTasks(pasient.getPatientID());
+        if(tasks.size() > 0){
+        	for (int i = 0; i < tasks.size(); i++) {
+				if(!tasks.get(i).isExecuted()){	
+					holder.clockView.setText(format.format(tasks.get(i).getTimestamp()));
 					break;
 				}
 			}

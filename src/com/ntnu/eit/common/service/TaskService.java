@@ -1,17 +1,15 @@
 package com.ntnu.eit.common.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.content.Context;
-import android.util.SparseArray;
 
 import com.ntnu.eit.common.model.Task;
 
 public interface TaskService {
 
-	public Task[] getTasks(int pasientId);
-	
-	public SparseArray<Task[]> getTasks(int[] pasientIndices);
+	public List<Task> getTasks(int pasientId);
 	
 	public void setExecutedTasks(int pasientId, int[] indices, boolean[] isExecuted);
 	

@@ -1,20 +1,21 @@
 package com.ntnu.eit.socket;
 
-import java.io.*;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
-
-import com.ntnu.eit.R;
-import com.ntnu.eit.common.model.Task;
-import com.ntnu.eit.common.service.ServiceFactory;
-import com.ntnu.eit.common.service.TaskService;
-
 
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.util.Log;
+
+import com.ntnu.eit.R;
+import com.ntnu.eit.common.model.Task;
+import com.ntnu.eit.common.service.ServiceFactory;
+import com.ntnu.eit.common.service.TaskService;
+import com.ntnu.eit.pasient.model.PatientTaskListAdapter;
 
 /**
  * This class is an asynchronous class, designated to retrieving data from the
@@ -151,16 +152,13 @@ public class TaskClient extends AsyncTask<Void, Integer, ArrayList<Object>> {
 
 			/* Notify adapter(s) that the data has changed */
 			//TODO must be changed to working adapters
-//			if (adapters != null) {
-//				for (Object a : adapters) {
-//					if (a instanceof EventListFilterableAdapter) {
-//						((EventListFilterableAdapter) a).notifyDataSetChanged();
-//					}
-//					if(a instanceof EventListPatientFilterableAdapter){
-//						((EventListPatientFilterableAdapter) a).notifyDataSetChanged();
-//					}
-//				}
-//			}
+			if (adapters != null) {
+				for (Object a : adapters) {
+					if (a instanceof PatientTaskListAdapter) {
+						((PatientTaskListAdapter) a).notifyDataSetChanged();
+					}
+				}
+			}
 		}
 
 	}

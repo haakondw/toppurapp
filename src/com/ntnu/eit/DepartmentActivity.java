@@ -49,7 +49,7 @@ public class DepartmentActivity extends Activity {
 		setContentView(R.layout.activity_department);
 		
 		//Departments
-		Department[] departments = ServiceFactory.getInstance().getDepartmentService().getDepartments();
+		List<Department> departments = ServiceFactory.getInstance().getDepartmentService().getDepartments();
 		adapter = new DepartmentListAdapter(this, R.layout.department_row, departments);
 		ListView listView = (ListView) findViewById(R.id.departmentList);
 		listView.setAdapter(adapter);
