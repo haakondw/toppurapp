@@ -57,13 +57,14 @@ public class PatientActivity extends FragmentActivity {
 	private static List<Task> tasks, historyTasks;
 	private static PatientTaskListAdapter historyAdapter;
 	private static PatientTaskListAdapter tasksAdapter;
+	private boolean running;
 
 	private Runnable runnable = new Runnable() {
 		@Override
 		public void run() {
+			Log.d("EiT", "Task Update");
 			ArrayList<Object> adapters = new ArrayList<Object>();
 			ArrayList<Integer> executedTasks = new ArrayList<Integer>();
-			//TODO
 			
 			adapters.add(tasksAdapter);
 			adapters.add(historyAdapter);
@@ -82,6 +83,7 @@ public class PatientActivity extends FragmentActivity {
 		
 		//This
 		setContentView(R.layout.activity_patient);
+		running = true;
 		
 		//Starting
 		pasientId = getIntent().getExtras().getInt(PASIENT_ID_TAG);
@@ -103,8 +105,28 @@ public class PatientActivity extends FragmentActivity {
 		mViewPager.setCurrentItem(1);
 
 		if(!ServiceFactory.getInstance().getAuthenticationService().isDebug()){			
-			runOnUiThread(runnable);
+			Thread thread = new Thread(new Runnable() {
+				@Override
+				public void run() {
+					while(running){						
+						Log.d("EiT", "Updating tasks");
+						PatientActivity.this.runOnUiThread(runnable);
+						try {
+							Thread.sleep(2000);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+					}
+				}
+			});
+			thread.start();
 		}
+	}
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		running = false;
 	}
 	
 	@Override
@@ -171,8 +193,7 @@ public class PatientActivity extends FragmentActivity {
 			public void onConfirm(ConfirmationDialog dialog) {
 				//Init
 				ListView listView = (ListView) findViewById(R.id.pasientTaskList);
-				List<Integer> indices = new ArrayList<Integer>();
-				List<Boolean> checked = new ArrayList<Boolean>();
+				ArrayList<Integer> indices = new ArrayList<Integer>();
 
 				//Checking tasks
 				int count = listView.getAdapter().getCount();
@@ -180,13 +201,11 @@ public class PatientActivity extends FragmentActivity {
 					Task task = (Task) listView.getAdapter().getItem(i);
 					ViewGroup viewGroup = (ViewGroup) listView.getChildAt(i);
 					
-					if(viewGroup != null){						
-						CheckBox box = (CheckBox)viewGroup.findViewById(R.id.pasient_task_checkbox);
-						
-						boolean temp = box.isChecked();
-						
-						indices.add(task.getTaskID());
-						checked.add(temp);
+					if(viewGroup != null){										
+						CheckBox box = (CheckBox) viewGroup.findViewById(R.id.pasient_task_checkbox);
+						if(box.isChecked()){
+							indices.add(task.getTaskID());							
+						}
 					}
 				}
 
@@ -194,24 +213,23 @@ public class PatientActivity extends FragmentActivity {
 				listView = (ListView) findViewById(R.id.pasient_task_history_list);
 				count = listView.getAdapter().getCount();
 				for (int i = 0; i < count; i++) {
-					Task task = (Task) listView.getAdapter().getItem(i);
-					ViewGroup viewGroup = (ViewGroup) listView.getChildAt(i);
-					boolean temp = ((CheckBox)viewGroup.findViewById(R.id.pasient_task_checkbox)).isChecked();
+					Task task = (Task) listView.getAdapter().getItem(i);		
+					ViewGroup viewGroup = (ViewGroup) listView.getChildAt(i);	
 					
-					indices.add(task.getTaskID());
-					checked.add(temp);
-				}
-				
-				//Creating temp array, and setting tasks as executed
-				int[] array = new int[indices.size()];
-				boolean[] array2 = new boolean[checked.size()];
-				for (int i = 0; i < array.length; i++) {
-					array[i] = indices.get(i);
-					array2[i] = checked.get(i);
+					if(viewGroup != null){										
+						CheckBox box = (CheckBox) viewGroup.findViewById(R.id.pasient_task_checkbox);
+						if(box.isChecked()){
+							indices.add(task.getTaskID());							
+						}
+					}
 				}
 				
 				//Updating
-				ServiceFactory.getInstance().getTaskService().setExecutedTasks(pasientId, array, array2);
+				ArrayList<Object> adapters = new ArrayList<Object>();
+				
+				adapters.add(tasksAdapter);
+				adapters.add(historyAdapter);
+				ServiceFactory.getInstance().getTaskService().updateTaskList(pasient.getPatientID(), indices, adapters, PatientActivity.this);
 				
 				//Dialog
 				dialog.dismiss();

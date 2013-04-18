@@ -1,5 +1,9 @@
 package com.ntnu.eit.common.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import android.app.Activity;
 import android.content.Context;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -10,6 +14,8 @@ public class AuthenticationServiceTestImpl implements AuthenticationService{
 
 	private String host;
 	private User user;
+	
+	private List<Activity> activities = new ArrayList<Activity>();
 	
 	@Override
 	public User login(Context context, String username,	String password) {
@@ -28,8 +34,11 @@ public class AuthenticationServiceTestImpl implements AuthenticationService{
 	}
 
 	@Override
-	public void logout(String username) {
+	public void logout() {
 		user = null;
+		while(!activities.isEmpty()){
+			activities.remove(activities.size()-1).finish();
+		}
 	}
 
 	@Override
