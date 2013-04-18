@@ -5,6 +5,8 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Resources.Theme;
+import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -33,6 +35,22 @@ public class PatientsActivity extends Activity {
 			adapters.add(adapter);
 			
 			ServiceFactory.getInstance().getPatientService().updatePatientList(list, adapters, PatientsActivity.this);
+		}
+	};
+
+	private Runnable runnable2 = new Runnable() {
+		@Override
+		public void run() {
+			ArrayList<Object> adapters = new ArrayList<Object>();
+			ArrayList<Integer> executedTasks = new ArrayList<Integer>();
+			
+			adapters.add(adapter);
+			
+			for (Patient patient : pasients) {			
+				ServiceFactory.getInstance().getTaskService().getTasks(patient.getPatientID());
+				ServiceFactory.getInstance().getTaskService().getHistoyTasks(patient.getPatientID());	
+				ServiceFactory.getInstance().getTaskService().updateTaskList(patient.getPatientID(), executedTasks, adapters, PatientsActivity.this);
+			}
 		}
 	};
 	
@@ -73,9 +91,11 @@ public class PatientsActivity extends Activity {
 		listView = (ListView) findViewById(R.id.pasientList);
 		listView.setAdapter(adapter);
 		
+		adapter.registerDataSetObserver(new Observer(this));
+		
 		//Thread
 		if(!ServiceFactory.getInstance().getAuthenticationService().isDebug()){			
-			runOnUiThread(runnable);
+			runOnUiThread(runnable);	
 		}
 	}
 	
@@ -83,6 +103,10 @@ public class PatientsActivity extends Activity {
 	protected void onResume() {
 		//Super
 		super.onResume();
+		
+		if(!ServiceFactory.getInstance().getAuthenticationService().isLoggedIn()){
+			finish();
+		}
 		
 		//Refreshing rows due to updating clock
 		listView.invalidateViews();
@@ -93,6 +117,10 @@ public class PatientsActivity extends Activity {
 		switch (item.getItemId()) {
 		case R.id.menu_settings:
 			startActivity(new Intent(this, LoginSettingsActivity.class));
+			return true;
+		case R.id.logout:
+			ServiceFactory.getInstance().getAuthenticationService().logout();
+			finish();
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
@@ -124,6 +152,25 @@ public class PatientsActivity extends Activity {
 				
 				intent.putExtra(PatientActivity.PASIENT_ID_TAG, pasient.getPatientID());
 				startActivity(intent);
+			}
+		}
+	}
+	
+	class Observer extends DataSetObserver{
+		
+		private PatientsActivity activity;
+		private int count = 0;
+
+		public Observer(PatientsActivity activity) {
+			this.activity = activity;
+		}
+		
+		@Override
+		public void onChanged() {
+			super.onChanged();
+			count++;
+			if(count < pasients.size()){				
+				activity.runOnUiThread(runnable2);
 			}
 		}
 	}
