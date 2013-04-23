@@ -8,6 +8,7 @@ import java.util.Locale;
 import android.app.Activity;
 import android.content.Context;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -89,6 +90,7 @@ public class PatientsListAdapter extends ArrayAdapter<Patient>{
         
         //Set clock text
         List<Task> tasks = ServiceFactory.getInstance().getTaskService().getTasks(pasient.getPatientID());
+        Log.d("Boge", "Patient " + pasient.getPatientID() + " has " + tasks.size() + " Tasks");
         if(tasks.size() > 0){
         	for (int i = 0; i < tasks.size(); i++) {
 				if(!tasks.get(i).isExecuted()){	

@@ -42,6 +42,10 @@ public class DeviationActivity extends Activity {
 		//Super
 		super.onResume();
 		
+		if(!ServiceFactory.getInstance().getAuthenticationService().isLoggedIn()){
+			finish();
+		}
+		
 		//Init
 		int size = PreferenceManager.getDefaultSharedPreferences(this).getInt("text_size", 50);
 		
@@ -79,6 +83,10 @@ public class DeviationActivity extends Activity {
 		switch (item.getItemId()) {
 		case R.id.menu_settings:
 			startActivity(new Intent(this, LoginSettingsActivity.class));
+			return true;
+		case R.id.logout:
+			ServiceFactory.getInstance().getAuthenticationService().logout();
+			finish();
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);

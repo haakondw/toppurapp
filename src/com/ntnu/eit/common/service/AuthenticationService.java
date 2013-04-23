@@ -5,10 +5,10 @@ import android.content.Context;
 import com.ntnu.eit.common.model.User;
 
 public interface AuthenticationService {
-
+	
 	public User login(Context context, String username, String password);
 	
-	public void logout(String username);
+	public void logout();
 	
 	public User getLoggedInUser();
 	
