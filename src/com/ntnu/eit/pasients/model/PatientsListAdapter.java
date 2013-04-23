@@ -1,6 +1,7 @@
 package com.ntnu.eit.pasients.model;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -70,7 +71,21 @@ public class PatientsListAdapter extends ArrayAdapter<Patient>{
         holder.departmentView.setText(department.getName());
         
         //Setting picture
-        PatientPictureUpdaterService.setPictureForPatient(context, holder.pictureView, pasient.getPatientID());
+//        PatientPictureUpdaterService.setPictureForPatient(context, holder.pictureView, pasient.getPatientID());
+        int picture = 0;
+        switch (pasient.getPatientID()) {
+		case 1:
+			picture = R.drawable.old_man1;
+			break;
+		case 2:
+			picture = R.drawable.old_man2;
+			break;
+		case 3:
+			picture = R.drawable.old_man3;
+			break;
+		}
+        
+        holder.pictureView.setImageResource(picture);
         
         //Set clock text
         List<Task> tasks = ServiceFactory.getInstance().getTaskService().getTasks(pasient.getPatientID());
@@ -81,6 +96,8 @@ public class PatientsListAdapter extends ArrayAdapter<Patient>{
 					break;
 				}
 			}
+        }else{
+			holder.clockView.setText(format.format(new Date()));
         }
         
         return row;
