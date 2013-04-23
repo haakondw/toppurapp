@@ -7,6 +7,9 @@ import java.util.Locale;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -86,7 +89,8 @@ public class PatientsListAdapter extends ArrayAdapter<Patient>{
 			break;
 		}
         
-        holder.pictureView.setImageResource(picture);
+        Bitmap bitmap = BitmapFactory.decodeResource(getContext().getResources(), picture);
+        holder.pictureView.setImageBitmap(Bitmap.createScaledBitmap(bitmap, 200, 200, false));
         
         //Set clock text
         List<Task> tasks = ServiceFactory.getInstance().getTaskService().getTasks(pasient.getPatientID());

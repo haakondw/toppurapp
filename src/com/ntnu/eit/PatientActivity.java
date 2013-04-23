@@ -465,9 +465,20 @@ public class PatientActivity extends FragmentActivity {
 				
 				//Setting picture
 				if(imageView != null){					
-					if(pasient.getPicture() == null){					
-						imageView.setImageBitmap(Bitmap.createBitmap(100, 100, Config.RGB_565));
-						imageView.setBackgroundColor(Color.BLUE);
+					if(pasient.getPicture() == null){						
+				        int picture = 0;
+				        switch (pasient.getPatientID()) {
+						case 1:
+							picture = R.drawable.old_man1;
+							break;
+						case 2:
+							picture = R.drawable.old_man2;
+							break;
+						case 3:
+							picture = R.drawable.old_man3;
+							break;
+						}
+				        imageView.setImageResource(picture);
 					}else{
 						imageView.setImageBitmap(BitmapFactory.decodeByteArray(pasient.getPicture(), 0, pasient.getPicture().length));
 						imageView.setBackgroundColor(Color.BLUE);
@@ -482,9 +493,20 @@ public class PatientActivity extends FragmentActivity {
 				//Picture
 				ImageView imageView2 = (ImageView) section3view.findViewById(R.id.pasientImage);
 				if(imageView2 != null){					
-					if(pasient.getPicture() == null){					
-						imageView2.setImageBitmap(Bitmap.createBitmap(100, 100, Config.RGB_565));
-						imageView2.setBackgroundColor(Color.BLUE);
+					if(pasient.getPicture() == null){							
+				        int picture = 0;
+				        switch (pasient.getPatientID()) {
+						case 1:
+							picture = R.drawable.old_man1;
+							break;
+						case 2:
+							picture = R.drawable.old_man2;
+							break;
+						case 3:
+							picture = R.drawable.old_man3;
+							break;
+						}
+				        imageView2.setImageResource(picture);
 					}else{
 						imageView2.setImageBitmap(BitmapFactory.decodeByteArray(pasient.getPicture(), 0, pasient.getPicture().length));
 						imageView2.setBackgroundColor(Color.BLUE);

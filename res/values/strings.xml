@@ -16,5 +16,5 @@
     <string name="connecting">Kobler til</string>
     <string name="conncetion_failed">Tilkoblings feil</string>
     <string name="please_wait">Venligst vent</string>
-    
+    <string name="fetching_data">Henter data</string>
 </resources>
