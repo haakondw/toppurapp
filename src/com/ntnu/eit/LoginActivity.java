@@ -83,7 +83,7 @@ public class LoginActivity extends Activity {
 		//Super
 		super.onResume();
 		
-		String host = PreferenceManager.getDefaultSharedPreferences(this).getString("login_settings_server_config", "");
+		String host = PreferenceManager.getDefaultSharedPreferences(this).getString("login_settings_server_config", "test");
 		ServiceFactory.getInstance().getAuthenticationService().setHost(host);
 
 		//Text size

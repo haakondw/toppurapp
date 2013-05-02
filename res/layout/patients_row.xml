@@ -32,7 +32,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 		android:layout_below="@id/pasientName"
-		android:layout_alignParentLeft="true"
+        android:layout_toRightOf="@id/pasientImage"
         android:layout_marginLeft="10dp"
         android:textIsSelectable="false"
         android:onClick="onPatientClick2">

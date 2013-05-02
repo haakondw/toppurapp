@@ -14,7 +14,7 @@ public class AuthenticationServiceTestImpl implements AuthenticationService{
 	@Override
 	public User login(Context context, String username,	String password) {
 		//Init
-		String host = PreferenceManager.getDefaultSharedPreferences(context).getString("login_settings_server_config", "");
+		String host = PreferenceManager.getDefaultSharedPreferences(context).getString("login_settings_server_config", "test");
 		
 		//Log
 		Log.d("EiT", "Connecting to " + host);
@@ -28,7 +28,7 @@ public class AuthenticationServiceTestImpl implements AuthenticationService{
 	}
 
 	@Override
-	public void logout(String username) {
+	public void logout() {
 		user = null;
 	}
 

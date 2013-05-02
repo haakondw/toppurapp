@@ -1,6 +1,8 @@
 package com.ntnu.eit.common.service;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -21,6 +23,9 @@ public class TaskServiceTestImpl implements TaskService{
 	public List<Task> getTasks(int pasientId) {
 		if(!tasks.containsKey(pasientId)){
 			tasks.put(pasientId, new ArrayList<Task>());
+			if(ServiceFactory.getInstance().getAuthenticationService().isDebug()){
+				tasks.get(pasientId).addAll(generateTestData(pasientId));
+			}
 		}
 
 		//Returning existing
@@ -31,6 +36,9 @@ public class TaskServiceTestImpl implements TaskService{
 	public List<Task> getHistoyTasks(int pasientId) {
 		if(!historyTasks.containsKey(pasientId)){
 			historyTasks.put(pasientId, new ArrayList<Task>());
+			if(ServiceFactory.getInstance().getAuthenticationService().isDebug()){
+				historyTasks.get(pasientId).addAll(generateHistTestData(pasientId));
+			}
 		}
 
 		//Returning existing
@@ -42,10 +50,14 @@ public class TaskServiceTestImpl implements TaskService{
 		//Updating
 		if(tasks.containsKey(pasientId)){
 			List<Task> list = tasks.get(pasientId);
-			for (Task task : list) {
-				for (int i = 0; i < indices.length; i++) {
-					if(task.getTaskID() == indices[i]){
-						task.setExecuted(isExecuted[i]);
+			for (int j=0; j<list.size(); j++) {
+				for (int i = 0; i < indices.length && !list.isEmpty(); i++) {
+					if(list.get(j).getTaskID() == indices[i]){
+						list.get(j).setExecuted(isExecuted[i]);
+						if(isExecuted[i]){							
+							historyTasks.get(pasientId).add(list.remove(j));
+							j--;
+						}
 						break;
 					}
 				}
@@ -76,5 +88,33 @@ public class TaskServiceTestImpl implements TaskService{
 		TaskSocketObject tso = new TaskSocketObject(patientId, executedTasks);
 		TaskClient tc = new TaskClient(tso, adapters, context);
 		tc.execute();
+	}
+
+	private List<Task> generateTestData(int pasientId) {
+		long timestamp;
+		long now = System.currentTimeMillis();
+		List<Task> tasks = new ArrayList<Task>();
+		for(int i = 0; i<Math.random()*10 + 2; i++){
+			timestamp = now + i*3600*1000;				
+			Task task = new Task((int) timestamp, 1, "Form", new Date(timestamp), "50 ml", false);
+			tasks.add(task);
+		}
+		
+		return tasks;
+	}
+
+	private List<Task> generateHistTestData(int pasientId) {
+		long timestamp;
+		long now = System.currentTimeMillis();
+		List<Task> tasks = new ArrayList<Task>();
+		for(int i = 0; i<Math.random()*5 + 2; i++){
+			timestamp = now - i*3600*1000;
+			if(now > timestamp){								
+				Task task = new Task((int) timestamp, 1, "Form", new Date(timestamp), "50 ml", true);
+				tasks.add(task);
+			}
+		}
+		
+		return tasks;
 	}
 }

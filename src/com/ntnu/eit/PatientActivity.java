@@ -443,8 +443,23 @@ public class PatientActivity extends FragmentActivity {
 				//Setting picture
 				if(imageView != null){					
 					if(pasient.getPicture() == null){					
-						imageView.setImageBitmap(Bitmap.createBitmap(100, 100, Config.RGB_565));
-						imageView.setBackgroundColor(Color.BLUE);
+				        int picture = 0;
+				        switch (pasient.getPatientID()%3) {
+						case 0:
+							picture = R.drawable.old_man1;
+							break;
+						case 1:
+							picture = R.drawable.old_man2;
+							break;
+						case 2:
+							picture = R.drawable.old_man3;
+							break;
+						}
+				        
+				        Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(), picture);
+				        if(bitmap != null){        	
+				        	imageView.setImageBitmap(Bitmap.createScaledBitmap(bitmap, 200, 200, false));
+				        }
 					}else{
 						imageView.setImageBitmap(BitmapFactory.decodeByteArray(pasient.getPicture(), 0, pasient.getPicture().length));
 						imageView.setBackgroundColor(Color.BLUE);

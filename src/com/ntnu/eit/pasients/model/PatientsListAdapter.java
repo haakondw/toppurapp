@@ -1,12 +1,17 @@
 package com.ntnu.eit.pasients.model;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,9 +76,27 @@ public class PatientsListAdapter extends ArrayAdapter<Patient>{
         
         //Setting picture
         PatientPictureUpdaterService.setPictureForPatient(context, holder.pictureView, pasient.getPatientID());
+        int picture = 0;
+        switch (pasient.getPatientID()%3) {
+		case 0:
+			picture = R.drawable.old_man1;
+			break;
+		case 1:
+			picture = R.drawable.old_man2;
+			break;
+		case 2:
+			picture = R.drawable.old_man3;
+			break;
+		}
+        
+        Bitmap bitmap = BitmapFactory.decodeResource(getContext().getResources(), picture);
+        if(bitmap != null){        	
+        	holder.pictureView.setImageBitmap(Bitmap.createScaledBitmap(bitmap, 200, 200, false));
+        }
         
         //Set clock text
         List<Task> tasks = ServiceFactory.getInstance().getTaskService().getTasks(pasient.getPatientID());
+        Log.d("Boge", "Patient " + pasient.getPatientID() + " has " + tasks.size() + " Tasks");
         if(tasks.size() > 0){
         	for (int i = 0; i < tasks.size(); i++) {
 				if(!tasks.get(i).isExecuted()){	
@@ -81,6 +104,8 @@ public class PatientsListAdapter extends ArrayAdapter<Patient>{
 					break;
 				}
 			}
+        }else{
+			holder.clockView.setText(format.format(new Date()));
         }
         
         return row;

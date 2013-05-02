@@ -49,7 +49,7 @@ public class LoginClient extends AsyncTask<Void, Integer, ArrayList<Object>>{
 		this.adapters = adapters;
 		this.context = context;
 		this.as = ServiceFactory.getInstance().getAuthenticationService();
-		IP = PreferenceManager.getDefaultSharedPreferences(context).getString("login_settings_server_config", "");
+		IP = PreferenceManager.getDefaultSharedPreferences(context).getString("login_settings_server_config", "test");
 	}
 
 	/**
@@ -79,7 +79,7 @@ public class LoginClient extends AsyncTask<Void, Integer, ArrayList<Object>>{
 	 * This method updates the message on the "please wait"-dialog
 	 */
 	protected void onProgressUpdate(Integer...args){
-		if(context != null && dialog != null) dialog.setMessage("context.getString(R.string.fetching_data)");
+		if(context != null && dialog != null) dialog.setMessage(context.getString(R.string.fetching_data));
 	}
 	
 	/**
