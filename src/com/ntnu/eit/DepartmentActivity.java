@@ -64,6 +64,10 @@ public class DepartmentActivity extends Activity {
 	protected void onResume() {
 		//Super
 		super.onResume();
+		
+		if(!ServiceFactory.getInstance().getAuthenticationService().isLoggedIn()){
+			finish();
+		}
 
 		//This
 		int size = PreferenceManager.getDefaultSharedPreferences(this).getInt("text_size", 50);
@@ -76,6 +80,10 @@ public class DepartmentActivity extends Activity {
 		switch (item.getItemId()) {
 		case R.id.menu_settings:
 			startActivity(new Intent(this, LoginSettingsActivity.class));
+			return true;
+		case R.id.logout:
+			ServiceFactory.getInstance().getAuthenticationService().logout();
+			finish();
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);

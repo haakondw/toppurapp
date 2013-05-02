@@ -16,6 +16,7 @@ import com.ntnu.eit.common.model.Task;
 import com.ntnu.eit.common.service.ServiceFactory;
 import com.ntnu.eit.common.service.TaskService;
 import com.ntnu.eit.pasient.model.PatientTaskListAdapter;
+import com.ntnu.eit.pasients.model.PatientsListAdapter;
 
 /**
  * This class is an asynchronous class, designated to retrieving data from the
@@ -156,6 +157,10 @@ public class TaskClient extends AsyncTask<Void, Integer, ArrayList<Object>> {
 				for (Object a : adapters) {
 					if (a instanceof PatientTaskListAdapter) {
 						((PatientTaskListAdapter) a).notifyDataSetChanged();
+						Log.d("EiT", "notifyDataSetChanged");
+					}
+					if (a instanceof PatientsListAdapter) {
+						((PatientsListAdapter) a).notifyDataSetChanged();
 						Log.d("EiT", "notifyDataSetChanged");
 					}
 				}
