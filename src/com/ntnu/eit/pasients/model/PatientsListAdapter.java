@@ -85,6 +85,9 @@ public class PatientsListAdapter extends ArrayAdapter<Patient>{
 			picture = R.drawable.old_man2;
 			break;
 		case 2:
+			picture = R.drawable.old_man3;
+			break;
+        }
         
         Bitmap bitmap = BitmapFactory.decodeResource(getContext().getResources(), picture);
         if(bitmap != null){        	
